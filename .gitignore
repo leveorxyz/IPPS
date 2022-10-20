@@ -1,7 +1,13 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+typechain
+typechain-types
+
+#Hardhat files
+cache
+artifacts
+
 
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 

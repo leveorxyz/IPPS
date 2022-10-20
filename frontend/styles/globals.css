@@ -1,0 +1,95 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Medium.ttf');
+  font-weight: 500;
+  font-style: medium;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Bold.ttf');
+  font-weight: 700;
+  font-style: bold;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+main {
+  min-height: calc(100vh - 402px);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 1500px) {
+  .container {
+    padding: 0px 1rem;
+  }
+}
+
+/* Pagination Styles */
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  font-size: 16px;
+}
+.pagination-container .pagination-item a,
+.next,
+.previous {
+  padding: 12px;
+  height: 32px;
+  text-align: center;
+  margin: auto 10px;
+  color: #d7d7d7;
+  background-color: 'transparent';
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px solid #d7d7d7;
+  user-select: none;
+}
+
+.pagination-container .pagination-item a:hover {
+  background: linear-gradient(93.51deg, #4274c4 2.84%, #b0ff93 99.18%);
+  /* border: 2px solid #3e6b52; */
+}
+.pagination-container .pagination-item.selected a {
+  background: linear-gradient(93.51deg, #4274c4 2.84%, #b0ff93 99.18%);
+  border: 2px solid;
+}
+.next .disabled,
+.previous .disabled {
+  background: linear-gradient(93.51deg, #4274c4 2.84%, #b0ff93 99.18%);
+}
+
+.pagination-container .pagination-item.disabled:hover {
+  background-color: transparent;
+  cursor: default;
+}
+
+.pagination-container .next:hover,
+.previous:hover {
+  background: linear-gradient(93.51deg, #4274c4 2.84%, #b0ff93 99.18%);
+}
+
+.pagination-container .disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
