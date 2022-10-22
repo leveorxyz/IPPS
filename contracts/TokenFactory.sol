@@ -7,8 +7,14 @@ import "./Token.sol";
 contract TokenFactory is Ownable {
     mapping (string => address) tokenSymbolToAddress;
 
+    function getToken(string calldata name) public view returns (address) {
+        return tokenSymbolToAddress[name];
+    }
+
     function createToken(string calldata name, string calldata symbol) public onlyOwner{
+        require(tokenSymbolToAddress[name] == address(0), "TokenFactory: Token already exists");
         Token newToken = new Token(name, symbol);
+        require(address(newToken) != address(0), "TokenFactory: Token deployment unsuccessfull");
         tokenSymbolToAddress[name] = address(newToken);
     }
 }
