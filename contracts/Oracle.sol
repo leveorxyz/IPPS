@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 contract Oracle {
-    function getAssetPriceInUSD(string calldata name) public view returns (uint256) {
+    function getAssetPriceInUSD(address token) public view returns (uint256) {
         
     }
 }
