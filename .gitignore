@@ -8,4 +8,71 @@ typechain-types
 #Hardhat files
 cache
 artifacts
+.DS_Store
+
+### Chainlink node
+# dependencies
+chainlinkNode/node_modules/
+chainlinkNode/tmp/
+chainlinkNode/.pnp
+chainlinkNode/.pnp.js
+chainlinkNode/tools/bin/abigen
+
+chainlinkNode//chainlink
+chainlinkNode/core/chainlink
+
+# SQLite
+chainlinkNode/tools/clroot/db.sqlite3-shm
+chainlinkNode/tools/clroot/db.sqlite3-wal
+
+# Tooling caches
+chainlinkNode/*.tsbuildinfo
+chainlinkNode/.eslintcache
+
+# Log files
+chainlinkNode/*.log
+
+# misc
+chainlinkNode/.DS_Store
+chainlinkNode/.envrc
+chainlinkNode/.env*
+chainlinkNode/!.github/actions/setup-postgres/.env
+chainlinkNode/.direnv
+chainlinkNode/.idea
+chainlinkNode/.vscode/
+chainlinkNode/*.iml
+
+# codeship
+chainlinkNode/*.aes
+chainlinkNode/dockercfg
+chainlinkNode/env
+chainlinkNode/credentials.env
+chainlinkNode/gcr_creds.env
+
+# DB backups
+
+chainlinkNode/cl_backup_*.tar.gz
+
+# Test artifacts
+core/cmd/TestClient_ImportExportP2PKeyBundle_test_key.json
+output.txt
+race.*
+golangci-lint-output.txt
+
+# DB state
+db/
+.s.PGSQL.5432.lock
+
+# can be left behind by tests
+core/cmd/vrfkey1
+
+# left behind by webpack - compiled frontend assets
+core/web/assets
+
+# Integration Tests
+integration-tests/**/logs/
+tests-*.xml
+*.test
+tmp-manifest-*.yaml
+ztarrepo.tar.gz
 
