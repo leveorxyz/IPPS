@@ -12,46 +12,47 @@ artifacts
 
 ### Chainlink node
 # dependencies
-chainlinkNode/node_modules/
-chainlinkNode/tmp/
-chainlinkNode/.pnp
-chainlinkNode/.pnp.js
-chainlinkNode/tools/bin/abigen
+# dependencies
+node_modules/
+tmp/
+.pnp
+.pnp.js
+tools/bin/abigen
 
-chainlinkNode//chainlink
-chainlinkNode/core/chainlink
+/chainlink
+core/chainlink
 
 # SQLite
-chainlinkNode/tools/clroot/db.sqlite3-shm
-chainlinkNode/tools/clroot/db.sqlite3-wal
+tools/clroot/db.sqlite3-shm
+tools/clroot/db.sqlite3-wal
 
 # Tooling caches
-chainlinkNode/*.tsbuildinfo
-chainlinkNode/.eslintcache
+*.tsbuildinfo
+.eslintcache
 
 # Log files
-chainlinkNode/*.log
+*.log
 
 # misc
-chainlinkNode/.DS_Store
-chainlinkNode/.envrc
-chainlinkNode/.env*
-chainlinkNode/!.github/actions/setup-postgres/.env
-chainlinkNode/.direnv
-chainlinkNode/.idea
-chainlinkNode/.vscode/
-chainlinkNode/*.iml
+.DS_Store
+.envrc
+.env*
+!.github/actions/setup-postgres/.env
+.direnv
+.idea
+.vscode/
+*.iml
 
 # codeship
-chainlinkNode/*.aes
-chainlinkNode/dockercfg
-chainlinkNode/env
-chainlinkNode/credentials.env
-chainlinkNode/gcr_creds.env
+*.aes
+dockercfg
+env
+credentials.env
+gcr_creds.env
 
 # DB backups
 
-chainlinkNode/cl_backup_*.tar.gz
+cl_backup_*.tar.gz
 
 # Test artifacts
 core/cmd/TestClient_ImportExportP2PKeyBundle_test_key.json
@@ -75,4 +76,3 @@ tests-*.xml
 *.test
 tmp-manifest-*.yaml
 ztarrepo.tar.gz
-
