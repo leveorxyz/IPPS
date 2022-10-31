@@ -7,4 +7,8 @@ contract UserRegistry {
     function getWhitelistStatus(address user) public view returns (bool) {
         return whitelist[user];
     }
+
+    function whitelistUser(address user) public {
+        whitelist[user] = true;
+    }
 }
