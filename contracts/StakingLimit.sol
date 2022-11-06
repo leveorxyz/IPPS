@@ -18,6 +18,14 @@ contract StakingLimit {
     mapping(address => Bank) bankInfo;
     mapping(address => mapping(address => mapping(string => uint256))) stakerInfo;
 
+    function getSupportedStablecoins(string calldata name) public view returns(address){
+        return supportedStablecoins[name];
+    }
+
+    function getBankInfo(address bankAddress) public view returns(bytes32, bytes32, bytes memory, bytes memory ){
+        return (bankInfo[bankAddress].bankName, bankInfo[bankAddress].routingNumber, bankInfo[bankAddress].bankAddress, bankInfo[bankAddress].url);
+    }
+
     function register(
         address bankAdmin,
         bytes32 routingNumber,
