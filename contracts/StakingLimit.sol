@@ -14,9 +14,15 @@ contract StakingLimit {
         mapping(string => uint256) grantedLimit;
     }
 
+    struct Staker {
+        mapping(string => uint256) totalStakedForCurrency;
+        mapping (address => mapping(string => uint256)) stakedForCurrencyInBank;
+        mapping (address => mapping(string => uint256)) lockTimeForCurrencyinBank;
+    }
+
     mapping(string => address) supportedStablecoins;
     mapping(address => Bank) bankInfo;
-    mapping(address => mapping(address => mapping(string => uint256))) stakerInfo;
+    mapping(address => Staker) stakerInfo;
 
     function getSupportedStablecoins(string calldata name)
         public
@@ -100,7 +106,8 @@ contract StakingLimit {
         );
         address token = supportedStablecoins[currency];
         IERC20(token).transferFrom(msg.sender, address(this), amount);
-        stakerInfo[msg.sender][bank][currency] = amount;
-        bankInfo[bank].grantedLimit[currency] = amount;
+        stakerInfo[msg.sender].totalStakedForCurrency[currency] += amount;
+        stakerInfo[msg.sender].stakedForCurrencyInBank[bank][currency] += amount;
+\        bankInfo[bank].grantedLimit[currency] = amount;
     }
 }
