@@ -22,8 +22,20 @@ contract StakingLimit {
         return supportedStablecoins[name];
     }
 
+    function getBankRegistrationStatus(address bankAddress) public view returns (bool ) {
+        return bankInfo[bankAddress].isRegistered;
+    }
+
     function getBankInfo(address bankAddress) public view returns(bytes32, bytes32, bytes memory, bytes memory ){
         return (bankInfo[bankAddress].bankName, bankInfo[bankAddress].routingNumber, bankInfo[bankAddress].bankAddress, bankInfo[bankAddress].url);
+    }
+
+    function getBankAppliedLimit(address bankAddress, string calldata currency) public view returns (uint256) {
+        return bankInfo[bankAddress].appliedLimit[currency];
+    }
+
+    function getBankGrantedLimit(address bankAddress, string calldata currency) public view returns (uint256) {
+        return bankInfo[bankAddress].grantedLimit[currency];
     }
 
     function register(
