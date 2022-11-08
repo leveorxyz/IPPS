@@ -6,7 +6,7 @@ import "./Token.sol";
 
 contract TokenFactory is Ownable {
     address exchangeProtocol;
-    mapping (string => address) tokenSymbolToAddress;
+    mapping(string => address) tokenSymbolToAddress;
 
     function initialize(address _exchangeProtocol) public onlyOwner {
         exchangeProtocol = _exchangeProtocol;
@@ -16,10 +16,19 @@ contract TokenFactory is Ownable {
         return tokenSymbolToAddress[name];
     }
 
-    function createToken(string calldata name, string calldata symbol) public onlyOwner{
-        require(tokenSymbolToAddress[name] == address(0), "TokenFactory: Token already exists");
+    function createToken(string calldata name, string calldata symbol)
+        public
+        onlyOwner
+    {
+        require(
+            tokenSymbolToAddress[name] == address(0),
+            "TokenFactory: Token already exists"
+        );
         Token newToken = new Token(name, symbol, exchangeProtocol);
-        require(address(newToken) != address(0), "TokenFactory: Token deployment unsuccessfull");
+        require(
+            address(newToken) != address(0),
+            "TokenFactory: Token deployment unsuccessfull"
+        );
         tokenSymbolToAddress[name] = address(newToken);
     }
 }
