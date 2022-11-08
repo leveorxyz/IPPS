@@ -115,4 +115,27 @@ contract StakingLimit {
             30 days;
         bankInfo[bank].grantedLimit[currency] = amount;
     }
+
+    function unstakeFromBank(
+        address bank,
+        string calldata currency,
+        uint256 amount
+    ) public {
+        require(
+            stakerInfo[msg.sender].stakedForCurrencyInBank[bank][currency] >=
+                amount,
+            "StakingLimit: Staked amount is less than the specified amount"
+        );
+        require(
+            stakerInfo[msg.sender].lockTimeForCurrencyinBank[bank][currency] <=
+                block.timestamp,
+            "StakingLimit: Asset is locked"
+        );
+        stakerInfo[msg.sender].totalStakedForCurrency[currency] -= amount;
+        stakerInfo[msg.sender].stakedForCurrencyInBank[bank][
+            currency
+        ] -= amount;
+        address token = supportedStablecoins[currency];
+        IERC20(token).transfer(msg.sender, amount);
+    }
 }
