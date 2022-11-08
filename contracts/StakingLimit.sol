@@ -1,9 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.17;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract StakingLimit {
+import "./TokenFactory.sol";
+
+contract StakingLimit is Ownable {
+    address factory;
+    uint256 immutable percentDivider = 100000000;
+
     struct Bank {
         bytes32 bankName;
         bytes32 routingNumber;
@@ -23,6 +29,17 @@ contract StakingLimit {
     mapping(string => address) supportedStablecoins;
     mapping(address => Bank) bankInfo;
     mapping(address => Staker) stakerInfo;
+
+    function initialize(address _factory) public onlyOwner {
+        factory = _factory;
+    }
+
+    function getStakerShareInCurrency(address staker, string calldata currency) public view returns (uint256){
+        address token = TokenFactory(factory).getToken(currency);
+        uint256 supply = IERC20(token).totalSupply();
+        uint256 stakedAmount = stakerInfo[staker].totalStakedForCurrency[currency];
+        return stakedAmount * percentDivider / supply;
+    }
 
     function getSupportedStablecoins(string calldata name)
         public
