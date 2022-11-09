@@ -38,7 +38,7 @@ contract StakingLimit is Ownable {
         address token = TokenFactory(factory).getToken(currency);
         uint256 supply = IERC20(token).totalSupply();
         uint256 stakedAmount = stakerInfo[staker].totalStakedForCurrency[currency];
-        return stakedAmount * percentDivider / supply;
+        return (stakedAmount * percentDivider) / supply;
     }
 
     function getSupportedStablecoins(string calldata name)
