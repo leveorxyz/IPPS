@@ -9,6 +9,9 @@ import "./Oracle.sol";
 contract ExchangeProtocol {
     address userRegistry;
     address oracleAdddress;
+    address rewardPool;
+    uint256 feePercent = 1000000;
+    uint256 immutable percentDivider = 100000000;
 
     modifier isWhitelisted(address dstReceiver) {
         require(
@@ -35,9 +38,11 @@ contract ExchangeProtocol {
                 dstToken
             );
             uint256 srcAmount = (dstAmount * dstValue) / srcValue;
-
             Token(srcToken).burnFrom(msg.sender, srcAmount);
-            Token(dstToken).mint(dstReceiver, dstAmount);
+            uint256 feeAmount = dstAmount * feePercent / percentDivider;
+            uint256 dstAmountAfterFeeDeduction = dstAmount - feeAmount;
+            Token(dstToken).mint(dstReceiver, dstAmountAfterFeeDeduction);
+            Token(dstToken).mint(rewardPool, feeAmount);
         }
     }
 }
