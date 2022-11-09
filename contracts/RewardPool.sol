@@ -12,13 +12,23 @@ contract RewardPool {
     address stakingLimit;
     mapping(address => mapping(string => uint256)) rewardInfo;
 
-    function addRewards(address staker, string calldata currency, uint256 amount) public {
+    function addRewards(
+        address staker,
+        string calldata currency,
+        uint256 amount
+    ) public {
         rewardInfo[staker][currency] += amount;
     }
 
     function claimFeeShare(address staker, string calldata currency) public {
-        uint256 feeShare = StakingLimit(stakingLimit).getStakerShareInCurrency(staker, currency);
+        uint256 feeShare = StakingLimit(stakingLimit).getStakerShareInCurrency(
+            staker,
+            currency
+        );
         require(feeShare > 0, "RewardPool: Not enough fee share");
-        IERC20(ContractRegistry(contractRegistry).TOKEN_FACTORY()).transfer(msg.sender, feeShare);
+        IERC20(
+            TokenFactory(ContractRegistry(contractRegistry).TOKEN_FACTORY())
+                .getToken(currency)
+        ).transfer(msg.sender, feeShare);
     }
 }
