@@ -3,9 +3,12 @@ pragma solidity 0.8.17;
 
 import "./StakingLimit.sol";
 import "./ContractRegistry.sol";
+import "./interfaces/IUserData.sol";
 
 contract UserRegistry {
     address CONTRACT_REGISTRY;
+
+    mapping (address => IUserData.UserType) userCategory;
     mapping(address => bool) bankAccountHolder;
     mapping(address => bool) merchant;
 
@@ -20,6 +23,14 @@ contract UserRegistry {
 
     function initialize(address _contractRegistry) public {
         CONTRACT_REGISTRY = _contractRegistry;
+    }
+
+    function getUserStatus(address user) public view returns(IUserData.UserType) {
+        return userCategory[user];
+    }
+
+    function getBankRegistrationStatus(address bankAddress) public view returns(bool) {
+        return StakingLimit(ContractRegistry(CONTRACT_REGISTRY).STAKING_LIMIT()).getBankRegistrationStatus(bankAddress);
     }
 
     function getBankAccountHolderStatus(address user)
