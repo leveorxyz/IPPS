@@ -23,7 +23,7 @@ contract StakingLimit is Ownable {
     struct Staker {
         mapping(string => uint256) totalStakedForCurrency;
         mapping(address => mapping(string => uint256)) stakedForCurrencyInBank;
-        mapping(address => mapping(string => uint256)) lockTimeForCurrencyinBank;
+        mapping(address => mapping(string => uint256)) lockTimeForCurrencyInBank;
     }
 
     mapping(string => address) supportedStablecoins;
@@ -92,14 +92,15 @@ contract StakingLimit is Ownable {
     }
 
     function register(
-        address bankAdmin,
+        bytes32 bankName,
         bytes32 routingNumber,
         bytes calldata bankAddress,
         bytes calldata url
     ) public {
-        bankInfo[bankAdmin].routingNumber = routingNumber;
-        bankInfo[bankAdmin].bankAddress = bankAddress;
-        bankInfo[bankAdmin].url = url;
+        bankInfo[msg.sender].bankName = bankName;
+        bankInfo[msg.sender].routingNumber = routingNumber;
+        bankInfo[msg.sender].bankAddress = bankAddress;
+        bankInfo[msg.sender].url = url;
     }
 
     function addStablecoin(string calldata currency, address stablecoin)
@@ -127,7 +128,7 @@ contract StakingLimit is Ownable {
         stakerInfo[msg.sender].stakedForCurrencyInBank[bank][
             currency
         ] += amount;
-        stakerInfo[msg.sender].lockTimeForCurrencyinBank[bank][currency] =
+        stakerInfo[msg.sender].lockTimeForCurrencyInBank[bank][currency] =
             block.timestamp +
             30 days;
         bankInfo[bank].grantedLimit[currency] = amount;
@@ -144,7 +145,7 @@ contract StakingLimit is Ownable {
             "StakingLimit: Staked amount is less than the specified amount"
         );
         require(
-            stakerInfo[msg.sender].lockTimeForCurrencyinBank[bank][currency] <=
+            stakerInfo[msg.sender].lockTimeForCurrencyInBank[bank][currency] <=
                 block.timestamp,
             "StakingLimit: Asset is locked"
         );
