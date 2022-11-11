@@ -3,13 +3,14 @@ pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Token.sol";
+import "./ContractRegistry.sol";
 
 contract TokenFactory is Ownable {
-    address exchangeProtocol;
+    address contractRegistry;
     mapping(string => address) tokenSymbolToAddress;
 
-    function initialize(address _exchangeProtocol) public onlyOwner {
-        exchangeProtocol = _exchangeProtocol;
+    function initialize(address _contractRegistry) public onlyOwner {
+        contractRegistry = _contractRegistry;
     }
 
     function getToken(string calldata name) public view returns (address) {
@@ -24,7 +25,7 @@ contract TokenFactory is Ownable {
             tokenSymbolToAddress[name] == address(0),
             "TokenFactory: Token already exists"
         );
-        Token newToken = new Token(name, symbol, exchangeProtocol);
+        Token newToken = new Token(name, symbol, ContractRegistry(contractRegistry).EXCHANGE_PROTOCOL());
         require(
             address(newToken) != address(0),
             "TokenFactory: Token deployment unsuccessfull"
