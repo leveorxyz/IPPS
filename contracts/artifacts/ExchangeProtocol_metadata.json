@@ -1,0 +1,154 @@
+{
+	"compiler": {
+		"version": "0.8.17+commit.8df45f5f"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "srcToken",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "dstToken",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "dstReceiver",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "dstAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "transferToken",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ExchangeProtocol.sol": "ExchangeProtocol"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/access/Ownable.sol": {
+			"keccak256": "0xa94b34880e3c1b0b931662cb1c09e5dfa6662f31cba80e07c5ee71cd135c9673",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://40fb1b5102468f783961d0af743f91b9980cf66b50d1d12009f6bb1869cea4d2",
+				"dweb:/ipfs/QmYqEbJML4jB1GHbzD4cUZDtJg5wVwNm3vDJq1GbyDus8y"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/ERC20.sol": {
+			"keccak256": "0x4ffc0547c02ad22925310c585c0f166f8759e2648a09e9b489100c42f15dd98d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://15f52f51413a9de1ff191e2f6367c62178e1df7806d7880fe857a98b0b66253d",
+				"dweb:/ipfs/QmaQG1fwfgUt5E9nu2cccFiV47B2V78MM1tCy1qB7n4MsH"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34",
+				"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol": {
+			"keccak256": "0x0d19410453cda55960a818e02bd7c18952a5c8fe7a3036e81f0d599f34487a7b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4c0f62d3d5bef22b5ca00cc3903e7de6152cb68d2d22401a463f373cda54c00f",
+				"dweb:/ipfs/QmSfzjZux7LC7NW2f7rjCXTHeFMUCWERqDkhpCTBy7kxTe"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
+			"keccak256": "0x8de418a5503946cabe331f35fe242d3201a73f67f77aaeb7110acb1f30423aca",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5a376d3dda2cb70536c0a45c208b29b34ac560c4cb4f513a42079f96ba47d2dd",
+				"dweb:/ipfs/QmZQg6gn1sUpM8wHzwNvSnihumUCAhxD119MpXeKp8B9s8"
+			]
+		},
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92",
+				"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
+			]
+		},
+		"contracts/ExchangeProtocol.sol": {
+			"keccak256": "0x2ce421192de3682b0bd10efce5c68e18ab10ad0df50adc977997c22dad8fabeb",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://acd0ff22930af9c6b23bbf91e3ccc7af9b9f80887127a3f58ff8c3bbb4028dc2",
+				"dweb:/ipfs/Qme9zopzQPPD5TkxeBWZA5HMVAVxNfpYgDmMKjQahh9s81"
+			]
+		},
+		"contracts/Oracle.sol": {
+			"keccak256": "0x0f92f0939fbed35c869c40258f1307545c40651d868a5c72f0ce293f72d96876",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://84250a62f5f9591776d81b596252607eef7c5fecddba1683f0683fcf54c07f40",
+				"dweb:/ipfs/QmXGoygnUrtyNaFio1iJVS4HRRgndw3RULuqcRPpqu1UDG"
+			]
+		},
+		"contracts/Token.sol": {
+			"keccak256": "0xe9e838a5e085d8ab994c149178853928e6a06224046d465c02f7055ee5a38e18",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://90fa89c63e4acb0b4b5135bfc9e8a33e1ed5476ac7f1c317aa40b427dc7fa8cf",
+				"dweb:/ipfs/QmRxEAM9rRNYtCdEjFWAJWxejEfPGKEjsqTBBAABcDRqG9"
+			]
+		},
+		"contracts/TokenFactory.sol": {
+			"keccak256": "0xa1129bba3032298709b1c75bb25878f11677d46ea1e187e607d9a5caea51d8f5",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://9099b8b43fa7c60dc628a768ed414858038949067c390ea890be524d06007bbc",
+				"dweb:/ipfs/Qmf39R5LzJEzMV5yphpj1ywRHNqEeP7YpURHK26pAe1btu"
+			]
+		},
+		"contracts/UserRegistry.sol": {
+			"keccak256": "0x0098627a12e6d3e95c91ae09968c4d732da9026f1f6fde6bb6cf99901dd90ab7",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://d5b3e2ee970fc68eac381c97c89a460b6519a88b230d066b56d292d1ab6e94fd",
+				"dweb:/ipfs/QmfNx64vYtc7GWhdg7DmPMjSyNQSAvFC7iVFaGD28MzGb5"
+			]
+		}
+	},
+	"version": 1
+}
