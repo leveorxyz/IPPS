@@ -7,13 +7,16 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./TokenFactory.sol";
 
 contract StakingLimit is Ownable {
+    event Registered(address indexed bank, uint256 indexed time, bytes32 indexed bankName);
+    event Verified(address indexed bank, uint256 indexed time, bytes32 indexed bankName);
+    
     address factory;
     uint256 immutable percentDivider = 100000000;
 
     struct Bank {
         bytes32 bankName;
         bytes32 routingNumber;
-        bool isRegistered;
+        bool isVerified;
         bytes bankAddress;
         bytes url;
         mapping(string => uint256) appliedLimit;
@@ -49,12 +52,12 @@ contract StakingLimit is Ownable {
         return supportedStablecoins[name];
     }
 
-    function getBankRegistrationStatus(address bankAddress)
+    function getBankVerificationStatus(address bankAddress)
         public
         view
         returns (bool)
     {
-        return bankInfo[bankAddress].isRegistered;
+        return bankInfo[bankAddress].isVerified;
     }
 
     function getBankInfo(address bankAddress)
@@ -103,6 +106,11 @@ contract StakingLimit is Ownable {
         bankInfo[msg.sender].url = url;
     }
 
+    function verifyBank(address bank) public {
+        require(bankInfo[bank].bankName.length > 0);
+        bankInfo[bank].isVerified = true;
+    }
+
     function addStablecoin(string calldata currency, address stablecoin)
         public
     {
@@ -119,8 +127,8 @@ contract StakingLimit is Ownable {
             "StakingLimit: This Stablecoin is not supported"
         );
         require(
-            bankInfo[bank].isRegistered,
-            "StakingLimit: Bank not registered"
+            bankInfo[bank].isVerified,
+            "StakingLimit: Bank not verified"
         );
         address token = supportedStablecoins[currency];
         IERC20(token).transferFrom(msg.sender, address(this), amount);
