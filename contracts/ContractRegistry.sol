@@ -9,6 +9,7 @@ contract ContractRegistry is Ownable {
     address public STAKING_LIMIT;
     address public TOKEN_FACTORY;
     address public USER_REGISTRY;
+    address public REWARD_POOL;
 
     function setExchangeProtocol(address _exchangeProtocol) public {
         EXCHANGE_PROTOCOL = _exchangeProtocol;
@@ -28,5 +29,9 @@ contract ContractRegistry is Ownable {
 
     function setUserRegistry(address _userRegistry) public {
         USER_REGISTRY = _userRegistry;
+    }
+
+    function setRewardPool(address _rewardPool) public {
+        REWARD_POOL = _rewardPool;
     }
 }

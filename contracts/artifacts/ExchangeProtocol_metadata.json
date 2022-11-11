@@ -9,6 +9,19 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "_contractRegistry",
+						"type": "address"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "srcToken",
 						"type": "address"
 					},
@@ -109,44 +122,68 @@
 				"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
 			]
 		},
-		"contracts/ExchangeProtocol.sol": {
-			"keccak256": "0x2ce421192de3682b0bd10efce5c68e18ab10ad0df50adc977997c22dad8fabeb",
+		"contracts/ContractRegistry.sol": {
+			"keccak256": "0xd83390a5bc997d2751a8cc6a60460be33f7db78d8833705bb42765a2adf213b1",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://acd0ff22930af9c6b23bbf91e3ccc7af9b9f80887127a3f58ff8c3bbb4028dc2",
-				"dweb:/ipfs/Qme9zopzQPPD5TkxeBWZA5HMVAVxNfpYgDmMKjQahh9s81"
+				"bzz-raw://a0c765cde1928ffa3dd7edda4128d41dbf6075f8f413b2be14452a7ea9d361fe",
+				"dweb:/ipfs/QmVdpbXd8d1PsDJKYxaiwfrFSyWtyxgcUF4hZHFozQAej1"
+			]
+		},
+		"contracts/ExchangeProtocol.sol": {
+			"keccak256": "0xc5e496422a8006a4f3c8bc2d2ebe73c42e62f159d9d90c5dd339eca94239812c",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://355d729873e32b69464ac3977b8e18112c3bd1bf6e787ea017187299768c4375",
+				"dweb:/ipfs/QmV2jSnQ2YgAZPZmc7VujhdQLdXx8KH6kpP3JogAV3Fg3P"
 			]
 		},
 		"contracts/Oracle.sol": {
-			"keccak256": "0x0f92f0939fbed35c869c40258f1307545c40651d868a5c72f0ce293f72d96876",
+			"keccak256": "0x57b29369f6dd84c9bf8ac9907a3c001a59332a06da8aa980b4dd50b0e4389ad9",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://84250a62f5f9591776d81b596252607eef7c5fecddba1683f0683fcf54c07f40",
-				"dweb:/ipfs/QmXGoygnUrtyNaFio1iJVS4HRRgndw3RULuqcRPpqu1UDG"
+				"bzz-raw://3c14c11907643536c16867125436f2fa2542b3b0ff937f2cd1a1e0912181cdae",
+				"dweb:/ipfs/QmTxrUTnDYQYyWWrXcV5b8WmERfAweHMu73siyH5Yy76US"
+			]
+		},
+		"contracts/StakingLimit.sol": {
+			"keccak256": "0x27b7a100bbdd1ab36a463283b68dadb33d7fa34fd83bace450080fb7a92d1cad",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://3c33491c03880cb2c6ae541037f40edd79bce5f35b9828e70661383e3f9bad3f",
+				"dweb:/ipfs/QmRoek35Nqo4QvhpMtv5LtEBdY4DiDkbE3o4SWuLf57LLV"
 			]
 		},
 		"contracts/Token.sol": {
-			"keccak256": "0xe9e838a5e085d8ab994c149178853928e6a06224046d465c02f7055ee5a38e18",
+			"keccak256": "0xb628d35c98448e54c12d0dc22df8245cc14fd4ffc0f9da485078aafc11fc4ad4",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://90fa89c63e4acb0b4b5135bfc9e8a33e1ed5476ac7f1c317aa40b427dc7fa8cf",
-				"dweb:/ipfs/QmRxEAM9rRNYtCdEjFWAJWxejEfPGKEjsqTBBAABcDRqG9"
+				"bzz-raw://6cd21a917b5aceb51f12b84d5f11c4bbc724dcb60987864bcb77e114a4f14441",
+				"dweb:/ipfs/QmYcUBh5sCJkC6dWJWcwbjoMy7Awdqqt7kz4RxXx5Aa8Do"
 			]
 		},
 		"contracts/TokenFactory.sol": {
-			"keccak256": "0xa1129bba3032298709b1c75bb25878f11677d46ea1e187e607d9a5caea51d8f5",
+			"keccak256": "0xb8365d2dcb06b4d095d18843a972b7c69617dcd5ea37b60956b530e1ecd51c13",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://9099b8b43fa7c60dc628a768ed414858038949067c390ea890be524d06007bbc",
-				"dweb:/ipfs/Qmf39R5LzJEzMV5yphpj1ywRHNqEeP7YpURHK26pAe1btu"
+				"bzz-raw://3a5ae9c801e1bda3b575cb842d32c0611453e10e23a32fd0c6e80e56fa4f32ef",
+				"dweb:/ipfs/QmZdAPZ1tmu67fq1scD4G4bXRxU81EYYXSauYYhR8CgHFi"
 			]
 		},
 		"contracts/UserRegistry.sol": {
-			"keccak256": "0x0098627a12e6d3e95c91ae09968c4d732da9026f1f6fde6bb6cf99901dd90ab7",
+			"keccak256": "0x228836ad1662dd2b19570e275f9f7a5e3cb74aa3b08da19749e474c7d32c4173",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://d5b3e2ee970fc68eac381c97c89a460b6519a88b230d066b56d292d1ab6e94fd",
-				"dweb:/ipfs/QmfNx64vYtc7GWhdg7DmPMjSyNQSAvFC7iVFaGD28MzGb5"
+				"bzz-raw://1f445a5ea074d128767c8d3f80567c38991cda8627648657176c6231ef6e504b",
+				"dweb:/ipfs/QmXij5kksp4ha3FQtLWxZjDQx94iuKKt3ChojEZmLt7fvy"
+			]
+		},
+		"contracts/interfaces/IUserData.sol": {
+			"keccak256": "0xa3025263c4acee52ff0d34c59ee8feebd10e1bcaba40df5fbcaf41b33dc9258f",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://f62cd741e90a6443e822d8e7ef12f59bec3bbe6ebcb7776c4f4aef2181a90022",
+				"dweb:/ipfs/QmNfG9VuWvskq4pJn331BKqxM9uWoL3iKr3pjyvfdgeTaG"
 			]
 		}
 	},

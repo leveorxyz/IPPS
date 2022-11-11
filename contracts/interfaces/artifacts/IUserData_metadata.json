@@ -33,11 +33,11 @@
 	},
 	"sources": {
 		"contracts/interfaces/IUserData.sol": {
-			"keccak256": "0x08ac0bc06f31cff283d5203777a87fa7545b3dab24efcba0ae59b2e852171fb8",
+			"keccak256": "0xa3025263c4acee52ff0d34c59ee8feebd10e1bcaba40df5fbcaf41b33dc9258f",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://cbca72ab18d3db6f35ec65bf2ea4101d40c00b7563cec8396b935a8dd11e8f44",
-				"dweb:/ipfs/QmQrkomDPV6LW9vyehAJatJvpucYdg2B88fKVaR44Lq7sU"
+				"bzz-raw://f62cd741e90a6443e822d8e7ef12f59bec3bbe6ebcb7776c4f4aef2181a90022",
+				"dweb:/ipfs/QmNfG9VuWvskq4pJn331BKqxM9uWoL3iKr3pjyvfdgeTaG"
 			]
 		}
 	},

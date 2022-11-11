@@ -13,31 +13,12 @@
 						"type": "address"
 					}
 				],
-				"name": "getBankAccountHolderStatus",
+				"name": "getUserStatus",
 				"outputs": [
 					{
-						"internalType": "bool",
+						"internalType": "enum IUserData.UserType",
 						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "user",
-						"type": "address"
-					}
-				],
-				"name": "getMerchantStatus",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
+						"type": "uint8"
 					}
 				],
 				"stateMutability": "view",
@@ -52,32 +33,6 @@
 					}
 				],
 				"name": "initialize",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "user",
-						"type": "address"
-					}
-				],
-				"name": "whitelistBankAccountHolder",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "user",
-						"type": "address"
-					}
-				],
-				"name": "whitelistMerchant",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -159,19 +114,19 @@
 			]
 		},
 		"contracts/ContractRegistry.sol": {
-			"keccak256": "0xd83390a5bc997d2751a8cc6a60460be33f7db78d8833705bb42765a2adf213b1",
+			"keccak256": "0x5413a1bd06b7a2e1a2b66ecd0e79e0957cf6452f79c56066148e303ef62380f8",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://a0c765cde1928ffa3dd7edda4128d41dbf6075f8f413b2be14452a7ea9d361fe",
-				"dweb:/ipfs/QmVdpbXd8d1PsDJKYxaiwfrFSyWtyxgcUF4hZHFozQAej1"
+				"bzz-raw://f53dcb52274cd919ea16e4e0b1bb24759ba9441d78ac4a00693eb94be8c76992",
+				"dweb:/ipfs/QmaEkW9q4yxy2VCTqAcJSVYSx8yjLxBTCTvGxUS4htY1xh"
 			]
 		},
 		"contracts/StakingLimit.sol": {
-			"keccak256": "0x8d39816438018426950693112caec7ce92daf7ca4db39620fe05199148531d1e",
+			"keccak256": "0x27b7a100bbdd1ab36a463283b68dadb33d7fa34fd83bace450080fb7a92d1cad",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://f0ca19bd944ce2b4b4ca412564177e8ebcfedccab87e534e28f58da86d14d450",
-				"dweb:/ipfs/QmVyyASjnu3RnKS7cbGWdBe3GoxZXuUwiNtFxEkyGZeV6F"
+				"bzz-raw://3c33491c03880cb2c6ae541037f40edd79bce5f35b9828e70661383e3f9bad3f",
+				"dweb:/ipfs/QmRoek35Nqo4QvhpMtv5LtEBdY4DiDkbE3o4SWuLf57LLV"
 			]
 		},
 		"contracts/Token.sol": {
@@ -183,19 +138,27 @@
 			]
 		},
 		"contracts/TokenFactory.sol": {
-			"keccak256": "0x4e815946633d8bfb036c1ab6951bf107e2bf49ccac2e54bbb7aa5cd50537b078",
+			"keccak256": "0xb8365d2dcb06b4d095d18843a972b7c69617dcd5ea37b60956b530e1ecd51c13",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://0e286b9f541e107c4285945a87b042a2d79f7d41c9f77b4fec1f6143a2388ebb",
-				"dweb:/ipfs/QmVpKuBjiF3tctSZ8YkePhma52YY6PWsaDoLQFEWJ4rXzb"
+				"bzz-raw://3a5ae9c801e1bda3b575cb842d32c0611453e10e23a32fd0c6e80e56fa4f32ef",
+				"dweb:/ipfs/QmZdAPZ1tmu67fq1scD4G4bXRxU81EYYXSauYYhR8CgHFi"
 			]
 		},
 		"contracts/UserRegistry.sol": {
-			"keccak256": "0xe9abc97f65bc5cdcd5b0e7808d3f8e8974765a0b11fa4bedee136ab9d3c92be0",
+			"keccak256": "0xd14ae79c9eaf94980da9f2771c1fa9567d974e83af938dd50107665fd036aa04",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://9f45589ba8057af6b86e27b5c5699ac2cbcd742e2f836c70860d9a0e9828f1e1",
-				"dweb:/ipfs/QmaGxpp6BHVUfHhZVjCaQMGiZSwihkJ6P9pBWxj4m43Kae"
+				"bzz-raw://d78d3c410c1087f31da525b2b25fd607c563f22f5e69c8cb80b5676c834ee203",
+				"dweb:/ipfs/QmRJuntMxJk5KvAkYq1tXgcgq3itLNT7EqXrPRfjgAS6k5"
+			]
+		},
+		"contracts/interfaces/IUserData.sol": {
+			"keccak256": "0xa3025263c4acee52ff0d34c59ee8feebd10e1bcaba40df5fbcaf41b33dc9258f",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://f62cd741e90a6443e822d8e7ef12f59bec3bbe6ebcb7776c4f4aef2181a90022",
+				"dweb:/ipfs/QmNfG9VuWvskq4pJn331BKqxM9uWoL3iKr3pjyvfdgeTaG"
 			]
 		}
 	},

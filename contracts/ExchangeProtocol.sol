@@ -10,7 +10,6 @@ import "./interfaces/IUserData.sol";
 contract ExchangeProtocol {    
     address contractRegistry;
     address oracleAdddress;
-    address rewardPool;
     uint256 feePercent = 1000000;
     uint256 immutable percentDivider = 100000000;
 
@@ -30,6 +29,9 @@ contract ExchangeProtocol {
 
         IUserData.UserType senderStatus = registry.getUserStatus(msg.sender);
         IUserData.UserType receiverStatus = registry.getUserStatus(dstReceiver);
+
+        address rewardPool = ContractRegistry(contractRegistry).ORACLE();
+        address oracle = ContractRegistry(contractRegistry).ORACLE();
 
         require(senderStatus != IUserData.UserType.UNDEFINED);
         if (senderStatus == IUserData.UserType.ACCOUNT_HOLDER) {
@@ -64,10 +66,10 @@ contract ExchangeProtocol {
                 );
             }
         } else {
-            uint256 srcValue = Oracle(oracleAdddress).getAssetPriceInUSD(
+            uint256 srcValue = Oracle(oracle).getAssetPriceInUSD(
                 srcToken
             );
-            uint256 dstValue = Oracle(oracleAdddress).getAssetPriceInUSD(
+            uint256 dstValue = Oracle(oracle).getAssetPriceInUSD(
                 dstToken
             );
             uint256 srcAmount = (dstAmount * dstValue) / srcValue;

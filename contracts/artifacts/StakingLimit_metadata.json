@@ -11,6 +11,31 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "bank",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "currency",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "AppliedForLimit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "previousOwner",
 						"type": "address"
 					},
@@ -22,6 +47,118 @@
 					}
 				],
 				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "bank",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "time",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "bankName",
+						"type": "bytes32"
+					}
+				],
+				"name": "Registered",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "bank",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "staker",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "currency",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Staked",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "bank",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "staker",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "currecncy",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Unstaked",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "bank",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "time",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "bankName",
+						"type": "bytes32"
+					}
+				],
+				"name": "Verified",
 				"type": "event"
 			},
 			{
@@ -38,6 +175,24 @@
 					}
 				],
 				"name": "addStablecoin",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "currency",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "applyForLimit",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -132,7 +287,7 @@
 						"type": "address"
 					}
 				],
-				"name": "getBankRegistrationStatus",
+				"name": "getBankVerificationStatus",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -215,9 +370,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "bankAdmin",
-						"type": "address"
+						"internalType": "bytes32",
+						"name": "bankName",
+						"type": "bytes32"
 					},
 					{
 						"internalType": "bytes32",
@@ -302,6 +457,19 @@
 					}
 				],
 				"name": "unstakeFromBank",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "bank",
+						"type": "address"
+					}
+				],
+				"name": "verifyBank",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -392,12 +560,20 @@
 				"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
 			]
 		},
-		"contracts/StakingLimit.sol": {
-			"keccak256": "0xd331547499c90cd91680fd8d0f6c2080e81f936609ddb5340c82a3e49cd89d3f",
+		"contracts/ContractRegistry.sol": {
+			"keccak256": "0xd83390a5bc997d2751a8cc6a60460be33f7db78d8833705bb42765a2adf213b1",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://3f70b62ae4b3eb233bc3da8a5b7ef41ee35ba0ad56407e62b07db6954cb4651c",
-				"dweb:/ipfs/QmcjZ2hiawpUJWv4KYu2MEXummimYZgKufMbEpHjCvK3tz"
+				"bzz-raw://a0c765cde1928ffa3dd7edda4128d41dbf6075f8f413b2be14452a7ea9d361fe",
+				"dweb:/ipfs/QmVdpbXd8d1PsDJKYxaiwfrFSyWtyxgcUF4hZHFozQAej1"
+			]
+		},
+		"contracts/StakingLimit.sol": {
+			"keccak256": "0x27b7a100bbdd1ab36a463283b68dadb33d7fa34fd83bace450080fb7a92d1cad",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://3c33491c03880cb2c6ae541037f40edd79bce5f35b9828e70661383e3f9bad3f",
+				"dweb:/ipfs/QmRoek35Nqo4QvhpMtv5LtEBdY4DiDkbE3o4SWuLf57LLV"
 			]
 		},
 		"contracts/Token.sol": {
@@ -409,11 +585,11 @@
 			]
 		},
 		"contracts/TokenFactory.sol": {
-			"keccak256": "0x4e815946633d8bfb036c1ab6951bf107e2bf49ccac2e54bbb7aa5cd50537b078",
+			"keccak256": "0xb8365d2dcb06b4d095d18843a972b7c69617dcd5ea37b60956b530e1ecd51c13",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://0e286b9f541e107c4285945a87b042a2d79f7d41c9f77b4fec1f6143a2388ebb",
-				"dweb:/ipfs/QmVpKuBjiF3tctSZ8YkePhma52YY6PWsaDoLQFEWJ4rXzb"
+				"bzz-raw://3a5ae9c801e1bda3b575cb842d32c0611453e10e23a32fd0c6e80e56fa4f32ef",
+				"dweb:/ipfs/QmZdAPZ1tmu67fq1scD4G4bXRxU81EYYXSauYYhR8CgHFi"
 			]
 		}
 	},
