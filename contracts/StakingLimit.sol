@@ -7,9 +7,34 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./TokenFactory.sol";
 
 contract StakingLimit is Ownable {
-    event Registered(address indexed bank, uint256 indexed time, bytes32 indexed bankName);
-    event Verified(address indexed bank, uint256 indexed time, bytes32 indexed bankName);
-    
+    event Registered(
+        address indexed bank,
+        uint256 indexed time,
+        bytes32 indexed bankName
+    );
+    event Verified(
+        address indexed bank,
+        uint256 indexed time,
+        bytes32 indexed bankName
+    );
+    event Staked(
+        address indexed bank,
+        address indexed staker,
+        string indexed currency,
+        uint256 amount
+    );
+    event Unstaked(
+        address indexed bank,
+        address indexed staker,
+        string indexed currecncy,
+        uint256 amount
+    );
+    event AppliedForLimit(
+        address indexed bank,
+        string indexed currency,
+        uint256 amount
+    );
+
     address factory;
     uint256 immutable percentDivider = 100000000;
 
@@ -37,10 +62,16 @@ contract StakingLimit is Ownable {
         factory = _factory;
     }
 
-    function getStakerShareInCurrency(address staker, string calldata currency) public view returns (uint256){
+    function getStakerShareInCurrency(address staker, string calldata currency)
+        public
+        view
+        returns (uint256)
+    {
         address token = TokenFactory(factory).getToken(currency);
         uint256 supply = IERC20(token).totalSupply();
-        uint256 stakedAmount = stakerInfo[staker].totalStakedForCurrency[currency];
+        uint256 stakedAmount = stakerInfo[staker].totalStakedForCurrency[
+            currency
+        ];
         return (stakedAmount * percentDivider) / supply;
     }
 
@@ -111,6 +142,15 @@ contract StakingLimit is Ownable {
         bankInfo[bank].isVerified = true;
     }
 
+    function applyForLimit(string calldata currency, uint256 amount) public {
+        require(
+            bankInfo[msg.sender].isVerified,
+            "StakingLimit: Caller not bank or not verified"
+        );
+        bankInfo[msg.sender].appliedLimit[currency] += amount;
+        emit AppliedForLimit(msg.sender, currency, amount);
+    }
+
     function addStablecoin(string calldata currency, address stablecoin)
         public
     {
@@ -126,9 +166,11 @@ contract StakingLimit is Ownable {
             supportedStablecoins[currency] != address(0),
             "StakingLimit: This Stablecoin is not supported"
         );
+        require(bankInfo[bank].isVerified, "StakingLimit: Bank not verified");
         require(
-            bankInfo[bank].isVerified,
-            "StakingLimit: Bank not verified"
+            bankInfo[bank].grantedLimit[currency] + amount <=
+                bankInfo[bank].appliedLimit[currency],
+            "StakingLimit: Staked amount can't cross the applied limit"
         );
         address token = supportedStablecoins[currency];
         IERC20(token).transferFrom(msg.sender, address(this), amount);
@@ -139,7 +181,7 @@ contract StakingLimit is Ownable {
         stakerInfo[msg.sender].lockTimeForCurrencyInBank[bank][currency] =
             block.timestamp +
             30 days;
-        bankInfo[bank].grantedLimit[currency] = amount;
+        bankInfo[bank].grantedLimit[currency] += amount;
     }
 
     function unstakeFromBank(
@@ -161,6 +203,7 @@ contract StakingLimit is Ownable {
         stakerInfo[msg.sender].stakedForCurrencyInBank[bank][
             currency
         ] -= amount;
+        bankInfo[bank].grantedLimit[currency] -= amount;
         address token = supportedStablecoins[currency];
         IERC20(token).transfer(msg.sender, amount);
     }

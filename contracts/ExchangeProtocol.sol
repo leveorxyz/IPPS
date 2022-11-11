@@ -7,7 +7,7 @@ import "./UserRegistry.sol";
 import "./Oracle.sol";
 import "./interfaces/IUserData.sol";
 
-contract ExchangeProtocol {
+contract ExchangeProtocol {    
     address contractRegistry;
     address oracleAdddress;
     address rewardPool;
