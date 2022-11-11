@@ -9,19 +9,18 @@ import "./ContractRegistry.sol";
 
 contract RewardPool {
     address contractRegistry;
-    address stakingLimit;
-    mapping(address => mapping(string => uint256)) rewardInfo;
+    ///mapping(address => mapping(string => uint256)) rewardInfo;
 
-    function addRewards(
-        address staker,
-        string calldata currency,
-        uint256 amount
-    ) public {
-        rewardInfo[staker][currency] += amount;
-    }
+    // function addRewards(
+    //     address staker,
+    //     string calldata currency,
+    //     uint256 amount
+    // ) public {
+    //     rewardInfo[staker][currency] += amount;
+    // }
 
     function claimFeeShare(address staker, string calldata currency) public {
-        uint256 feeShare = StakingLimit(stakingLimit).getStakerShareInCurrency(
+        uint256 feeShare = StakingLimit(ContractRegistry(contractRegistry).STAKING_LIMIT()).getStakerShareInCurrency(
             staker,
             currency
         );
