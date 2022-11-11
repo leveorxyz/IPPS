@@ -6,6 +6,8 @@ import "./Token.sol";
 import "./ContractRegistry.sol";
 
 contract TokenFactory is Ownable {
+    event TokenCreation(string name, string symbol, address token);
+    
     address contractRegistry;
     mapping(string => address) tokenSymbolToAddress;
 
@@ -26,10 +28,12 @@ contract TokenFactory is Ownable {
             "TokenFactory: Token already exists"
         );
         Token newToken = new Token(name, symbol, ContractRegistry(contractRegistry).EXCHANGE_PROTOCOL());
+        address token = address(newToken);
         require(
-            address(newToken) != address(0),
-            "TokenFactory: Token deployment unsuccessfull"
+            token != address(0),
+            "TokenFactory: Token deployment unsuccessful"
         );
-        tokenSymbolToAddress[name] = address(newToken);
+        tokenSymbolToAddress[name] = token;
+        emit TokenCreation(name, symbol, token);
     }
 }
