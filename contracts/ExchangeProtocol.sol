@@ -9,7 +9,6 @@ import "./interfaces/IUserData.sol";
 
 contract ExchangeProtocol {    
     address contractRegistry;
-    address oracleAdddress;
     uint256 feePercent = 1000000;
     uint256 immutable percentDivider = 100000000;
 
