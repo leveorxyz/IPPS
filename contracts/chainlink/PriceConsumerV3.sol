@@ -7,14 +7,18 @@ contract PriceConsumerV3 {
     AggregatorV3Interface internal priceFeed;
 
     /**
-     * Network: Goerli
-     * Aggregator: ETH/USD
-     * Address: 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
+     * Network: Polygon Mumbai
+     * Aggregator: EUR / USD (Only available pair, others are not set)
+     * Address: 0x7d7356bF6Ee5CDeC22B216581E48eCC700D0497A
      */
     constructor() {
         priceFeed = AggregatorV3Interface(
-            0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
+            0x7d7356bF6Ee5CDeC22B216581E48eCC700D0497A
         );
+    }
+
+    function decimals() public view returns (uint256) {
+        return priceFeed.decimals();
     }
 
     /**
