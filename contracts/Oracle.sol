@@ -11,7 +11,11 @@ contract Oracle {
         contractRegistry = _contractRegistry;
     }
 
-    function getAssetPriceInUSD(string calldata currency) public view returns (int256) {
-        return PriceConsumerV3(ContractRegistry(contractRegistry).PRICE_CONSUMER_V3(currency)).getLatestPrice();
+    function getAssetPriceInUSD(address token) public view returns (int256) {
+        require(ContractRegistry(contractRegistry).PRICE_CONSUMER_V3(token) != address(0), "Oracle: Feed for currency doesn't exist");
+        if (TokenFactory(ContractRegistry(contractRegistry).TOKEN_FACTORY()).getToken("USD") == token) {
+            return 1;
+        }
+        else return PriceConsumerV3(ContractRegistry(contractRegistry).PRICE_CONSUMER_V3(token)).getLatestPrice();
     }
 }
