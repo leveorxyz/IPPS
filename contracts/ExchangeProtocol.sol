@@ -45,6 +45,8 @@ contract ExchangeProtocol {
             require(receiverStatus == IUserData.UserType.BANK);
         }
 
+        require(srcToken != address(0) && dstToken != address(0), "ExchangeProtocol: Token doesn't exist");
+        
         uint256 feeAmount = receiverStatus == IUserData.UserType.MERCHANT
             ? (dstAmount * feePercent) / percentDivider
             : 0;
@@ -65,15 +67,16 @@ contract ExchangeProtocol {
                 );
             }
         } else {
-            uint256 srcValue = Oracle(oracle).getAssetPriceInUSD(
+            int256 srcValue = Oracle(oracle).getAssetPriceInUSD(
                 srcToken
             );
-            uint256 dstValue = Oracle(oracle).getAssetPriceInUSD(
+            int256 dstValue = Oracle(oracle).getAssetPriceInUSD(
                 dstToken
             );
-            uint256 srcAmount = (dstAmount * dstValue) / srcValue;
-            Token(srcToken).burnFrom(msg.sender, srcAmount);
-
+            int256 tempDstAmount = int256(dstAmount);
+            int256 srcAmount = (tempDstAmount * dstValue) / srcValue;
+            uint256 uSrcAmount = srcAmount < 0 ? uint256(-srcAmount) : uint256(srcAmount);
+            Token(srcToken).burnFrom(msg.sender, uSrcAmount);
             if (feeAmount != 0) {
                 uint256 dstAmountAfterFeeDeduction = dstAmount - feeAmount;
                 Token(dstToken).mint(dstReceiver, dstAmountAfterFeeDeduction);
