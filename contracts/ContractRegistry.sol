@@ -11,6 +11,16 @@ contract ContractRegistry is Ownable {
     address public USER_REGISTRY;
     address public REWARD_POOL;
 
+    mapping (string => address) priceConsumerV3Addresses;
+
+    function PRICE_CONSUMER_V3(string calldata currency) public view returns (address) {
+        return priceConsumerV3Addresses[currency];
+    }
+    
+    function setPriceConsumerV3Address(string calldata currency, address priceConsumerV3) public {
+        priceConsumerV3Addresses[currency] = priceConsumerV3;
+    }
+    
     function setExchangeProtocol(address _exchangeProtocol) public {
         EXCHANGE_PROTOCOL = _exchangeProtocol;
     }
