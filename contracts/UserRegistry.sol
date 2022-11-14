@@ -5,12 +5,17 @@ import "./StakingLimit.sol";
 import "./ContractRegistry.sol";
 
 contract UserRegistry {
+    address CONTRACT_REGISTRY;
     mapping (address => bool) bankAccountHolder;
     mapping (address => bool) merchant;
     
     modifier onlyBank {
-        require(StakingLimit(ContractRegistry(STAKING_LIMIT())).bankInfo[msg.sender].isRegistered, "UserRegistry: Caller not bank admin");
+        require(StakingLimit(ContractRegistry(CONTRACT_REGISTRY).STAKING_LIMIT()).getBankRegistrationStatus(msg.sender), "UserRegistry: Caller not bank admin or not registered");
         _;
+    }
+
+    function initialize(address _contractRegistry) public {
+        CONTRACT_REGISTRY = _contractRegistry;
     }
 
     function getBankAccountHolderStatus(address user) public view returns (bool) {
