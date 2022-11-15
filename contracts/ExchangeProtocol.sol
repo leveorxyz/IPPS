@@ -39,6 +39,7 @@ contract ExchangeProtocol {
                     .getBankGrantedLimit(msg.sender, currency),
             "ExchangeProtocol: The bank cannot mint more that its limit"
         );
+        registry.setUserStatus(to, IUserData.UserType.ACCOUNT_HOLDER);
         Token(token).mint(to, amount);
     }
 
