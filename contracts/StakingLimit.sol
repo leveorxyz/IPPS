@@ -5,6 +5,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import "./TokenFactory.sol";
+import "./UserRegistry.sol";
+import "./interfaces/IUserData.sol";
 
 contract StakingLimit is Ownable {
     event Registered(
@@ -35,7 +37,7 @@ contract StakingLimit is Ownable {
         uint256 amount
     );
 
-    address factory;
+    address contractRegistry;
     uint256 immutable percentDivider = 100000000;
 
     struct Bank {
@@ -58,8 +60,8 @@ contract StakingLimit is Ownable {
     mapping(address => Bank) bankInfo;
     mapping(address => Staker) stakerInfo;
 
-    function initialize(address _factory) public onlyOwner {
-        factory = _factory;
+    function initialize(address _contractRegistry) public onlyOwner {
+        contractRegistry = _contractRegistry;
     }
 
     function getStakerShareInCurrency(address staker, string calldata currency)
@@ -67,7 +69,7 @@ contract StakingLimit is Ownable {
         view
         returns (uint256)
     {
-        address token = TokenFactory(factory).getToken(currency);
+        address token = TokenFactory(ContractRegistry(contractRegistry).TOKEN_FACTORY()).getToken(currency);
         uint256 supply = IERC20(token).totalSupply();
         uint256 stakedAmount = stakerInfo[staker].totalStakedForCurrency[
             currency
@@ -140,6 +142,7 @@ contract StakingLimit is Ownable {
     function verifyBank(address bank) public {
         require(bankInfo[bank].bankName.length > 0);
         bankInfo[bank].isVerified = true;
+        UserRegistry(ContractRegistry(contractRegistry).USER_REGISTRY()).setUserStatus(bank, IUserData.UserType.BANK);
     }
 
     function applyForLimit(string calldata currency, uint256 amount) public {
