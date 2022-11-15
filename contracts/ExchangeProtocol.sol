@@ -25,9 +25,13 @@ contract ExchangeProtocol {
             ContractRegistry(contractRegistry).USER_REGISTRY()
         );
         IUserData.UserType callerStatus = registry.getUserStatus(msg.sender);
-
+        IUserData.UserType toStatus = registry.getUserStatus(to);
         require(
             callerStatus == IUserData.UserType.BANK,
+            "ExchangeProtocol: The caller is not bank"
+        );
+        require(
+            toStatus != IUserData.UserType.STAKER,
             "ExchangeProtocol: The caller is not bank"
         );
         address tokenFactory = ContractRegistry(contractRegistry)
@@ -38,8 +42,7 @@ contract ExchangeProtocol {
                 StakingLimit(ContractRegistry(contractRegistry).STAKING_LIMIT())
                     .getBankGrantedLimit(msg.sender, currency),
             "ExchangeProtocol: The bank cannot mint more that its limit"
-        );
-        registry.setUserStatus(to, IUserData.UserType.ACCOUNT_HOLDER);
+        );        
         Token(token).mint(to, amount);
     }
 
