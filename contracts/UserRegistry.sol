@@ -9,17 +9,6 @@ contract UserRegistry {
     address contractRegistry;
 
     mapping (address => IUserData.UserType) userCategory;
-    // mapping(address => bool) bankAccountHolder;
-    // mapping(address => bool) merchant;
-
-    // modifier onlyBank() {
-    //     require(
-    //         StakingLimit(ContractRegistry(CONTRACT_REGISTRY).STAKING_LIMIT())
-    //             .getBankRegistrationStatus(msg.sender),
-    //         "UserRegistry: Caller not bank admin or not registered"
-    //     );
-    //     _;
-    // }
 
     function initialize(address _contractRegistry) public {
         contractRegistry = _contractRegistry;
@@ -27,6 +16,10 @@ contract UserRegistry {
 
     function getUserStatus(address user) public view returns(IUserData.UserType) {
         return userCategory[user];
+    }
+
+    function setUserStatus(address user, IUserData.UserType status) public {
+        userCategory[user] = status;
     }
 
     // function getBankRegistrationStatus(address bankAddress) public view returns(bool) {
