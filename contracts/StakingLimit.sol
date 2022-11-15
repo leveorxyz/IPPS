@@ -185,6 +185,8 @@ contract StakingLimit is Ownable {
             block.timestamp +
             30 days;
         bankInfo[bank].grantedLimit[currency] += amount;
+        UserRegistry(ContractRegistry(contractRegistry).USER_REGISTRY()).setUserStatus(bank, IUserData.UserType.STAKER);
+
     }
 
     function unstakeFromBank(
@@ -201,7 +203,7 @@ contract StakingLimit is Ownable {
             stakerInfo[msg.sender].lockTimeForCurrencyInBank[bank][currency] <=
                 block.timestamp,
             "StakingLimit: Asset is locked"
-        );
+        ); 
         stakerInfo[msg.sender].totalStakedForCurrency[currency] -= amount;
         stakerInfo[msg.sender].stakedForCurrencyInBank[bank][
             currency
