@@ -1,18 +1,20 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.17;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
+
 import "./TokenFactory.sol";
 import "./Token.sol";
 import "./UserRegistry.sol";
 import "./Oracle.sol";
 import "./interfaces/IUserData.sol";
 
-contract ExchangeProtocol {
+contract ExchangeProtocol is Ownable {
     address contractRegistry;
     uint256 feePercent = 1000000;
     uint256 immutable percentDivider = 100000000;
 
-    function initialize(address _contractRegistry) public {
+    function initialize(address _contractRegistry) public onlyOwner {
         contractRegistry = _contractRegistry;
     }
 
@@ -117,4 +119,6 @@ contract ExchangeProtocol {
             }
         }
     }
+
+
 }

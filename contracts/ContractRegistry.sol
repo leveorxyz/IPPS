@@ -17,31 +17,31 @@ contract ContractRegistry is Ownable {
         return priceConsumerV3Addresses[token];
     }
     
-    function setPriceConsumerV3Address(address token, address priceConsumerV3) public {
+    function setPriceConsumerV3Address(address token, address priceConsumerV3) public onlyOwner {
         priceConsumerV3Addresses[token] = priceConsumerV3;
     }
     
-    function setExchangeProtocol(address _exchangeProtocol) public {
+    function setExchangeProtocol(address _exchangeProtocol) public onlyOwner {
         EXCHANGE_PROTOCOL = _exchangeProtocol;
     }
 
-    function setOracle(address _oracle) public {
+    function setOracle(address _oracle) public onlyOwner {
         ORACLE = _oracle;
     }
 
-    function setStakingLimit(address _stakingLimit) public {
+    function setStakingLimit(address _stakingLimit) public onlyOwner {
         STAKING_LIMIT = _stakingLimit;
     }
 
-    function setTokenFactory(address _tokenFactory) public {
+    function setTokenFactory(address _tokenFactory) public onlyOwner {
         TOKEN_FACTORY = _tokenFactory;
     }
 
-    function setUserRegistry(address _userRegistry) public {
+    function setUserRegistry(address _userRegistry) public onlyOwner {
         USER_REGISTRY = _userRegistry;
     }
 
-    function setRewardPool(address _rewardPool) public {
+    function setRewardPool(address _rewardPool) public onlyOwner {
         REWARD_POOL = _rewardPool;
     }
 }

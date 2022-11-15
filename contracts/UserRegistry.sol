@@ -21,28 +21,4 @@ contract UserRegistry {
     function setUserStatus(address user, IUserData.UserType status) public {
         userCategory[user] = status;
     }
-
-    // function getBankRegistrationStatus(address bankAddress) public view returns(bool) {
-    //     return StakingLimit(ContractRegistry(CONTRACT_REGISTRY).STAKING_LIMIT()).getBankRegistrationStatus(bankAddress);
-    // }
-
-    // function getBankAccountHolderStatus(address user)
-    //     public
-    //     view
-    //     returns (bool)
-    // {
-    //     return bankAccountHolder[user];
-    // }
-
-    // function getMerchantStatus(address user) public view returns (bool) {
-    //     return merchant[user];
-    // }
-
-    // function whitelistBankAccountHolder(address user) public {
-    //     bankAccountHolder[user] = true;
-    // }
-
-    // function whitelistMerchant(address user) public {
-    //     merchant[user] = true;
-    // }
 }
