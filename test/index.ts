@@ -188,8 +188,8 @@ describe("Test Suite", async function () {
 
     describe("#stakeForBank", async function () {
         describe("failure", async function() {
-            it("should revert if staker doesn't have enough balance", async function () {
-                const { bank, owner, stakingLimit, testUSDT } = await loadFixture(deployAndInitializeContracts);
+            it("should revert if asset is not added in accepted stablecoin list", async function () {
+                const { bank, staker, owner, stakingLimit, testUSDT } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
                 const routingNumber = getBytes32String("29387983883");
@@ -210,6 +210,9 @@ describe("Test Suite", async function () {
                 tx = await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount + 1000);
                 await expect(stakingLimit.connect(staker).stakeForBank(bank.address, "USD", stakedAmount)).to.be.reverted;
             })
+        })
+        describe("success", async function () {
+            it("should be able to stake asset that's accepted in the protocol")
         })
     })
 
