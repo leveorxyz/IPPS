@@ -1,6 +1,6 @@
 import { time, loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
-import { expect } from "chai";
+import { expect, assert } from "chai";
 import { ethers } from "hardhat";
 import { getBytes32String, getBytesString } from "../lib/utils";
 
@@ -10,7 +10,7 @@ describe("Test Suite", async function () {
     async function deployAndInitializeContracts() {
 
         // Contracts are deployed using the first signer/account by default
-        const [owner, otherAccounts] = await ethers.getSigners();
+        const [owner, otherAccount, bank, staker, merchant, bankAccountHolder1, bankAccountHolder2] = await ethers.getSigners();
 
         const ContractRegistry = await ethers.getContractFactory("ContractRegistry");
         const contractRegistry = await ContractRegistry.deploy();
@@ -32,6 +32,11 @@ describe("Test Suite", async function () {
 
         const UserRegistry = await ethers.getContractFactory("UserRegistry");
         const userRegistry = await UserRegistry.deploy();
+
+        // Deploy test USDT contract - this will be used to simulate stablecoin USDT for testnet
+
+        const TestUSDT = await ethers.getContractFactory("TestUSDT");
+        const testUSDT = await TestUSDT.deploy();
 
         let tx = await contractRegistry.setExchangeProtocol(exchangeProtocol.address);
         await tx.wait();
@@ -55,8 +60,160 @@ describe("Test Suite", async function () {
         tx = await userRegistry.initialize(contractRegistry.address);
         await tx.wait();
 
-        return { owner, otherAccounts, userRegistry, oracle, rewardPool, stakingLimit, exchangeProtocol, tokenFactory, contractRegistry };
+        return { owner, otherAccount, bank, staker, merchant, bankAccountHolder1, bankAccountHolder2, userRegistry, oracle, rewardPool, stakingLimit, exchangeProtocol, tokenFactory, contractRegistry, testUSDT };
     }
+
+    describe("#createToken", async function () {
+        describe("failure", async function () {
+            it("should revert if caller is not an owner", async function () {
+                const { otherAccount , tokenFactory } = await loadFixture(deployAndInitializeContracts);
+                const currency = "USD";
+                await expect(tokenFactory.connect(otherAccount).createToken("USD", "")).to.be.reverted;
+            })
+        })
+        describe("success", async function () {
+            it("should create a token from factory", async function() {
+                const { owner, tokenFactory } = await loadFixture(deployAndInitializeContracts);
+                const currency1 = "USD";
+                let tx = await tokenFactory.connect(owner).createToken(currency1, "");
+                const result = await tx.wait();
+                const currency1AddressFromFactory = await tokenFactory.getToken(currency1);
+                await expect(currency1AddressFromFactory).to.not.equal("0x0");
+            })
+        })
+    })
+
+    describe("#registerBank", async function () {
+        describe("failure", async function () {
+            it("should fail if bytes length are mismatched", async function() {
+                const { bank, stakingLimit } = await loadFixture(deployAndInitializeContracts);
+
+                const bankName = getBytesString("Dutch Bank");
+                const routingNumber = getBytesString("29387983883");
+                const bankAddress = getBytesString("City Street, Mount Avenue");
+                const url = getBytesString("/SampleUrl");
+    
+                tx = await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);
+                await tx.wait();
+                await expect(stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url)).throw;
+                ;
+            })
+        })
+        describe("success", async function () {
+            it("should register a bank", async function() {
+                const { bank, stakingLimit } = await loadFixture(deployAndInitializeContracts);
+
+                const bankName = getBytes32String("Dutch Bank");
+                const routingNumber = getBytes32String("29387983883");
+                const bankAddress = getBytesString("City Street, Mount Avenue");
+                const url = getBytesString("/SampleUrl");
+    
+                let tx = await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);
+                await tx.wait();
+                const bankInfo = await stakingLimit.getBankInfo(bank.address);
+                expect(bankInfo[0]).to.equal(bankName);
+
+            })
+        })
+    })
+
+    describe("#verifyBank", async function () {
+        describe("failure", async function () {
+            it("should revert if caller is not an owner", async function () {
+                const { bank, otherAccount, stakingLimit } = await loadFixture(deployAndInitializeContracts);
+
+                const bankName = getBytes32String("Dutch Bank");
+                const routingNumber = getBytes32String("29387983883");
+                const bankAddress = getBytesString("City Street, Mount Avenue");
+                const url = getBytesString("/SampleUrl");
+    
+                await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);
+                await expect(stakingLimit.connect(otherAccount).verifyBank(otherAccount.address)).to.be.reverted;
+            })
+        })
+
+        describe("success", async function () {
+            it("should successfully verify bank", async function () {
+                const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
+
+                const bankName = getBytes32String("Dutch Bank");
+                const routingNumber = getBytes32String("29387983883");
+                const bankAddress = getBytesString("City Street, Mount Avenue");
+                const url = getBytesString("/SampleUrl");
+    
+                await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);
+                await stakingLimit.verifyBank(owner.address);
+               // const confirm = await userRegistry.getUserStatus(bank.address);
+                //console.log("confirm" + confirm);
+           })
+        })
+    })
+
+    describe("#applyForLimit", async function () {
+        describe("failure", async function () {
+            it("should revert if not verified before applying for limit", async function () {
+                const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
+
+                const bankName = getBytes32String("Dutch Bank");
+                const routingNumber = getBytes32String("29387983883");
+                const bankAddress = getBytesString("City Street, Mount Avenue");
+                const url = getBytesString("/SampleUrl");
+    
+                await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);                const currency = "USD";
+                const currency = "USD";
+                const amount = 100000*(10**18);
+                await expect(stakingLimit.connect(bank).applyForLimit(currency, amount)).to.be.reverted;
+            })
+        })
+        describe("success", async function () {
+            it("should be successful in applying for limit", async function () {
+                const { bank, owner, stakingLimit } = await loadFixture(deployAndInitializeContracts);
+
+                const bankName = getBytes32String("Dutch Bank");
+                const routingNumber = getBytes32String("29387983883");
+                const bankAddress = getBytesString("City Street, Mount Avenue");
+                const url = getBytesString("/SampleUrl");
+    
+                await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);                const currency = "USD";
+                const currency = "USD";
+                const amount = 100000*(10**18);
+                await stakingLimit.verifyBank(owner.address);
+                await stakingLimit.connect(bank).applyForLimit(currency, amount);
+                const result = stakingLimit.getBankAppliedLimit(bank.address, currency);
+                expect(result).to.equal.(amount);
+
+            }) 
+        })
+    })
+
+    describe("#stakeForBank", async function () {
+        describe("failure", async function() {
+            it("should revert if staker doesn't have enough balance", async function () {
+                const { bank, owner, stakingLimit, testUSDT } = await loadFixture(deployAndInitializeContracts);
+
+                const bankName = getBytes32String("Dutch Bank");
+                const routingNumber = getBytes32String("29387983883");
+                const bankAddress = getBytesString("City Street, Mount Avenue");
+                const url = getBytesString("/SampleUrl");
+    
+                await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);                const currency = "USD";
+                const currency = "USD";
+                const amount = 100000*(10**18);
+                await stakingLimit.verifyBank(owner.address);
+                await stakingLimit.connect(bank).applyForLimit(currency, amount);
+                const result = stakingLimit.getBankAppliedLimit(bank.address, currency);                
+                
+                // Mint test USDT - required to simulate USDT/ stablecoin staking in favour of banks applied limits.
+                await testUSDT.mint(staker.address, stakedAmount + 1000);
+                
+                // Approve test USDT - required by the StakingLimit contract to transfer tokens
+                tx = await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount + 1000);
+                await expect(stakingLimit.connect(staker).stakeForBank(bank.address, "USD", stakedAmount)).to.be.reverted;
+            })
+        })
+    })
+
+
 
     describe("Contract Test", function () {
         it("Should create Token from TokenFactory using createToken function", async function () {
@@ -64,12 +221,13 @@ describe("Test Suite", async function () {
 
             let tx = await tokenFactory.createToken("USD", "");
             let result = await tx.wait();
+            //console.log(result);
             const newTokenAddress = result.events?.[1].args?.campaignInfoAddress;
             expect(newTokenAddress).to.not.equal("0x");
         });
 
-        it.only("Should ", async function () {
-            const { owner, bank, tokenFactory, stakingLimit } = await loadFixture(deployAndInitializeContracts);
+        it("Should ", async function () {
+            const { owner, bank, staker, merchant, bankAccountHolder1, bankAccountHolder2, userRegistry, oracle, rewardPool, stakingLimit, exchangeProtocol, tokenFactory, contractRegistry, testUSDT } = await loadFixture(deployAndInitializeContracts);
 
             let tx = await tokenFactory.createToken("USD", "");
             let result = await tx.wait();
@@ -86,178 +244,41 @@ describe("Test Suite", async function () {
             tx = await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);
             await tx.wait();
 
-
-
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, contractRegistry } = await loadFixture(deployAndInitializeContracts);
-
-            let tx = await contractRegistry.setOracle();
+            tx = await stakingLimit.verifyBank(bank.address)
             await tx.wait();
-            let res = await contractRegistry.ORACLE();
-            expect(0).to.equal(0);
-        });
 
-        it("Should ", async function () {
-            const { owner, contractRegistry } = await loadFixture(deployCampaignInfoFactory);
+            const limit = 100000;
 
-            let tx = await contractRegistry.setStakingLimit();
+            tx = await stakingLimit.connect(bank).applyForLimit("USD", limit);
             await tx.wait();
-            let res = await contractRegistry.STAKING_LIMIT();
-            expect(0).to.equal(0);
-        });
 
-        it("Should ", async function () {
-            const { owner, contractRegistry } = await loadFixture(deployCampaignInfoFactory);
+            const stakedAmount = 10000;
 
-            let tx = await contractRegistry.setTokenFactory();
+            // Mint test USDT - required to simulate USDT/ stablecoin staking in favour of banks applied limits.
+            tx = await testUSDT.mint(staker.address, stakedAmount + 1000);
             await tx.wait();
-            let res = await contractRegistry.TOKEN_FACTORY();
-            expect(0).to.equal(0);
-        });
 
-        it.only("Should ", async function () {
-            const { owner, contractRegistry } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await contractRegistry.setExchangeProtocol();
+            
+            // Approve test USDT - required by the StakingLimit contract to transfer tokens
+            tx = await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount + 1000);
             await tx.wait();
-            let res = await contractRegistry.EXCHANGE_PROTOCOL();
-            expect(0).to.equal(0);
-        });
 
-        it("Should ", async function () {
-            const { owner, contractRegistry } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await contractRegistry.setUserRegistry();
+            tx = await stakingLimit.connect(staker).stakeForBank(bank.address, "USD", stakedAmount);
             await tx.wait();
-            let res = await contractRegistry.USER_REGISTRY();
-            expect(0).to.equal(0);
-        });
 
-        it("Should ", async function () {
-            const { owner, contractRegistry } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await contractRegistry.setRewardPool();
+            tx = await userRegistry.connect(bank).setUserStatus(bankAccountHolder1.address, "ACCOUNT_HOLDER");
             await tx.wait();
-            let res = await contractRegistry.REWARD_POOL();
-            expect(0).to.equal(0);
-        });
 
-        it("Should ", async function () {
-            const { owner, exchangeProtocol } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await exchangeProtocol.transferToken();
+            tx = await userRegistry.connect(bank).setUserStatus(merchant.address, "MERCHANT");
             await tx.wait();
-            expect(0).to.equal(0);
-        });
 
-        it("Should ", async function () {
-            const { owner, oracle } = await loadFixture(deployCampaignInfoFactory);
-
-            let price = await oracle.getAssetPriceInUSD();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, rewardPool } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await rewardPool.claimFeeShare();
+            tx = await exchangeProtocol.connect(bank).mintTokenToAccount(bankAccountHolder1.address, "USD", 1000);
             await tx.wait();
-            expect(0).to.equal(0);
-        });
 
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let res = await stakingLimit.getStakerShareInCurrency();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let res = await stakingLimit.getSupportedStablecoins();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let res = await stakingLimit.getBankVerificationStatus();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let res = await stakingLimit.getBankInfo();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let res = await stakingLimit.getBankAppliedLimit();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let res = await stakingLimit.getBankGrantedLimit();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await stakingLimit.register();
+            tx = await exchangeProtocol.transferToken(usdTokenAddress, eurTokenAddress, merchant.address, 500);
             await tx.wait();
+
             expect(0).to.equal(0);
         });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await stakingLimit.verifyBank();
-            await tx.wait();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await stakingLimit.applyForLimit();
-            await tx.wait();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await stakingLimit.addStablecoin();
-            await tx.wait();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await stakingLimit.stakeForBank();
-            await tx.wait();
-            expect(0).to.equal(0);
-        });
-
-        it("Should ", async function () {
-            const { owner, stakingLimit } = await loadFixture(deployCampaignInfoFactory);
-
-            let tx = await stakingLimit.unstakeFromBank();
-            await tx.wait();
-            expect(0).to.equal(0);
-        });
-
-
     });
 });
