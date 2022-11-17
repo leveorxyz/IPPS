@@ -20,16 +20,16 @@ const BankCard = () => {
           Routing number <b>#45676</b>
         </Text>
         <Text textTransform="uppercase" fontSize="xs">
-          Currency <b>USDT</b>
+          Currency <b>USD</b>
         </Text>
       </HStack>
       <HStack mt={2}>
         <Avatar src="/images/user.png" />
         <Box>
           <Text textTransform="uppercase" fontWeight="bold">
-            Bank Name
+            DUTCH BANK
           </Text>
-          <Text>Account Name</Text>
+          {/* <Text>Account Name</Text> */}
         </Box>
       </HStack>
     </Box>
