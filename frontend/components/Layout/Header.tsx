@@ -20,8 +20,10 @@ const Header = () => {
 
             <HStack gap={7} display={{ base: 'none', md: 'flex' }}>
               <MenuLink link="/" text="home" />
-              <MenuLink link="#!" text="apply for enlistment" />
+              <MenuLink link="/" text="apply for enlistment" />
+              <MenuLink link="/staker" text="Banks" />
               <MenuLink link="/bank" text="staker info" />
+              <MenuLink link="/earnings" text="My earnings" />
               <ConnectButton label="Connect Wallet" />
             </HStack>
 
