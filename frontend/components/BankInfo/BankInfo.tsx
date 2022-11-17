@@ -9,13 +9,17 @@ import {
   SliderFilledTrack,
   SliderThumb,
   Button,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { MdDownload } from 'react-icons/md';
+import StakeModal from '../StakerInfo/StakeModal';
 
 const BankInfo = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box>
-      <Heading size="sm">BANK NAME</Heading>
+      <Heading size="sm">DUTCH BANK</Heading>
       <Text>location #dhaka bangladesh</Text>
 
       <Box
@@ -52,9 +56,15 @@ const BankInfo = () => {
         </Text>
         <Box>
           <Text textTransform="uppercase" letterSpacing={2} fontWeight="bold">
-            claimed limit staked 65%
+            Staked 0%
           </Text>
-          <Slider aria-label="claimed limit slider" colorScheme="blue" defaultValue={65} isReadOnly>
+          <Slider
+            aria-label="claimed limit slider"
+            colorScheme="blue"
+            defaultValue={0}
+            isReadOnly
+            width="300px"
+          >
             <SliderTrack>
               <SliderFilledTrack />
             </SliderTrack>
@@ -62,9 +72,10 @@ const BankInfo = () => {
           </Slider>
         </Box>
       </HStack>
-      <Button textTransform="uppercase" w="full" variant="outline" mt="4">
+      <Button textTransform="uppercase" w="full" variant="outline" mt="4" onClick={onOpen}>
         stake for this bank
       </Button>
+      <StakeModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };

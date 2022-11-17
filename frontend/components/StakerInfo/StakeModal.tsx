@@ -12,8 +12,11 @@ import {
   Input,
   InputLeftElement,
   InputGroup,
+  useBoolean,
+  useToast,
 } from '@chakra-ui/react';
 import { MdOutlineMoney } from 'react-icons/md';
+import { useStakingLimitContract } from '../../hooks';
 
 interface IProps {
   isOpen: boolean;
@@ -21,6 +24,25 @@ interface IProps {
 }
 
 const StakeModal = ({ isOpen, onClose }: IProps) => {
+  const [loading, setLoading] = useBoolean();
+  const toast = useToast();
+  const stakingLimitContract = useStakingLimitContract();
+
+  const onStake = async () => {
+    setLoading.on();
+
+    stakingLimitContract?.functions
+      .transfer()
+      .then((res) => {
+        toast({ status: 'success', description: 'Staked successfully!' });
+        onClose();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setLoading.off();
+      });
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
@@ -45,7 +67,15 @@ const StakeModal = ({ isOpen, onClose }: IProps) => {
                 <Input type="number" placeholder="Enter amount" required />
               </InputGroup>
             </FormControl>
-            <Button variant="outline" type="submit" textTransform="uppercase" w="full" my="5">
+            <Button
+              variant="outline"
+              type="submit"
+              textTransform="uppercase"
+              w="full"
+              my="5"
+              isLoading={loading}
+              onClick={onStake}
+            >
               stake
             </Button>
           </Box>
