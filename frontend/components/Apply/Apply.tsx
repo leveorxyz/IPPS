@@ -13,77 +13,160 @@ import {
   Textarea,
   Button,
   Icon,
+  useBoolean,
+  useToast,
 } from '@chakra-ui/react';
 import { MdArticle, MdDialpad, MdFilePresent, MdAddAPhoto } from 'react-icons/md';
+import { useForm } from 'react-hook-form';
+import { Web3Storage } from 'web3.storage';
+import { useStakingLimitContract } from '../../hooks';
+
+interface RegisterData {
+  accountName: string;
+  currency: string;
+  routingNumber: string;
+  bankName: string;
+  bankAddress: string;
+  attachment: FileList;
+  description: string;
+  limit: string;
+}
 
 const Apply = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterData>();
+  const [isLoading, setIsLoading] = useBoolean();
+  const stakingLimitContract = useStakingLimitContract();
+  const toast = useToast();
+
+  const handleFormSubmit = async (data: RegisterData) => {
+    // console.log(stakingRegister);
+    setIsLoading.on();
+
+    const client = new Web3Storage({ token: process.env.NEXT_PUBLIC_WEB3_STORAGE_KEY as string });
+    const cid = await client.put([data.attachment[0]]);
+
+    // https://bafybeighcjsg5meaxkrtfzhzjvf2rw4bzfrrky6clbuz6ufbmpfrc67y5q.ipfs.w3s.link/
+
+    stakingLimitContract?.functions
+      .transfer()
+      .then((res) => {
+        toast({ status: 'success', description: 'Applied successfully!' });
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading.off();
+      });
+  };
+
   return (
     <Box>
       <Heading size="sm" textTransform="uppercase">
         apply for enlistment
       </Heading>
       <SimpleGrid columns={[1, 2]} mt="5" gap={5}>
-        <Stack gap={2} as="form">
-          <FormControl>
+        <Stack gap={2} as="form" onSubmit={handleSubmit(handleFormSubmit)}>
+          <FormControl isInvalid={!!errors?.accountName}>
             <FormLabel>Account Name</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <MdArticle color="gray.300" />
               </InputLeftElement>
-              <Input type="text" placeholder="Enter account name" />
+              <Input
+                type="text"
+                placeholder="Enter account name"
+                {...register('accountName', { required: true })}
+              />
             </InputGroup>
           </FormControl>
           <HStack gap="3">
-            <FormControl>
+            <FormControl isInvalid={!!errors?.currency}>
               <FormLabel>Currency</FormLabel>
-              <Select placeholder="Choose Currency">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+              <Select placeholder="Choose Currency" {...register('currency', { required: true })}>
+                <option value="USD">USD</option>
+                <option value="EURO">EURO</option>
               </Select>
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={!!errors?.routingNumber}>
               <FormLabel>Routing Number</FormLabel>
               <InputGroup>
                 <InputLeftElement pointerEvents="none">
                   <MdDialpad color="gray.300" />
                 </InputLeftElement>
-                <Input type="text" placeholder="Enter Routing Number" />
+                <Input
+                  type="text"
+                  placeholder="Enter Routing Number"
+                  {...register('routingNumber', { required: true })}
+                />
               </InputGroup>
             </FormControl>
           </HStack>
-          <FormControl>
+          <FormControl isInvalid={!!errors?.bankName}>
             <FormLabel>Bank Name</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <MdArticle color="gray.300" />
               </InputLeftElement>
-              <Input type="text" placeholder="Enter bank name" />
+              <Input
+                type="text"
+                placeholder="Enter bank name"
+                {...register('bankName', { required: true })}
+              />
             </InputGroup>
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!!errors?.bankAddress}>
             <FormLabel>Bank Address</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <MdArticle color="gray.300" />
               </InputLeftElement>
-              <Input type="text" placeholder="Enter bank address" />
+              <Input
+                type="text"
+                placeholder="Enter bank address"
+                {...register('bankAddress', { required: true })}
+              />
             </InputGroup>
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!!errors?.limit}>
+            <FormLabel>Required Limit</FormLabel>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <MdArticle color="gray.300" />
+              </InputLeftElement>
+              <Input
+                type="number"
+                placeholder="Enter required limit"
+                {...register('limit', { required: true })}
+              />
+            </InputGroup>
+          </FormControl>
+          <FormControl isInvalid={!!errors?.attachment}>
             <FormLabel>Attachment</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <MdFilePresent color="gray.300" />
               </InputLeftElement>
-              <Input type="file" placeholder="Upload attachment" />
+              <Input
+                type="file"
+                placeholder="Upload attachment"
+                {...register('attachment', { required: true })}
+              />
             </InputGroup>
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!!errors?.description}>
             <FormLabel>Description</FormLabel>
-            <Textarea placeholder="Type description" rows={4} />
+            <Textarea
+              placeholder="Type description"
+              rows={4}
+              {...register('description', { required: true })}
+            />
           </FormControl>
-          <Button variant="outline">Submit</Button>
+          <Button variant="outline" type="submit" isLoading={isLoading}>
+            Submit
+          </Button>
         </Stack>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Box
