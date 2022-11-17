@@ -37,29 +37,18 @@ async function main() {
   const testUSDT: TestUSDT = await TestUSDT.deploy();
   console.log(`TestUSDT deployed to ${testUSDT.address}`);
 
-  let tx = await contractRegistry.setExchangeProtocol(exchangeProtocol.address);
-  await tx.wait();
-  tx = await contractRegistry.setOracle(oracle.address);
-  await tx.wait();
-  tx = await contractRegistry.setStakingLimit(stakingLimit.address);
-  await tx.wait();
-  tx = await contractRegistry.setTokenFactory(tokenFactory.address);
-  await tx.wait();
-  tx = await contractRegistry.setUserRegistry(userRegistry.address);
-  await tx.wait();
-  tx = await contractRegistry.setRewardPool(rewardPool.address);
-  await tx.wait();
+  await contractRegistry.setExchangeProtocol(exchangeProtocol.address);
+  await contractRegistry.setOracle(oracle.address);
+  await contractRegistry.setStakingLimit(stakingLimit.address);
+  await contractRegistry.setTokenFactory(tokenFactory.address);
+  await contractRegistry.setUserRegistry(userRegistry.address);
+  await contractRegistry.setRewardPool(rewardPool.address);
 
-  tx = await exchangeProtocol.initialize(contractRegistry.address);
-  await tx.wait();
-  tx = await oracle.initialize(contractRegistry.address);
-  await tx.wait();
-  tx = await stakingLimit.initialize(contractRegistry.address);
-  await tx.wait();
-  tx = await tokenFactory.initialize(contractRegistry.address);
-  await tx.wait();
-  tx = await userRegistry.initialize(contractRegistry.address);
-  await tx.wait();
+  await exchangeProtocol.initialize(contractRegistry.address);
+  await oracle.initialize(contractRegistry.address);
+  await stakingLimit.initialize(contractRegistry.address);
+  await tokenFactory.initialize(contractRegistry.address);
+  await userRegistry.initialize(contractRegistry.address);
 
   console.log("Initialized");
 
