@@ -1,10 +1,14 @@
 import { Text, HStack, Input, Flex, Icon } from '@chakra-ui/react';
 import { MdCalendarToday } from 'react-icons/md';
 
-const TableFilter = () => {
+interface IProps {
+  title?: string;
+}
+
+const TableFilter = ({ title }: IProps) => {
   return (
     <HStack justifyContent="space-between" mb={3}>
-      <Text>Last 10 staker info</Text>
+      <Text>{title ?? 'Last 10 staker info'}</Text>
       <Flex gap={10}>
         <HStack>
           <Icon as={MdCalendarToday} />

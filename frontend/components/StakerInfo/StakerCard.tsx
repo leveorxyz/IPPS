@@ -21,12 +21,12 @@ const StakerCard = ({ id }: IProps) => {
         <HStack>
           <Avatar src="/images/user.png" />
           <Box>
-            <Text fontWeight="bold">Bank78AH1</Text>
+            <Text fontWeight="bold">DUTCH BANK</Text>
             <Text fontSize="sm">
-              Current Stake <b>23.22 USDT</b>
+              Current Stake <b>0.00 USDT</b>
             </Text>
             <Text fontSize="sm">
-              More Required <b>12.11 USDT</b>
+              More Required <b>100k USDT</b>
             </Text>
           </Box>
         </HStack>
