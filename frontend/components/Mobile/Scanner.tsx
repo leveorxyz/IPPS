@@ -1,15 +1,53 @@
-import { Box, Center, Flex, Text, IconButton, useBoolean, Button } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Flex,
+  Text,
+  IconButton,
+  useBoolean,
+  Button,
+  useToast,
+} from '@chakra-ui/react';
+import { useEffect, useRef, useState } from 'react';
 import { MdQrCodeScanner } from 'react-icons/md';
 import { QrReader } from 'react-qr-reader';
+import { useDemoContract } from '../../hooks';
 
 const Scanner = () => {
   const [scan, setScan] = useBoolean(false);
+  const [result, setResult] = useState('');
+  const stakingLimitContract = useDemoContract();
+  const toast = useToast();
+  const ref = useRef<any>(null);
 
   const handleResult = (res: any) => {
     if (res?.text) {
-      setScan.off();
+      setResult(res.text);
     }
   };
+
+  useEffect(() => {
+    if (result) {
+      try {
+        stakingLimitContract?.functions
+          .transfer()
+          .then((res) => {
+            toast({ status: 'success', description: 'Success!' });
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            ref.current?.stopCamera();
+            setScan.off();
+            setResult('');
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    // eslint-disable-next-line
+  }, [result]);
 
   return (
     <Center>
@@ -17,6 +55,7 @@ const Scanner = () => {
         <Box textAlign="center">
           <Box
             as={QrReader}
+            ref={ref}
             onResult={handleResult}
             width="257px"
             height="257px"
