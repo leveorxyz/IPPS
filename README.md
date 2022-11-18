@@ -73,3 +73,21 @@ A Bank can stake in favor of itself too - As onboarding stakers is not our goal.
 
 </details> 
 
+
+## Technical Architecture
+
+View on [Figma](https://www.figma.com/file/iBk6vVkyxBR0FvUZ1HrmAV/Project-X%3A-SC-Architecture%2F-Process-Flow?node-id=0%3A1&t=FvD4yd8lHkyO5orw-1)
+
+<img src="https://github.com/leveorxyz/IPPS/blob/main/IPPS_Technical_Architecture.jpg" alt="technical architecture diagram (IPPS)" style="width:200;height:200">
+
+
+## UI/UX Design Resources (Figma)
+
+- [UI Bank View](https://www.figma.com/proto/wPI748q1IJfKhVQz45jBVN/IPPS%3A-UI-Prototype?node-id=27%3A268&scaling=min-zoom&page-id=27%3A2&starting-point-node-id=27%3A268&show-proto-sidebar=1)
+- [UI Stacker View](https://www.figma.com/proto/wPI748q1IJfKhVQz45jBVN/IPPS%3A-UI-Prototype?node-id=27%3A1138&scaling=min-zoom&page-id=27%3A2&starting-point-node-id=27%3A1138&show-proto-sidebar=1)
+- [UI Mobile View](https://www.figma.com/proto/wPI748q1IJfKhVQz45jBVN/IPPS%3A-UI-Prototype?node-id=27%3A2426&scaling=min-zoom&page-id=27%3A2&starting-point-node-id=27%3A2426&show-proto-sidebar=1)
+
+## Resources (Presentation, Figma UI)
+
+- [Overview Presentation](https://docs.google.com/presentation/d/e/2PACX-1vTLS1FALc9WhzNpRdLXjeUilkXDKe0Y-oDiKklzU2icUzhjG_hemyJBryyqXMotQH6UrLcHZT_HEAL5/pub?start=false&loop=false&delayms=3000)
+- [Prototype Demo](https://www.youtube.com/@leveorxyz)
