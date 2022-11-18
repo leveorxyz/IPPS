@@ -44,10 +44,10 @@ const tableData = [
   {
     id: 1,
     name: 'John Doe',
-    address: '0x5354****3a5b',
+    address: '0x8DfC****7DFAD',
     amount: '12.23 USDT',
-    lockedSince: '02 Nov 2022 08:59 pm',
-    lockedUntil: '02 Dec 2022 08:59 pm',
+    lockedSince: '16 Nov 2022 08:59 pm',
+    lockedUntil: '16 Dec 2022 08:59 pm',
   },
   {
     id: 2,
