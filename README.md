@@ -21,3 +21,55 @@ Secondary Components/Future Scopes of Implementations
 
 </details> 
 
+
+## User Journey/Process Flows
+
+<details>
+<summary>
+Bank & User Onboarding
+</summary>
+
+- A bank requests to join X platform specifying a limit (which can’t be exceeded for this bank unless changed)
+- Stakers verify and stakes in stablecoin
+- Banks get limits for the amount which is staked for that particular bank
+- Banks provide us with user wallet addresses and initial fiat balance (amount which they internally decide to allow for each user - may vary from user to user based on their use or balance)
+- X mints XX tokens to users wallet in 1:1 ratio to its balance (provided by the bank).
+- Additionally, the wallets are whitelisted in the protocol so that the tokens are non-transferrable to any other address
+
+</details> 
+
+
+<details>
+<summary>
+Merchant Onboarding
+</summary>
+
+- Merchant wallet addresses are provided by the banks
+- Whenever a token is transferred from other wallets (from users), a small fee is charged - which could be the main source of revenue of IPPS
+- Merchants can redeem these tokens from banks
+
+</details> 
+
+
+<details>
+<summary>
+Staker Onboarding
+</summary>
+
+- Stakers view limit requests by the banks in X platform
+- Additional details of banks are uploaded in Filecoin
+- Stakers stake an amount in favor of the bank to provide them limit for that particular amount
+- Stakers receive transaction fee shares proportional to their staking amount (Whenever users make payments using XX tokens)
+
+</details> 
+
+
+<details>
+<summary>
+Additional Note on Staking
+</summary>
+
+A Bank can stake in favor of itself too - As onboarding stakers is not our goal. The goal is to minimize the risk for users in case the banks decline to provide fiats against XX tokens. In such circumstances the DAO can reimburse platform users with staked assets (most likely stablecoins).
+
+</details> 
+
