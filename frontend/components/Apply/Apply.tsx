@@ -23,7 +23,6 @@ import { useStakingLimitContract } from '../../hooks';
 import { utils } from 'ethers';
 
 interface RegisterData {
-  accountName: string;
   currency: string;
   routingNumber: string;
   bankName: string;
@@ -77,19 +76,6 @@ const Apply = () => {
       </Heading>
       <SimpleGrid columns={[1, 2]} mt="5" gap={5}>
         <Stack gap={2} as="form" onSubmit={handleSubmit(handleFormSubmit)}>
-          <FormControl isInvalid={!!errors?.accountName}>
-            <FormLabel>Account Name</FormLabel>
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <MdArticle color="gray.300" />
-              </InputLeftElement>
-              <Input
-                type="text"
-                placeholder="Enter account name"
-                {...register('accountName', { required: true })}
-              />
-            </InputGroup>
-          </FormControl>
           <HStack gap="3">
             <FormControl isInvalid={!!errors?.currency}>
               <FormLabel>Currency</FormLabel>
