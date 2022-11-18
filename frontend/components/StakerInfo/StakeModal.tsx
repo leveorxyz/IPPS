@@ -16,7 +16,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MdOutlineMoney } from 'react-icons/md';
-import { useStakingLimitContract } from '../../hooks';
+import { useDemoContract } from '../../hooks';
 
 interface IProps {
   isOpen: boolean;
@@ -26,7 +26,7 @@ interface IProps {
 const StakeModal = ({ isOpen, onClose }: IProps) => {
   const [loading, setLoading] = useBoolean();
   const toast = useToast();
-  const stakingLimitContract = useStakingLimitContract();
+  const stakingLimitContract = useDemoContract();
 
   const onStake = async () => {
     setLoading.on();
@@ -37,7 +37,9 @@ const StakeModal = ({ isOpen, onClose }: IProps) => {
         toast({ status: 'success', description: 'Staked successfully!' });
         onClose();
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        toast({ status: 'error', description: err?.reason || err?.message });
+      })
       .finally(() => {
         setLoading.off();
       });

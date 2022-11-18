@@ -20,6 +20,7 @@ import { MdArticle, MdDialpad, MdFilePresent, MdAddAPhoto } from 'react-icons/md
 import { useForm } from 'react-hook-form';
 import { Web3Storage } from 'web3.storage';
 import { useStakingLimitContract } from '../../hooks';
+import { utils } from 'ethers';
 
 interface RegisterData {
   accountName: string;
@@ -36,6 +37,7 @@ const Apply = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<RegisterData>();
   const [isLoading, setIsLoading] = useBoolean();
@@ -43,20 +45,26 @@ const Apply = () => {
   const toast = useToast();
 
   const handleFormSubmit = async (data: RegisterData) => {
-    // console.log(stakingRegister);
     setIsLoading.on();
 
     const client = new Web3Storage({ token: process.env.NEXT_PUBLIC_WEB3_STORAGE_KEY as string });
     const cid = await client.put([data.attachment[0]]);
 
     // https://bafybeighcjsg5meaxkrtfzhzjvf2rw4bzfrrky6clbuz6ufbmpfrc67y5q.ipfs.w3s.link/
-
     stakingLimitContract?.functions
-      .transfer()
+      .register(
+        utils.formatBytes32String(data.bankName),
+        utils.formatBytes32String(data.routingNumber),
+        utils.toUtf8Bytes(data.bankAddress),
+        utils.toUtf8Bytes(cid)
+      )
       .then((res) => {
+        reset();
         toast({ status: 'success', description: 'Applied successfully!' });
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        toast({ status: 'error', description: err?.reason || err?.message });
+      })
       .finally(() => {
         setIsLoading.off();
       });

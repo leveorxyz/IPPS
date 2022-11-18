@@ -1890,6 +1890,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-qr-reader@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@types/react-qr-reader/-/react-qr-reader-2.1.4.tgz#a36f0b83b4402e26c4217d0e8af6b5e2887fc749"
+  integrity sha512-2Hq+UNfsO2TVqxbFlOE0gGhQr/+C4wdgNDaaLV8K93mK/Z7Vw2D3YbMlnJAaSzM45fUtYJs0vc48wV04+OEkiA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@18.0.25":
   version "18.0.25"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.25.tgz#8b1dcd7e56fe7315535a4af25435e0bb55c8ae44"
@@ -2349,7 +2356,23 @@
   resolved "https://registry.yarnpkg.com/@zag-js/focus-visible/-/focus-visible-0.1.0.tgz#9777bbaff8316d0b3a14a9095631e1494f69dbc7"
   integrity sha512-PeaBcTmdZWcFf7n1aM+oiOdZc+sy14qi0emPIeUuGMTjbP0xLGrZu43kdpHnWSXy7/r4Ubp/vlg50MCV8+9Isg==
 
-"@zxing/text-encoding@0.9.0":
+"@zxing/browser@0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@zxing/browser/-/browser-0.0.7.tgz#5fa7680a867b660f48d3288fdf63e0174ad531c7"
+  integrity sha512-AepzMgDnD6EjxewqmXpHJsi4S3Gw9ilZJLIbTf6fWuWySEcHBodnGu3p7FWlgq1Sd5QyfPhTum5z3CBkkhMVng==
+  optionalDependencies:
+    "@zxing/text-encoding" "^0.9.0"
+
+"@zxing/library@^0.18.3":
+  version "0.18.6"
+  resolved "https://registry.yarnpkg.com/@zxing/library/-/library-0.18.6.tgz#717af8c6c1fd982865e21051afdd7b470ae6674c"
+  integrity sha512-bulZ9JHoLFd9W36pi+7e7DnEYNJhljYjZ1UTsKPOoLMU3qtC+REHITeCRNx40zTRJZx18W5TBRXt5pq2Uopjsw==
+  dependencies:
+    ts-custom-error "^3.0.0"
+  optionalDependencies:
+    "@zxing/text-encoding" "~0.9.0"
+
+"@zxing/text-encoding@0.9.0", "@zxing/text-encoding@^0.9.0", "@zxing/text-encoding@~0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@zxing/text-encoding/-/text-encoding-0.9.0.tgz#fb50ffabc6c7c66a0c96b4c03e3d9be74864b70b"
   integrity sha512-U/4aVJ2mxI0aDNI8Uq0wEhMgY+u4CNtEb0om3+y3+niDAsoTCOB33UF0sxpzqzdqXLqmvc+vZyAt4O8pPdfkwA==
@@ -4071,6 +4094,11 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
+
+fsevents@~2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
+  integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -5847,6 +5875,15 @@ react-paginate@^8.1.4:
   dependencies:
     prop-types "^15"
 
+react-qr-reader@^3.0.0-beta-1:
+  version "3.0.0-beta-1"
+  resolved "https://registry.yarnpkg.com/react-qr-reader/-/react-qr-reader-3.0.0-beta-1.tgz#e04a20876409313439959d8e0ea6df3ba6e36d68"
+  integrity sha512-5HeFH9x/BlziRYQYGK2AeWS9WiKYZtGGMs9DXy3bcySTX3C9UJL9EwcPnWw8vlf7JP4FcrAlr1SnZ5nsWLQGyw==
+  dependencies:
+    "@zxing/browser" "0.0.7"
+    "@zxing/library" "^0.18.3"
+    rollup "^2.67.2"
+
 react-remove-scroll-bar@^2.3.3:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.4.tgz#53e272d7a5cb8242990c7f144c44d8bd8ab5afd9"
@@ -6029,6 +6066,13 @@ rlp@^2.0.0, rlp@^2.2.3:
   integrity sha512-d5gdPmgQ0Z+AklL2NVXr/IoSjNZFfTVvQWzL/AM2AOcSzYP2xjlb0AC8YyCLc41MSNf6P6QVtjgPdmVtzb+4lQ==
   dependencies:
     bn.js "^5.2.0"
+
+rollup@^2.67.2:
+  version "2.79.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.79.1.tgz#bedee8faef7c9f93a2647ac0108748f497f081c7"
+  integrity sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==
+  optionalDependencies:
+    fsevents "~2.3.2"
 
 rpc-websockets@^7.5.0:
   version "7.5.0"
@@ -6484,6 +6528,11 @@ trim-newlines@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
   integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
+
+ts-custom-error@^3.0.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/ts-custom-error/-/ts-custom-error-3.3.1.tgz#8bd3c8fc6b8dc8e1cb329267c45200f1e17a65d1"
+  integrity sha512-5OX1tzOjxWEgsr/YEUWSuPrQ00deKLh6D7OTWcvNHm12/7QPyRh8SYpyWvA4IZv8H/+GQWQEh/kwo95Q9OVW1A==
 
 ts-standard@^11.0.0:
   version "11.0.0"
