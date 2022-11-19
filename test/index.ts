@@ -131,7 +131,7 @@ describe("Test Suite", async function () {
         })
 
         describe("success", async function () {
-            it.only("should successfully verify bank", async function () {
+            it("should successfully verify bank", async function () {
                 const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -149,7 +149,7 @@ describe("Test Suite", async function () {
 
     describe("#applyForLimit", async function () {
         describe("failure", async function () {
-            it("should revert if not verified before applying for limit", async function () {
+            it.only("should revert if not verified before applying for limit", async function () {
                 const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -210,115 +210,98 @@ describe("Test Suite", async function () {
             })
         })
         describe("success", async function () {
-            it("should be able to stake asset that's accepted in the protocol", async function () {
-                expect(0).to.equal(0);
+            it.only("should be able to stake asset that's accepted in the protocol", async function () {
+                const { bank, staker, owner, stakingLimit, testUSDT } = await loadFixture(deployAndInitializeContracts);
+
+                const bankName = getBytes32String("Dutch Bank");
+                const routingNumber = getBytes32String("29387983883");
+                const bankAddress = getBytesString("City Street, Mount Avenue");
+                const url = getBytesString("/SampleUrl");
+    
+                await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);                const currency = "USD";
+                //const currency = "USD";
+                const amount = 100000*(10**18);
+                await stakingLimit.connect(owner).verifyBank(owner.address);
+                await stakingLimit.connect(bank).applyForLimit("USD", amount);
+                const result = stakingLimit.getBankAppliedLimit(bank.address, currency);                
+                
+                // Mint test USDT - required to simulate USDT/ stablecoin staking in favour of banks applied limits.
+                await testUSDT.mint(staker.address, stakedAmount + 1000);
+                
+                // Approve test USDT - required by the StakingLimit contract to transfer tokens
+                await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount + 1000);
+                
+                let tx = await stakingLimit.connect(staker).stakeForBank(bank.address, "USD", stakedAmount);
+                let result = await tx.wait();
+                expect(result?.args?.staked.amount).to.equal(amount);
             })
         })
     })
 
-    describe("#transferFrom", async function () {
-        describe("failure", async function () {
-            it("should not transfer from account holder/user's wallet", async function () {
+    // describe("Contract Test", function () {
+    //     it("Should create Token from TokenFactory using createToken function", async function () {
+    //         const { owner, tokenFactory } = await loadFixture(deployAndInitializeContracts);
 
-            })
-            it("should not transfer to addresses which are not whitelisted", async function () {
+    //         let tx = await tokenFactory.createToken("USD", "");
+    //         let result = await tx.wait();
+    //         //console.log(result);
+    //         const newTokenAddress = result.events?.[1].args?.campaignInfoAddress;
+    //         expect(newTokenAddress).to.not.equal("0x");
+    //     });
 
-            })
-        })
-        describe("success", async function () {
-            it("should transfer from account to whitelisted addresses", async function () {
+    //     it("Should ", async function () {
+    //         const { owner, bank, staker, merchant, bankAccountHolder1, bankAccountHolder2, userRegistry, oracle, rewardPool, stakingLimit, exchangeProtocol, tokenFactory, contractRegistry, testUSDT } = await loadFixture(deployAndInitializeContracts);
 
-            })
-            it("should burn USD from senders account and mint EUR to recipient's account", async function() {
+    //         let tx = await tokenFactory.createToken("USD", "");
+    //         let result = await tx.wait();
+    //         const usdTokenAddress = result.events?.[1].args?.campaignInfoAddress;
+    //         tx = await tokenFactory.createToken("EUR", "");
+    //         result = await tx.wait();
+    //         const eurTokenAddress = result.events?.[1].args?.campaignInfoAddress;
 
-            })
-        })
-    })
+    //         const bankName = getBytes32String("Dutch Bank");
+    //         const routingNumber = getBytes32String("29387983883");
+    //         const bankAddress = getBytesString("City Street, Mount Avenue");
+    //         const url = getBytesString("/SampleUrl");
 
-    describe("#claimFeeShare", async function () {
-        describe("failure", async function () {
-            it("should not claim fees if claimer has not staked", async function () {
+    //         tx = await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);
+    //         await tx.wait();
 
-            })
-            it("should not be able to claim amount that doesn't belong to claimer's share", async function () {
+    //         tx = await stakingLimit.verifyBank(bank.address)
+    //         await tx.wait();
 
-            })
-        })
-        describe("success", async function () {
-            it("should claim fee share amount", async function () {
+    //         const limit = 100000;
 
-            })
-            it("should transfer the fee share to claimers account wallet", async function () {
+    //         tx = await stakingLimit.connect(bank).applyForLimit("USD", limit);
+    //         await tx.wait();
 
-            })
-        })
-    })
+    //         const stakedAmount = 10000;
 
-
-    describe("Contract Test", function () {
-        it("Should create Token from TokenFactory using createToken function", async function () {
-            const { owner, tokenFactory } = await loadFixture(deployAndInitializeContracts);
-
-            let tx = await tokenFactory.createToken("USD", "");
-            let result = await tx.wait();
-            //console.log(result);
-            const newTokenAddress = result.events?.[1].args?.campaignInfoAddress;
-            expect(newTokenAddress).to.not.equal("0x");
-        });
-
-        it("Should ", async function () {
-            const { owner, bank, staker, merchant, bankAccountHolder1, bankAccountHolder2, userRegistry, oracle, rewardPool, stakingLimit, exchangeProtocol, tokenFactory, contractRegistry, testUSDT } = await loadFixture(deployAndInitializeContracts);
-
-            let tx = await tokenFactory.createToken("USD", "");
-            let result = await tx.wait();
-            const usdTokenAddress = result.events?.[1].args?.campaignInfoAddress;
-            tx = await tokenFactory.createToken("EUR", "");
-            result = await tx.wait();
-            const eurTokenAddress = result.events?.[1].args?.campaignInfoAddress;
-
-            const bankName = getBytes32String("Dutch Bank");
-            const routingNumber = getBytes32String("29387983883");
-            const bankAddress = getBytesString("City Street, Mount Avenue");
-            const url = getBytesString("/SampleUrl");
-
-            tx = await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);
-            await tx.wait();
-
-            tx = await stakingLimit.verifyBank(bank.address)
-            await tx.wait();
-
-            const limit = 100000;
-
-            tx = await stakingLimit.connect(bank).applyForLimit("USD", limit);
-            await tx.wait();
-
-            const stakedAmount = 10000;
-
-            // Mint test USDT - required to simulate USDT/ stablecoin staking in favour of banks applied limits.
-            tx = await testUSDT.mint(staker.address, stakedAmount + 1000);
-            await tx.wait();
+    //         // Mint test USDT - required to simulate USDT/ stablecoin staking in favour of banks applied limits.
+    //         tx = await testUSDT.mint(staker.address, stakedAmount + 1000);
+    //         await tx.wait();
 
             
-            // Approve test USDT - required by the StakingLimit contract to transfer tokens
-            tx = await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount + 1000);
-            await tx.wait();
+    //         // Approve test USDT - required by the StakingLimit contract to transfer tokens
+    //         tx = await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount + 1000);
+    //         await tx.wait();
 
-            tx = await stakingLimit.connect(staker).stakeForBank(bank.address, "USD", stakedAmount);
-            await tx.wait();
+    //         tx = await stakingLimit.connect(staker).stakeForBank(bank.address, "USD", stakedAmount);
+    //         await tx.wait();
 
-            tx = await userRegistry.connect(bank).setUserStatus(bankAccountHolder1.address, "ACCOUNT_HOLDER");
-            await tx.wait();
+    //         tx = await userRegistry.connect(bank).setUserStatus(bankAccountHolder1.address, "ACCOUNT_HOLDER");
+    //         await tx.wait();
 
-            tx = await userRegistry.connect(bank).setUserStatus(merchant.address, "MERCHANT");
-            await tx.wait();
+    //         tx = await userRegistry.connect(bank).setUserStatus(merchant.address, "MERCHANT");
+    //         await tx.wait();
 
-            tx = await exchangeProtocol.connect(bank).mintTokenToAccount(bankAccountHolder1.address, "USD", 1000);
-            await tx.wait();
+    //         tx = await exchangeProtocol.connect(bank).mintTokenToAccount(bankAccountHolder1.address, "USD", 1000);
+    //         await tx.wait();
 
-            tx = await exchangeProtocol.transferToken(usdTokenAddress, eurTokenAddress, merchant.address, 500);
-            await tx.wait();
+    //         tx = await exchangeProtocol.transferToken(usdTokenAddress, eurTokenAddress, merchant.address, 500);
+    //         await tx.wait();
 
-            expect(0).to.equal(0);
-        });
-    });
+    //         expect(0).to.equal(0);
+    //     });
+    // });
 });
