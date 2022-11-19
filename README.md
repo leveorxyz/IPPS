@@ -1,5 +1,7 @@
 # IPPS
 
+[![IPPS Demo](https://github.com/leveorxyz/IPPS/blob/main/IPPS-Demo.png)](https://youtu.be/WkEaQCn6oBI)
+
 ## Context
 
 IPPS (Inter Planetary Payment System) is a blockchain based payment gateway system to enable centralized banks participate in DeFi movement by tokenizing fiat assets. From the early 2000’s, payment gateways such as Visa and Mastercard have dominated cashless money transfers through their centralized monopolistic network - which in many ways have given them a price setting capability. IPPS aims to provide a breakthrough in this market by leveraging blockchain network as ground truth and thus remove friction and intermediaries within the fiat money transfer systems
@@ -90,4 +92,4 @@ View on [Figma](https://www.figma.com/file/iBk6vVkyxBR0FvUZ1HrmAV/Project-X%3A-S
 ## Resources (Presentation, Figma UI)
 
 - [Overview Presentation](https://docs.google.com/presentation/d/e/2PACX-1vTLS1FALc9WhzNpRdLXjeUilkXDKe0Y-oDiKklzU2icUzhjG_hemyJBryyqXMotQH6UrLcHZT_HEAL5/pub?start=false&loop=false&delayms=3000)
-- [Prototype Demo](https://www.youtube.com/@leveorxyz)
+- [Prototype Demo](https://youtu.be/WkEaQCn6oBI)
