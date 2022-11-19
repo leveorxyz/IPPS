@@ -132,6 +132,14 @@ Smart Contract
 
   `.env`
   ```
-  PRIVATE_KEY = =
-  ALCHEMY_API_KEY = =
+  PRIVATE_KEY =
+  ALCHEMY_API_KEY =
+  QUICKNODE_API_KEY =
   ```
+- Compilation: `npx hardhat compile`
+
+- Deployment to Polygon Mumbai Testnet: `npx hardhat run scripts/deploy.ts --network polygon_mumbai`
+
+- Unit Tests: `npx hardhat test`
+
+- To run the full flow in Remix, connect to localhost `remixd -s <path-to-the-shared-folder> -u <remix-ide-instance-URL>`
