@@ -93,3 +93,45 @@ View on [Figma](https://www.figma.com/file/iBk6vVkyxBR0FvUZ1HrmAV/Project-X%3A-S
 
 - [Overview Presentation](https://docs.google.com/presentation/d/e/2PACX-1vTLS1FALc9WhzNpRdLXjeUilkXDKe0Y-oDiKklzU2icUzhjG_hemyJBryyqXMotQH6UrLcHZT_HEAL5/pub?start=false&loop=false&delayms=3000)
 - [Prototype Demo](https://youtu.be/WkEaQCn6oBI)
+
+
+## Build Instructions
+
+
+
+<details>
+<summary>
+Front End Demo
+</summary>
+
+- Go to `/frontend`:
+
+  ```bash
+  cd frontend
+  ```
+
+- Put your web3.storage key in a new local env file:
+
+  `.env.local`
+  ```
+  NEXT_PUBLIC_WEB3_STORAGE_KEY=
+  ```
+
+- Run `yarn install`
+
+- Run `yarn dev`
+
+</details> 
+
+<details>
+<summary>
+Smart Contract
+</summary>
+
+- Create an env to put all private keys for different user roles and alchemy API key:
+
+  `.env`
+  ```
+  PRIVATE_KEY = =
+  ALCHEMY_API_KEY = =
+  ```
