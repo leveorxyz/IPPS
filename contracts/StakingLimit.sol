@@ -43,6 +43,7 @@ contract StakingLimit is Ownable {
     struct Bank {
         bytes32 bankName;
         bytes32 routingNumber;
+        bool isRegistered;
         bool isVerified;
         bytes bankAddress;
         bytes url;
@@ -103,6 +104,7 @@ contract StakingLimit is Ownable {
             bytes memory
         )
     {
+        require(bankInfo[msg.sender].isRegistered == true, "StakingLimit: Bank already registered");
         return (
             bankInfo[bankAddress].bankName,
             bankInfo[bankAddress].routingNumber,
@@ -133,7 +135,9 @@ contract StakingLimit is Ownable {
         bytes calldata bankAddress,
         bytes calldata url
     ) public {
+        require(bankInfo[msg.sender].isRegistered == false, "StakingLimit: Bank already registered");
         bankInfo[msg.sender].bankName = bankName;
+        bankInfo[msg.sender].isRegistered = true;
         bankInfo[msg.sender].routingNumber = routingNumber;
         bankInfo[msg.sender].bankAddress = bankAddress;
         bankInfo[msg.sender].url = url;
@@ -155,7 +159,7 @@ contract StakingLimit is Ownable {
     }
 
     function addStablecoin(string calldata currency, address stablecoin)
-        public
+        public onlyOwner
     {
         supportedStablecoins[currency] = stablecoin;
     }

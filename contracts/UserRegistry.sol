@@ -1,24 +1,41 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.17;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
+
 import "./StakingLimit.sol";
 import "./ContractRegistry.sol";
 import "./interfaces/IUserData.sol";
 
-contract UserRegistry {
+contract UserRegistry is Ownable {
     address contractRegistry;
 
-    mapping (address => IUserData.UserType) userCategory;
+    modifier onlyProtocol() {
+        require(
+            ContractRegistry(contractRegistry).STAKING_LIMIT() == msg.sender,
+            "UserRegistry: Caller does not have access"
+        );
+        _;
+    }
 
-    function initialize(address _contractRegistry) public {
+    mapping(address => IUserData.UserType) userCategory;
+
+    function initialize(address _contractRegistry) public onlyOwner {
         contractRegistry = _contractRegistry;
     }
 
-    function getUserStatus(address user) public view returns(IUserData.UserType) {
+    function getUserStatus(address user)
+        public
+        view
+        returns (IUserData.UserType)
+    {
         return userCategory[user];
     }
 
-    function setUserStatus(address user, IUserData.UserType status) public {
+    function setUserStatus(address user, IUserData.UserType status)
+        public
+        onlyProtocol
+    {
         userCategory[user] = status;
     }
 }
