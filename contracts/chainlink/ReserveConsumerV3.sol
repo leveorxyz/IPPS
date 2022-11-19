@@ -7,13 +7,13 @@ contract ReserveConsumerV3 {
     AggregatorV3Interface internal reserveFeed;
 
     /**
-     * Network: Ethereum Mainnet
-     * Aggregator: WBTC PoR
-     * Address: 0xa81FE04086865e63E12dD3776978E49DEEa2ea4e
+     * Network: Polygon Mumbai
+     * Aggregator: USD PoR
+     * Address: "Custom deployed contracts"
      */
-    constructor() {
+    constructor(address _customContract) {
         reserveFeed = AggregatorV3Interface(
-            0xa81FE04086865e63E12dD3776978E49DEEa2ea4e
+            _customContract
         );
     }
 
