@@ -27,6 +27,10 @@ contract Token is ERC20, ERC20Burnable, Ownable {
         return true;
     }    
 
+    function burnFrom(address account, uint256 amount) public override onlyOwner {
+        _burn(account, amount);
+    }
+
     function burn(uint256 amount) public pure override {
         revert("Token: Operation not allowed");
     }
