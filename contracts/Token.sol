@@ -31,4 +31,33 @@ contract Token is ERC20, ERC20Burnable, Ownable {
         revert("Token: Operation not allowed");
     }
 
+    function transfer(address to, uint256 amount) public override returns (bool) {
+        revert("Token: Operation not allowed");
+    }
+
+    function allowance(address owner, address spender) public view override returns (uint256) {
+        revert("Token: Operation not allowed");
+    }
+ 
+    function approve(address spender, uint256 amount) public override returns (bool) {
+        revert("Token: Operation not allowed");
+    }
+
+    function increaseAllowance(address spender, uint256 addedValue)
+        public
+        pure
+        override
+        returns (bool)
+    {
+        revert("Token: Operation not allowed");
+    }
+
+    function decreaseAllowance(address spender, uint256 subtractedValue)
+        public
+        pure
+        override
+        returns (bool)
+    {
+        revert("Token: Operation not allowed");
+    }
 }
