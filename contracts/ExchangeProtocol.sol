@@ -25,14 +25,19 @@ contract ExchangeProtocol {
         address dstReceiver,
         uint256 dstAmount
     ) public isWhitelisted(dstReceiver) {
-        uint256 srcValue = Oracle(oracleAdddress).getAssetPriceInUSD(srcToken);
-        uint256 dstValue = Oracle(oracleAdddress).getAssetPriceInUSD(dstToken);
-        uint256 srcAmount = (dstAmount * dstValue) / srcValue;
-        require(
-            IERC20(srcToken).balanceOf(msg.sender) >= srcAmount,
-            "ExchangeProtocol: Not enough balance"
-        );
-        Token(srcToken).burnFrom(msg.sender, srcAmount);
-        Token(dstToken).mint(dstReceiver, dstAmount);
+        if (srcToken == dstToken) {
+            Token(srcToken).transferFrom(msg.sender, dstReceiver, dstAmount);
+        } else {
+            uint256 srcValue = Oracle(oracleAdddress).getAssetPriceInUSD(
+                srcToken
+            );
+            uint256 dstValue = Oracle(oracleAdddress).getAssetPriceInUSD(
+                dstToken
+            );
+            uint256 srcAmount = (dstAmount * dstValue) / srcValue;
+
+            Token(srcToken).burnFrom(msg.sender, srcAmount);
+            Token(dstToken).mint(dstReceiver, dstAmount);
+        }
     }
 }
