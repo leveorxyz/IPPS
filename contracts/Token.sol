@@ -25,13 +25,9 @@ contract Token is ERC20, ERC20Burnable, Ownable {
     ) public override onlyOwner returns (bool) {
         _transfer(from, to, amount);
         return true;
-    }
+    }    
 
-    function burnFrom(address account, uint256 amount)
-        public
-        override
-        onlyOwner
-    {
+    function burnFrom(address account, uint256 amount) public override onlyOwner {
         _burn(account, amount);
     }
 
@@ -39,28 +35,15 @@ contract Token is ERC20, ERC20Burnable, Ownable {
         revert("Token: Operation not allowed");
     }
 
-    function transfer(address to, uint256 amount)
-        public
-        override
-        returns (bool)
-    {
+    function transfer(address to, uint256 amount) public override returns (bool) {
         revert("Token: Operation not allowed");
     }
 
-    function allowance(address owner, address spender)
-        public
-        view
-        override
-        returns (uint256)
-    {
+    function allowance(address owner, address spender) public view override returns (uint256) {
         revert("Token: Operation not allowed");
     }
-
-    function approve(address spender, uint256 amount)
-        public
-        override
-        returns (bool)
-    {
+ 
+    function approve(address spender, uint256 amount) public override returns (bool) {
         revert("Token: Operation not allowed");
     }
 
