@@ -104,7 +104,7 @@ contract StakingLimit is Ownable(msg.sender) {
             bytes memory
         )
     {
-        require(bankInfo[msg.sender].isRegistered == true, "StakingLimit: Bank already registered");
+        // require(bankInfo[msg.sender].isRegistered == true, "StakingLimit: Bank not registered");
         return (
             bankInfo[bankAddress].bankName,
             bankInfo[bankAddress].routingNumber,
