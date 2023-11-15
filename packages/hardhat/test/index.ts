@@ -121,19 +121,17 @@ describe("Test Suite", async function () {
         describe("failure", async function () {
             it.only("should revert if caller is not an owner", async function () {
                 const { bank, otherAccount, stakingLimit } = await loadFixture(deployAndInitializeContracts);
-
                 const bankName = getBytes32String("Dutch Bank");
                 const routingNumber = getBytes32String("29387983883");
                 const bankAddress = getBytesString("City Street, Mount Avenue");
                 const url = getBytesString("/SampleUrl");
-    
                 await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);
                 await expect(stakingLimit.connect(otherAccount).verifyBank(otherAccount.address)).to.be.reverted;
             })
         })
 
         describe("success", async function () {
-            it("should successfully verify bank", async function () {
+            it.only("should successfully verify bank", async function () {
                 const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -143,8 +141,8 @@ describe("Test Suite", async function () {
     
                 await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);
                 await stakingLimit.verifyBank(bank.address);
-               // const confirm = await userRegistry.getUserStatus(bank.address);
-                //console.log("confirm" + confirm);
+                const confirm = await userRegistry.getUserStatus(bank.address);
+                expect(confirm === 2, "Not a bank");
            })
         })
     })
