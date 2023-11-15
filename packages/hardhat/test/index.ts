@@ -165,7 +165,7 @@ describe("Test Suite", async function () {
             })
         })
         describe("success", async function () {
-            it.only("should be successful in applying for limit", async function () {
+            it("should be successful in applying for limit", async function () {
                 const { bank, stakingLimit } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -187,7 +187,7 @@ describe("Test Suite", async function () {
 
     describe("#stakeForBank", async function () {
         describe("failure", async function() {
-            it("should revert if asset is not added in accepted stablecoin list", async function () {
+            it.only("should revert if asset is not added in accepted stablecoin list", async function () {
                 const { bank, staker, owner, stakingLimit, testUSDT } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -197,16 +197,17 @@ describe("Test Suite", async function () {
     
                 await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);                const currency = "USD";
                 //const currency = "USD";
-                const amount = 100000*(10**18);
-                await stakingLimit.verifyBank(owner.address);
+                const amount = ethers.utils.parseUnits("100000", "ether");
+                await stakingLimit.verifyBank(bank.address);
                 await stakingLimit.connect(bank).applyForLimit("USD", amount);
                 const result = stakingLimit.getBankAppliedLimit(bank.address, currency);                
+                const stakedAmount = ethers.utils.parseUnits("1000", "ether");
                 
                 // Mint test USDT - required to simulate USDT/ stablecoin staking in favour of banks applied limits.
-                await testUSDT.mint(staker.address, stakedAmount + 1000);
+                await testUSDT.mint(staker.address, stakedAmount);
                 
                 // Approve test USDT - required by the StakingLimit contract to transfer tokens
-                let tx = await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount + 1000);
+                let tx = await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount);
                 await expect(stakingLimit.connect(staker).stakeForBank(bank.address, "USD", stakedAmount)).to.be.reverted;
             })
         })
