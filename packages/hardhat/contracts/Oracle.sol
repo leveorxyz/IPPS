@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.17;
+pragma solidity 0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./TokenFactory.sol";
 import "./chainlink/PriceConsumerV3.sol";
 
-contract Oracle is Ownable {
+contract Oracle is Ownable(msg.sender) {
     address contractRegistry;
 
     function initialize(address _contractRegistry) public onlyOwner {

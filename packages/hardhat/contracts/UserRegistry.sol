@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.17;
+pragma solidity 0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -7,7 +7,7 @@ import "./StakingLimit.sol";
 import "./ContractRegistry.sol";
 import "./interfaces/IUserData.sol";
 
-contract UserRegistry is Ownable {
+contract UserRegistry is Ownable(msg.sender) {
     address contractRegistry;
 
     modifier onlyProtocol() {

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.17;
+pragma solidity 0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Token is ERC20, ERC20Burnable, Ownable {
+contract Token is ERC20, ERC20Burnable, Ownable(msg.sender) {
     constructor(
         string memory name_,
         string memory symbol_,
@@ -50,16 +50,6 @@ contract Token is ERC20, ERC20Burnable, Ownable {
     function increaseAllowance(address spender, uint256 addedValue)
         public
         pure
-        override
-        returns (bool)
-    {
-        revert("Token: Operation not allowed");
-    }
-
-    function decreaseAllowance(address spender, uint256 subtractedValue)
-        public
-        pure
-        override
         returns (bool)
     {
         revert("Token: Operation not allowed");

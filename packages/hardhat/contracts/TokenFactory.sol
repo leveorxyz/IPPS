@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.17;
+pragma solidity 0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Token.sol";
 import "./ContractRegistry.sol";
 
-contract TokenFactory is Ownable {
+contract TokenFactory is Ownable(msg.sender) {
     event TokenCreation(string name, string symbol, address token);
     
     address contractRegistry;

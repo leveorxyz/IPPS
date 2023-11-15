@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.17;
+pragma solidity 0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -8,7 +8,7 @@ import "./TokenFactory.sol";
 import "./UserRegistry.sol";
 import "./interfaces/IUserData.sol";
 
-contract StakingLimit is Ownable {
+contract StakingLimit is Ownable(msg.sender) {
     event Registered(
         address indexed bank,
         uint256 indexed time,
