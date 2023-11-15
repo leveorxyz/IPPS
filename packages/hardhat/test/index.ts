@@ -119,7 +119,7 @@ describe("Test Suite", async function () {
 
     describe("#verifyBank", async function () {
         describe("failure", async function () {
-            it("should revert if caller is not an owner", async function () {
+            it.only("should revert if caller is not an owner", async function () {
                 const { bank, otherAccount, stakingLimit } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -133,7 +133,7 @@ describe("Test Suite", async function () {
         })
 
         describe("success", async function () {
-            it.only("should successfully verify bank", async function () {
+            it("should successfully verify bank", async function () {
                 const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");

@@ -145,7 +145,7 @@ contract StakingLimit is Ownable(msg.sender) {
     }
 
     function verifyBank(address bank) external {
-        require(bankInfo[bank].bankName.length > 0, "Invalid bank");
+        require(bankInfo[bank].bankName != bytes32(0), "Invalid bank");
         bankInfo[bank].isVerified = true;
         UserRegistry(ContractRegistry(contractRegistry).USER_REGISTRY()).setUserStatus(bank, IUserData.UserType.BANK);
     }
