@@ -3,8 +3,13 @@ import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect, assert } from "chai";
 import { ethers } from "hardhat";
 import { getBytes32String, getBytesString } from "../lib/utils";
+import { BigNumberish } from "ethers";
 
 describe("Test Suite", async function () {
+
+    function convertBigNumberToInt(bgNum: BigNumberish) {
+        return parseInt(ethers.utils.formatEther(bgNum))
+    }
 
     async function deployAndInitializeContracts() {
 
@@ -179,15 +184,14 @@ describe("Test Suite", async function () {
                 await stakingLimit.connect(bank).verifyBank(bank.address);
                 await stakingLimit.connect(bank).applyForLimit("USD", amount);
                 const result = await stakingLimit.getBankAppliedLimit(bank.address, currency);
-                expect(parseInt(ethers.utils.formatEther(result))).to.equal(parseInt(ethers.utils.formatEther(amount)));
-
+                expect(convertBigNumberToInt(result)).to.equal(convertBigNumberToInt(amount));
             }) 
         })
     })
 
     describe("#stakeForBank", async function () {
         describe("failure", async function() {
-            it.only("should revert if asset is not added in accepted stablecoin list", async function () {
+            it("should revert if asset is not added in accepted stablecoin list", async function () {
                 const { bank, staker, owner, stakingLimit, testUSDT } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -222,20 +226,22 @@ describe("Test Suite", async function () {
     
                 await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);                const currency = "USD";
                 //const currency = "USD";
-                const amount = 100000*(10**18);
-                await stakingLimit.connect(owner).verifyBank(owner.address);
+                const amount = ethers.utils.parseUnits("100000", "ether");
+                await stakingLimit.connect(owner).verifyBank(bank.address);
                 await stakingLimit.connect(bank).applyForLimit("USD", amount);
-                const res = stakingLimit.getBankAppliedLimit(bank.address, currency);                
+                const result = await stakingLimit.getBankAppliedLimit(bank.address, currency);                
+                const stakedAmount = ethers.utils.parseUnits("10000", "ether");
+                const stakedAmount2 = ethers.utils.parseUnits("11000", "ether");
                 
                 // Mint test USDT - required to simulate USDT/ stablecoin staking in favour of banks applied limits.
-                await testUSDT.mint(staker.address, stakedAmount + 1000);
+                await testUSDT.mint(staker.address, stakedAmount2);
                 
                 // Approve test USDT - required by the StakingLimit contract to transfer tokens
-                await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount + 1000);
-                
+                await testUSDT.connect(staker).approve(stakingLimit.address, stakedAmount2);
+                await stakingLimit.addStablecoin("USD", testUSDT.address)
                 let tx = await stakingLimit.connect(staker).stakeForBank(bank.address, "USD", stakedAmount);
-                let result = await tx.wait();
-                expect(result?.args?.staked.amount).to.equal(amount);
+                await tx.wait();
+                expect(convertBigNumberToInt(result)).to.equal(convertBigNumberToInt(amount));
             })
         })
     })
