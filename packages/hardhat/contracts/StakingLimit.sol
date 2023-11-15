@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.20;
+import "hardhat/console.sol";
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -143,8 +144,8 @@ contract StakingLimit is Ownable(msg.sender) {
         bankInfo[msg.sender].url = url;
     }
 
-    function verifyBank(address bank) public {
-        require(bankInfo[bank].bankName.length > 0);
+    function verifyBank(address bank) external {
+        require(bankInfo[bank].bankName.length > 0, "Invalid bank");
         bankInfo[bank].isVerified = true;
         UserRegistry(ContractRegistry(contractRegistry).USER_REGISTRY()).setUserStatus(bank, IUserData.UserType.BANK);
     }

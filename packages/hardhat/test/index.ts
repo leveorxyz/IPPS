@@ -58,20 +58,22 @@ describe("Test Suite", async function () {
         await tx.wait();
         tx = await userRegistry.initialize(contractRegistry.address);
         await tx.wait();
+        tx = await stakingLimit.initialize(contractRegistry.address);
+        await tx.wait();
 
         return { owner, otherAccount, bank, staker, merchant, bankAccountHolder1, bankAccountHolder2, userRegistry, oracle, rewardPool, stakingLimit, exchangeProtocol, tokenFactory, contractRegistry, testUSDT };
     }
 
     describe("#createToken", async function () {
         describe("failure", async function () {
-            it.only("should revert if caller is not an owner", async function () {
+            it("should revert if caller is not an owner", async function () {
                 const { otherAccount , tokenFactory } = await loadFixture(deployAndInitializeContracts);
                 const currency = "USD";
                 await expect(tokenFactory.connect(otherAccount).createToken(currency, "")).to.be.reverted;
             })
         })
         describe("success", async function () {
-            it.only("should create a token from factory", async function() {
+            it("should create a token from factory", async function() {
                 const { owner, tokenFactory } = await loadFixture(deployAndInitializeContracts);
                 const currency1 = "USD";
                 let tx = await tokenFactory.connect(owner).createToken(currency1, "");
@@ -84,7 +86,7 @@ describe("Test Suite", async function () {
 
     describe("#registerBank", async function () {
         describe("success", async function () {
-            it.only("should register a bank", async function() {
+            it("should register a bank", async function() {
                 const { bank, stakingLimit } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -131,7 +133,7 @@ describe("Test Suite", async function () {
         })
 
         describe("success", async function () {
-            it("should successfully verify bank", async function () {
+            it.only("should successfully verify bank", async function () {
                 const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
