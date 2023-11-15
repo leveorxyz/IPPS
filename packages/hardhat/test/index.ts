@@ -64,7 +64,7 @@ describe("Test Suite", async function () {
 
     describe("#createToken", async function () {
         describe("failure", async function () {
-            it("should revert if caller is not an owner", async function () {
+            it.only("should revert if caller is not an owner", async function () {
                 const { otherAccount , tokenFactory } = await loadFixture(deployAndInitializeContracts);
                 const currency = "USD";
                 await expect(tokenFactory.connect(otherAccount).createToken(currency, "")).to.be.reverted;
@@ -210,7 +210,7 @@ describe("Test Suite", async function () {
             })
         })
         describe("success", async function () {
-            it.only("should be able to stake asset that's accepted in the protocol", async function () {
+            it("should be able to stake asset that's accepted in the protocol", async function () {
                 const { bank, staker, owner, stakingLimit, testUSDT } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -223,7 +223,7 @@ describe("Test Suite", async function () {
                 const amount = 100000*(10**18);
                 await stakingLimit.connect(owner).verifyBank(owner.address);
                 await stakingLimit.connect(bank).applyForLimit("USD", amount);
-                const result = stakingLimit.getBankAppliedLimit(bank.address, currency);                
+                const res = stakingLimit.getBankAppliedLimit(bank.address, currency);                
                 
                 // Mint test USDT - required to simulate USDT/ stablecoin staking in favour of banks applied limits.
                 await testUSDT.mint(staker.address, stakedAmount + 1000);
