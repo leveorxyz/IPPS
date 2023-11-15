@@ -119,7 +119,7 @@ describe("Test Suite", async function () {
 
     describe("#verifyBank", async function () {
         describe("failure", async function () {
-            it.only("should revert if caller is not an owner", async function () {
+            it("should revert if caller is not an owner", async function () {
                 const { bank, otherAccount, stakingLimit } = await loadFixture(deployAndInitializeContracts);
                 const bankName = getBytes32String("Dutch Bank");
                 const routingNumber = getBytes32String("29387983883");
@@ -131,7 +131,7 @@ describe("Test Suite", async function () {
         })
 
         describe("success", async function () {
-            it.only("should successfully verify bank", async function () {
+            it("should successfully verify bank", async function () {
                 const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -149,7 +149,7 @@ describe("Test Suite", async function () {
 
     describe("#applyForLimit", async function () {
         describe("failure", async function () {
-            it("should revert if not verified before applying for limit", async function () {
+            it.only("should revert if not verified before applying for limit", async function () {
                 const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -159,9 +159,9 @@ describe("Test Suite", async function () {
     
                 await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);                const currency = "USD";
                 //const currency = "USD";
-                const amount = 100000*(10**18);
+                const amount = ethers.utils.parseUnits("100000", "ether");
                 expect(true);
-                await expect(stakingLimit.connect(bank).applyForLimit("USD", amount+"")).to.be.reverted;
+                await expect(stakingLimit.connect(bank).applyForLimit("USD", amount)).to.be.reverted;
             })
         })
         describe("success", async function () {
