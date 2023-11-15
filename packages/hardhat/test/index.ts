@@ -149,7 +149,7 @@ describe("Test Suite", async function () {
 
     describe("#applyForLimit", async function () {
         describe("failure", async function () {
-            it.only("should revert if not verified before applying for limit", async function () {
+            it("should revert if not verified before applying for limit", async function () {
                 const { bank, owner, stakingLimit, userRegistry } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
@@ -165,8 +165,8 @@ describe("Test Suite", async function () {
             })
         })
         describe("success", async function () {
-            it("should be successful in applying for limit", async function () {
-                const { bank, owner, stakingLimit } = await loadFixture(deployAndInitializeContracts);
+            it.only("should be successful in applying for limit", async function () {
+                const { bank, stakingLimit } = await loadFixture(deployAndInitializeContracts);
 
                 const bankName = getBytes32String("Dutch Bank");
                 const routingNumber = getBytes32String("29387983883");
@@ -175,11 +175,11 @@ describe("Test Suite", async function () {
     
                 await stakingLimit.connect(bank).register(bankName, routingNumber, bankAddress, url);                const currency = "USD";
                 //const currency = "USD";
-                const amount = 100000*(10**18);
-                await stakingLimit.verifyBank(owner.address);
+                const amount = ethers.utils.parseUnits("100000", "ether");
+                await stakingLimit.connect(bank).verifyBank(bank.address);
                 await stakingLimit.connect(bank).applyForLimit("USD", amount);
-                const result = stakingLimit.getBankAppliedLimit(bank.address, currency);
-                expect(result).to.equal(amount);
+                const result = await stakingLimit.getBankAppliedLimit(bank.address, currency);
+                expect(parseInt(ethers.utils.formatEther(result))).to.equal(parseInt(ethers.utils.formatEther(amount)));
 
             }) 
         })
