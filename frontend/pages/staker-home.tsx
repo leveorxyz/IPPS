@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { Container, Flex, Stack, Text, Image } from '@chakra-ui/react';
 
-const BankHome: NextPage = () => {
+const StakerHome: NextPage = () => {
   return (
     <Container maxW="container.xl" py={10}>
       <Flex
@@ -20,13 +20,13 @@ const BankHome: NextPage = () => {
           <Flex gap={5}>
             <Text textTransform="uppercase">User type:</Text>
             <Text color="white" fontWeight="bold">
-              Bank
+              Staker
             </Text>
           </Flex>
           <Flex gap={5}>
             <Text textTransform="uppercase">Status:</Text>
             <Text color="white" fontWeight="bold">
-              Verified
+              Unverified
             </Text>
           </Flex>
         </Stack>
@@ -36,4 +36,4 @@ const BankHome: NextPage = () => {
   );
 };
 
-export default BankHome;
+export default StakerHome;
