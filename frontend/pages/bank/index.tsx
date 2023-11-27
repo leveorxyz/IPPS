@@ -3,7 +3,7 @@ import { Container, SimpleGrid } from '@chakra-ui/react';
 import StakerCard from '../../components/StakerInfo/StakerCard';
 // import Pagination from '../../components/Pagination/Pagination';
 
-const Staker: NextPage = () => {
+const Bank: NextPage = () => {
   return (
     <Container maxW="container.xl" py={10}>
       <SimpleGrid columns={[1, 2, 4]} gap={10}>
@@ -16,4 +16,4 @@ const Staker: NextPage = () => {
   );
 };
 
-export default Staker;
+export default Bank;

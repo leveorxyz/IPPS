@@ -3,7 +3,7 @@ import { Container } from '@chakra-ui/react';
 import Stake from '../components/StakerInfo/Stake';
 import StakeTable from '../components/StakerInfo/StakeTable';
 
-const Bank: NextPage = () => {
+const Staker: NextPage = () => {
   return (
     <Container maxW="container.xl" py={10}>
       <Stake />
@@ -12,4 +12,4 @@ const Bank: NextPage = () => {
   );
 };
 
-export default Bank;
+export default Staker;
