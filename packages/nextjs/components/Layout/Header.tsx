@@ -24,14 +24,38 @@ const Header = () => {
             <HStack gap={7} display={{ base: 'none', md: 'flex' }}>
             {userType === "Bank" && (
               <>
-              <MenuLink link="/" text="home" />
+              <MenuLink link="/bank-home" text="home" />
               <MenuLink link="/enlist" text="apply for enlistment" />
-              <MenuLink link="/bank" text="bank" />
               <MenuLink link="/staker" text="staker info" />
+              </>
+              )
+            }
+            {userType === "Staker" && (
+              <>
+              <MenuLink link="/staker-home" text="home" />
+              <MenuLink link="/bank" text="bank" />
               <MenuLink link="/earnings" text="My earnings" />
               </>
               )
             }
+            {userType === "Merchant" && (
+              <>
+              <MenuLink link="/merchant-home" text="home" />
+              <MenuLink link="/enlist" text="Payment" />
+              <MenuLink link="/merchant-txn-history" text="History" />
+              </>
+              )
+            }
+            {userType === "User" && (
+              <>
+              <MenuLink link="/customer-home" text="home" />
+              <MenuLink link="/bank" text="Exchange" />
+              <MenuLink link="/bank" text="Send Money" />
+              <MenuLink link="/bank" text="Merchant Payment" />
+              </>
+              )
+            }
+
               <ConnectButton label="Connect Wallet" />
             </HStack>
             
