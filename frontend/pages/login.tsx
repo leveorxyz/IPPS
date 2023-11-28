@@ -9,6 +9,7 @@ import {
   FormLabel,
   Input,
   Select,
+  Link,
 } from '@chakra-ui/react';
 
 const Login: NextPage = () => {
@@ -54,9 +55,11 @@ const Login: NextPage = () => {
 
           <Text textTransform="uppercase" textAlign="center" mt="10">
             New here{' '}
+            <Link href="/signup">
             <Button variant="link" textTransform="uppercase" fontSize="sm" color="white">
               Create a customer account
             </Button>
+            </Link>
           </Text>
         </Stack>
       </Flex>
