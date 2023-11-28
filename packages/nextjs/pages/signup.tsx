@@ -11,8 +11,11 @@ import {
   Select,
   Link,
 } from '@chakra-ui/react';
+import { useAccount } from 'wagmi';
 
 const SignUp: NextPage = () => {
+  const { address, isConnected } = useAccount()
+ 
   return (
     <Container maxW="container.xl" py={10}>
       <Flex
@@ -45,8 +48,8 @@ const SignUp: NextPage = () => {
               <option value="bank">Bank</option>
             </Select>
           </FormControl>
-
-          <Text
+          {isConnected ? (
+            <Text
             fontSize="lg"
             color="white"
             fontWeight="bold"
@@ -54,8 +57,14 @@ const SignUp: NextPage = () => {
             textTransform="uppercase"
           >
             Connected address: <br />
-            0xabcd...
+            {address}
           </Text>
+          ) : (
+            <Text fontSize="lg" textAlign="center" color="red">
+            Wallet not connected!
+          </Text>
+          )}
+          
           <Button variant="outline" px="20">
             Verify wallet and sign up
           </Button>

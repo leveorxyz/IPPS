@@ -11,8 +11,11 @@ import {
   Select,
   Link,
 } from '@chakra-ui/react';
+import { useAccount } from 'wagmi';
 
 const Login: NextPage = () => {
+  const { address, isConnected } = useAccount()
+ 
   return (
     <Container maxW="container.xl" py={10}>
       <Flex
@@ -49,9 +52,22 @@ const Login: NextPage = () => {
             Login
           </Button>
 
-          <Text fontSize="lg" textAlign="center" color="red">
+          {isConnected ? (
+            <Text
+            fontSize="lg"
+            color="white"
+            fontWeight="bold"
+            textAlign="center"
+            textTransform="uppercase"
+          >
+            Connected address: <br />
+            {address}
+          </Text>
+          ) : (
+            <Text fontSize="lg" textAlign="center" color="red">
             Wallet not connected!
           </Text>
+          )}
 
           <Text textTransform="uppercase" textAlign="center" mt="10">
             New here{' '}
