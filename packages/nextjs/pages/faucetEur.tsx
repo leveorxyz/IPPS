@@ -12,7 +12,7 @@ const FaucetEUR: NextPage = () => {
     token: externalContracts.TestEURT.address,
   });
 
-  const { data, writeAsync } = useContractWrite({
+  const { data, writeAsync, isLoading: checkWallet } = useContractWrite({
     address: externalContracts.TestEURT.address,
     abi: externalContracts.TestEURT.abi,
     functionName: "mint",
@@ -36,9 +36,11 @@ const FaucetEUR: NextPage = () => {
         <Stack gap={5} minW="400px">
           <Heading>Faucet for Test EURO token</Heading>
           <Box>
+            {checkWallet && <div>Check wallet</div>}
             {isLoading && <div>Transaction processing...</div>}
-
-            {isSuccess && <div className="text-green-700">Transaction successful</div>}
+            {isSuccess && <div className="text-green-700">Transaction successful | 
+            <Link className="underline" target="_blank" href={"https://sepolia.etherscan.io/tx/" + data?.hash}> TX LINK</Link>
+            </div>}
           </Box>
           <Box>{eurtBalance && <Text>Current EURT Balance: {eurtBalance.formatted}</Text>}</Box>
           <Box mx={"auto"}>
