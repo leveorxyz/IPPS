@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { polygonMumbai } from 'wagmi/chains'
+import { sepolia } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public';
 // import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import theme from '../theme';
@@ -13,7 +13,7 @@ import Layout from '../components/Layout/Layout';
 // import { appChains } from "~~/services/web3/wagmiConnectors";
 const projectId = '11_IPFS';
 
-const { chains, publicClient } = configureChains([polygonMumbai], [publicProvider()]);
+const { chains, publicClient } = configureChains([sepolia], [publicProvider()]);
 
 const { connectors } = getDefaultWallets({
   appName: 'IPPS',
