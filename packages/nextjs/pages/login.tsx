@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from "next/router";
 import { SetStateAction, useState } from 'react';
+import { useGlobalState, User } from "~~/services/store/store";
 
 const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/WalletConnectInfo'), {
   ssr: false, 
@@ -22,7 +23,7 @@ const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/
 
 const Login: NextPage = () => {
   const router = useRouter();
-
+  const updateUserType = useGlobalState((state) => state.setUserType)
   const [value, setValue] = useState("customer")
 
   const handleChange = (e: { target: { value: SetStateAction<string>; }; }) => {
@@ -30,6 +31,7 @@ const Login: NextPage = () => {
   }
 
   function login() {
+    updateUserType(value as User)
     router.push(`/${value}-home`)
   }
 

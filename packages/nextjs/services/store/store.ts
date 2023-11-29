@@ -9,16 +9,20 @@ import create from "zustand";
  * Think about it as a global useState.
  */
 
+export type User = "customer" | "staker" | "merchant" | "bank" | "undefined"
+
 type TGlobalState = {
-  userType: "User" | "Staker" | "Merchant" | "Bank" | "Undefined",
-  setUserType: (newVal: "User" | "Staker" | "Merchant" | "Bank") => void;
+  userType: User,
+  setUserType: (newVal: User) => void;
   nativeCurrencyPrice: number;
   setNativeCurrencyPrice: (newNativeCurrencyPriceState: number) => void;
 };
 
 export const useGlobalState = create<TGlobalState>(set => ({
-  userType: "Undefined",
-  setUserType: (newVal: "User" | "Staker" | "Merchant" | "Bank"): void => set(() => ({ userType: newVal })),
+  userType: "undefined",
+  setUserType: (newVal: User): void => set(() => ({ userType: newVal })),
   nativeCurrencyPrice: 0,
   setNativeCurrencyPrice: (newValue: number): void => set(() => ({ nativeCurrencyPrice: newValue })),
 }));
+
+

@@ -22,7 +22,7 @@ const Header = () => {
             </Link>
             
             <HStack gap={7} display={{ base: 'none', md: 'flex' }}>
-            {userType === "Bank" && (
+            {userType === "bank" && (
               <>
               <MenuLink link="/bank-home" text="home" />
               <MenuLink link="/enlist" text="apply for enlistment" />
@@ -30,7 +30,7 @@ const Header = () => {
               </>
               )
             }
-            {userType === "Staker" && (
+            {userType === "staker" && (
               <>
               <MenuLink link="/staker-home" text="home" />
               <MenuLink link="/bank" text="bank" />
@@ -38,7 +38,7 @@ const Header = () => {
               </>
               )
             }
-            {userType === "Merchant" && (
+            {userType === "merchant" && (
               <>
               <MenuLink link="/merchant-home" text="home" />
               <MenuLink link="/enlist" text="Payment" />
@@ -46,7 +46,7 @@ const Header = () => {
               </>
               )
             }
-            {userType === "User" && (
+            {userType === "customer" && (
               <>
               <MenuLink link="/customer-home" text="home" />
               <MenuLink link="/bank" text="Exchange" />
