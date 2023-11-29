@@ -1,12 +1,16 @@
 import type { NextPage } from 'next';
 import { Box, Container, Flex, Stack, Text, Image, Heading, Divider } from '@chakra-ui/react';
+import { useAccount, useBalance } from 'wagmi';
+import { useEffect } from 'react';
 
 interface Props {
   tokenName: string;
-  balance: number;
+  balance: any;
 }
 
 export const TokenCard = ({ tokenName, balance }: Props) => {
+  console.log({balance});
+  
   return (
     <Box
       minW="400px"
@@ -27,7 +31,7 @@ export const TokenCard = ({ tokenName, balance }: Props) => {
           Balance:
         </Text>
         <Text color="white" fontWeight="bold" ml="5">
-          {balance} $
+          {balance} 
         </Text>
       </Flex>
     </Box>
@@ -71,6 +75,16 @@ export const TransactionCard = ({ from, to, amount, date }: TxnProps) => {
 };
 
 const CustomerHome: NextPage = () => {
+  const { address } = useAccount();
+  const { data, isError } = useBalance({
+    address: address
+  })
+
+  useEffect(() => {
+    console.log({data});
+    
+  }, [data])
+
   return (
     <Container maxW="container.xl" py={10}>
       <Flex
@@ -102,7 +116,7 @@ const CustomerHome: NextPage = () => {
 
           <Stack gap={5} mt="5" fontSize="md">
             <TokenCard tokenName="USDT" balance={1000} />
-            <TokenCard tokenName="Ether" balance={100} />
+            {data && <TokenCard tokenName={data.symbol} balance={data.formatted} />}
           </Stack>
         </Box>
         <Box>
