@@ -13,10 +13,34 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
+import { useState } from "react";
 
 import { MdOutlineMoney } from "react-icons/md";
+import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
+import externalContracts from "~~/contracts/externalContracts";
 
 const Exchange = () => {
+  const { address } = useAccount();
+  const [fromCurrency, setFromCurrency] = useState("");
+  const [toCurrency, setToCurrency] = useState("");
+
+ 
+  const { data, writeAsync, isLoading: checkWallet } = useContractWrite({
+    address: externalContracts.ExchangeProtocol.address,
+    abi: externalContracts.ExchangeProtocol.abi,
+    functionName: "transferToken",
+  });
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
+  async function exchange() {
+    await writeAsync({
+      args: [address],
+    });
+  }
+
   return (
     <Container maxW="container.xl" py={10}>
       <Flex mb={7}>
