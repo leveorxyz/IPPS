@@ -13,7 +13,10 @@ import {
   Select,
   Link,
 } from '@chakra-ui/react';
-import WalletConnectInfo from "../components/WalletConnectInfo/WalletConnectInfo";
+
+const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/WalletConnectInfo'), {
+  ssr: false, 
+});
 
 const Login: NextPage = () => {
 
@@ -54,7 +57,7 @@ const Login: NextPage = () => {
           </Button>
 
           <WalletConnectInfo/>
-          
+
           <Text textTransform="uppercase" textAlign="center" mt="10">
             New here{' '}
             <Link href="/signup">

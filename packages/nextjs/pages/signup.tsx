@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import type { NextPage } from 'next';
 import {
   Container,
@@ -11,13 +12,12 @@ import {
   Select,
   Link,
 } from '@chakra-ui/react';
-import { useAccount } from 'wagmi';
-import WalletConnectInfo from "../components/WalletConnectInfo/WalletConnectInfo";
 
+const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/WalletConnectInfo'), {
+  ssr: false, 
+});
 
 const SignUp: NextPage = () => {
-  const { address, isConnected } = useAccount()
- 
   return (
     <Container maxW="container.xl" py={10}>
       <Flex
