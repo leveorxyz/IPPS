@@ -32,7 +32,7 @@ const SignUp: NextPage = () => {
 
   const [value, setValue] = useState("customer");
 
-  const { data, writeAsync } = useContractWrite({
+  const { data, writeAsync, isLoading: checkWallet } = useContractWrite({
     address: externalContracts.UserRegistry.address,
     abi: externalContracts.UserRegistry.abi,
     functionName: "setUserStatus",
@@ -105,6 +105,8 @@ const SignUp: NextPage = () => {
           <Button disabled={!writeAsync} variant="outline" px="20" onClick={signUp}>
             Verify wallet and sign up
           </Button>
+          {checkWallet && <div>Check wallet</div>}
+          
           {isLoading && <div>Transaction processing...</div>}
 
           {isSuccess && <div className="text-green-700">Transaction Submission successful</div>}
