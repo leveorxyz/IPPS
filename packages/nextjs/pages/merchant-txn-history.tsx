@@ -2,10 +2,10 @@ import type { NextPage } from 'next';
 import { Container, Stack, Heading } from '@chakra-ui/react';
 import { TransactionCard } from './customer-home';
 
-interface Props {
-  tokenName: string;
-  balance: number;
-}
+// interface Props {
+//   tokenName: string;
+//   balance: number;
+// }
 
 const MerchantTxnHistory: NextPage = () => {
   return (

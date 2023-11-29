@@ -10,13 +10,10 @@ import {
   InputLeftElement,
   Input,
   InputGroup,
-  AbsoluteCenter,
   Button,
-  Center,
-  Stack,
   Box,
 } from "@chakra-ui/react";
-import { errors } from "ethers";
+
 import { MdOutlineMoney } from "react-icons/md";
 
 const Exchange = () => {

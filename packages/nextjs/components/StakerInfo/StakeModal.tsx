@@ -13,10 +13,10 @@ import {
   InputLeftElement,
   InputGroup,
   useBoolean,
-  useToast,
+  // useToast,
 } from '@chakra-ui/react';
 import { MdOutlineMoney } from 'react-icons/md';
-import { useDemoContract } from '../../hooks';
+// import { useDemoContract } from '../../hooks';
 
 interface IProps {
   isOpen: boolean;
@@ -25,24 +25,24 @@ interface IProps {
 
 const StakeModal = ({ isOpen, onClose }: IProps) => {
   const [loading, setLoading] = useBoolean();
-  const toast = useToast();
-  const stakingLimitContract = useDemoContract();
+  // const toast = useToast();
+  // const stakingLimitContract = useDemoContract();
 
   const onStake = async () => {
     setLoading.on();
 
-    stakingLimitContract?.functions
-      .transfer()
-      .then((res) => {
-        toast({ status: 'success', description: 'Staked successfully!' });
-        onClose();
-      })
-      .catch((err) => {
-        toast({ status: 'error', description: err?.reason || err?.message });
-      })
-      .finally(() => {
-        setLoading.off();
-      });
+    // stakingLimitContract?.functions
+    //   .transfer()
+    //   .then((res) => {
+    //     toast({ status: 'success', description: 'Staked successfully!' });
+    //     onClose();
+    //   })
+    //   .catch((err) => {
+    //     toast({ status: 'error', description: err?.reason || err?.message });
+    //   })
+    //   .finally(() => {
+    //     setLoading.off();
+    //   });
   };
 
   return (

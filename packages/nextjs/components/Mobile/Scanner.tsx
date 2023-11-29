@@ -29,19 +29,19 @@ const Scanner = () => {
   useEffect(() => {
     if (result) {
       try {
-        stakingLimitContract?.functions
-          .transfer()
-          .then((res) => {
-            toast({ status: 'success', description: 'Success!' });
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
-            ref.current?.stopCamera();
-            setScan.off();
-            setResult('');
-          });
+        // stakingLimitContract?.functions
+        //   .transfer()
+        //   .then((res) => {
+        //     toast({ status: 'success', description: 'Success!' });
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   })
+        //   .finally(() => {
+        //     ref.current?.stopCamera();
+        //     setScan.off();
+        //     setResult('');
+        //   });
       } catch (error) {
         console.log(error);
       }

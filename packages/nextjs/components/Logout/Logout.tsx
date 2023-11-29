@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useGlobalState, User } from "~~/services/store/store";
+import { useGlobalState } from "~~/services/store/store";
 
 const LogoutButton = () => {
   const router = useRouter()

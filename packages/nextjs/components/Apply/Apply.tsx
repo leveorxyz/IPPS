@@ -14,13 +14,13 @@ import {
   Button,
   Icon,
   useBoolean,
-  useToast,
+  // useToast,
 } from '@chakra-ui/react';
 import { MdArticle, MdDialpad, MdFilePresent, MdAddAPhoto } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
 import { Web3Storage } from 'web3.storage';
-import { useStakingLimitContract } from '../../hooks';
-import { utils } from 'ethers';
+// import { useStakingLimitContract } from '../../hooks';
+// import { utils } from 'ethers';
 
 interface RegisterData {
   currency: string;
@@ -36,37 +36,38 @@ const Apply = () => {
   const {
     register,
     handleSubmit,
-    reset,
+    // reset,
     formState: { errors },
   } = useForm<RegisterData>();
   const [isLoading, setIsLoading] = useBoolean();
-  const stakingLimitContract = useStakingLimitContract();
-  const toast = useToast();
+  // const stakingLimitContract = useStakingLimitContract();
+  // const toast = useToast();
 
   const handleFormSubmit = async (data: RegisterData) => {
     setIsLoading.on();
-
-    const client = new Web3Storage({ token: process.env.NEXT_PUBLIC_WEB3_STORAGE_KEY as string });
-    const cid = await client.put([data.attachment[0]]);
+    console.log(data);
+    
+    // const client = new Web3Storage({ token: process.env.NEXT_PUBLIC_WEB3_STORAGE_KEY as string });
+    // const cid = await client.put([data.attachment[0]]); 
 
     // https://bafybeighcjsg5meaxkrtfzhzjvf2rw4bzfrrky6clbuz6ufbmpfrc67y5q.ipfs.w3s.link/
-    stakingLimitContract?.functions
-      .register(
-        utils.formatBytes32String(data.bankName),
-        utils.formatBytes32String(data.routingNumber),
-        utils.toUtf8Bytes(data.bankAddress),
-        utils.toUtf8Bytes(cid)
-      )
-      .then((res) => {
-        reset();
-        toast({ status: 'success', description: 'Applied successfully!' });
-      })
-      .catch((err) => {
-        toast({ status: 'error', description: err?.reason || err?.message });
-      })
-      .finally(() => {
-        setIsLoading.off();
-      });
+    // stakingLimitContract?.functions
+    //   .register(
+    //     utils.formatBytes32String(data.bankName),
+    //     utils.formatBytes32String(data.routingNumber),
+    //     utils.toUtf8Bytes(data.bankAddress),
+    //     utils.toUtf8Bytes(cid)
+    //   )
+    //   .then((res) => {
+    //     reset();
+    //     toast({ status: 'success', description: 'Applied successfully!' });
+    //   })
+    //   .catch((err) => {
+    //     toast({ status: 'error', description: err?.reason || err?.message });
+    //   })
+    //   .finally(() => {
+    //     setIsLoading.off();
+    //   });
   };
 
   return (
