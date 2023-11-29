@@ -23,7 +23,7 @@ const externalContracts = {
         abi: userRegistry.abi
     },
     TestEURT: {
-        address: "0xf31272C86F0e55C5746a570DbF27B8B4DBa6075f",
+        address: "0x784339d5aeAC94F9ef5F490CE506d01167a5BC7F",
         abi: erc20ABI
     },
     StakingLimit: {

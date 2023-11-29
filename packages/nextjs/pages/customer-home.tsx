@@ -9,7 +9,6 @@ interface Props {
 }
 
 export const TokenCard = ({ tokenName, balance }: Props) => {
-  console.log({balance});
   
   return (
     <Box

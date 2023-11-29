@@ -1,7 +1,15 @@
 import type { NextPage } from 'next';
 import { Box, Button, Container, Flex, FormControl, FormLabel, Heading, Input, Select, Stack, Text } from '@chakra-ui/react';
+import externalContracts from '~~/contracts/externalContracts';
+import { useAccount, useBalance } from 'wagmi';
 
 const FaucetEUR: NextPage = () => {
+  const { address } = useAccount();
+
+  const { data: eurtBalance } = useBalance({
+        address: address,
+        token: externalContracts.TestEURT.address
+      })
   return (
     <Container maxW="container.xl" py={10}>
       <Flex fontSize="lg" direction={{ base: "column", md: "row" }} gap={10} justifyContent="center" w="full">
@@ -12,7 +20,7 @@ const FaucetEUR: NextPage = () => {
             <Input type="number" placeholder="Enter amount" />
           </FormControl>
           <Box>
-            <Text>Current EURT Balance: 10 USD</Text>
+          {eurtBalance &&  <Text>Current EURT Balance: {eurtBalance.formatted}</Text>}
           </Box>
           <Box mx={"auto"}>
             <Button variant="outline" px="20">
