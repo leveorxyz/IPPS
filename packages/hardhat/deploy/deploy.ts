@@ -1,5 +1,5 @@
 import { ethers } from "hardhat";
-import { ContractRegistry, TokenFactory, ExchangeProtocol, StakingLimit, RewardPool, Oracle, UserRegistry, TestUSDT } from "../typechain-types";
+import { ContractRegistry, TokenFactory, ExchangeProtocol, StakingLimit, RewardPool, Oracle, UserRegistry, TestUSDT, TestEURT } from "../typechain-types";
 
 async function main() {
 
@@ -33,9 +33,13 @@ async function main() {
 
   // Deploy test USDT contract - this will be used to simulate stablecoin USDT for testnet
 
-  const TestUSDT = await ethers.getContractFactory("TestUSDT");
-  const testUSDT: TestUSDT = await TestUSDT.deploy();
-  console.log(`TestUSDT deployed to ${testUSDT.address}`);
+  // const TestUSDT = await ethers.getContractFactory("TestUSDT");
+  // const testUSDT: TestUSDT = await TestUSDT.deploy();
+  // console.log(`TestUSDT deployed to ${testUSDT.address}`);
+
+  const TestEURT = await ethers.getContractFactory("TestEURT");
+  const testEURT: TestUSDT = await TestEURT.deploy();
+  console.log(`TestUSDT deployed to ${testEURT.address}`);
 
   await contractRegistry.setExchangeProtocol(exchangeProtocol.address);
   await contractRegistry.setOracle(oracle.address);
