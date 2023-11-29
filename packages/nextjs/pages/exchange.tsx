@@ -68,7 +68,7 @@ const Exchange = () => {
       </Flex>
 
       <Flex justifyContent="center" mt={9}>
-        <Button>Exchange</Button>
+        <Button variant="outline">Exchange</Button>
       </Flex>
     </Container>
   );

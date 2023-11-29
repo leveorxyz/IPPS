@@ -87,7 +87,7 @@ const Scanner = () => {
             alignItems="center"
           >
             <Text fontSize="2xl" fontWeight="bold" textAlign="center">
-              45.65 <br /> USDT
+              Scan to <br /> Pay
             </Text>
           </Flex>
 

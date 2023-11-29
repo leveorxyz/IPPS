@@ -1,13 +1,15 @@
-import { Container, Flex, Heading, Text } from "@chakra-ui/react"
+import { Container, Heading, Stack, Text } from "@chakra-ui/react"
+import Scanner from "~~/components/Mobile/Scanner";
 
 const CustomerMerchPay = () => {
     return (
         <Container maxW="container.xl" py={10}>
-            <Flex>
+            <Stack>
                 <Heading>
                     Merchant Payment 
                 </Heading>
-            </Flex>
+                <Scanner/>
+            </Stack>
         </Container>
     )
 }
