@@ -12,6 +12,8 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
+import WalletConnectInfo from "../components/WalletConnectInfo/WalletConnectInfo";
+
 
 const SignUp: NextPage = () => {
   const { address, isConnected } = useAccount()
@@ -48,22 +50,7 @@ const SignUp: NextPage = () => {
               <option value="bank">Bank</option>
             </Select>
           </FormControl>
-          {isConnected ? (
-            <Text
-            fontSize="lg"
-            color="white"
-            fontWeight="bold"
-            textAlign="center"
-            textTransform="uppercase"
-          >
-            Connected address: <br />
-            {address}
-          </Text>
-          ) : (
-            <Text fontSize="lg" textAlign="center" color="red">
-            Wallet not connected!
-          </Text>
-          )}
+          <WalletConnectInfo/>
           
           <Button variant="outline" px="20">
             Verify wallet and sign up

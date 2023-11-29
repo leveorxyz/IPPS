@@ -1,4 +1,6 @@
 import type { NextPage } from 'next';
+import dynamic from 'next/dynamic'
+
 import {
   Container,
   Flex,
@@ -11,11 +13,10 @@ import {
   Select,
   Link,
 } from '@chakra-ui/react';
-import { useAccount } from 'wagmi';
+import WalletConnectInfo from "../components/WalletConnectInfo/WalletConnectInfo";
 
 const Login: NextPage = () => {
-  const { address, isConnected } = useAccount()
- 
+
   return (
     <Container maxW="container.xl" py={10}>
       <Flex
@@ -52,23 +53,8 @@ const Login: NextPage = () => {
             Login
           </Button>
 
-          {isConnected ? (
-            <Text
-            fontSize="lg"
-            color="white"
-            fontWeight="bold"
-            textAlign="center"
-            textTransform="uppercase"
-          >
-            Connected address: <br />
-            {address}
-          </Text>
-          ) : (
-            <Text fontSize="lg" textAlign="center" color="red">
-            Wallet not connected!
-          </Text>
-          )}
-
+          <WalletConnectInfo/>
+          
           <Text textTransform="uppercase" textAlign="center" mt="10">
             New here{' '}
             <Link href="/signup">
