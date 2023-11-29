@@ -19,6 +19,8 @@ import { MdOutlineMoney } from "react-icons/md";
 import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import externalContracts from "~~/contracts/externalContracts";
 
+type Currency = "USD" | "EURO";
+
 const Exchange = () => {
   const { address } = useAccount();
   const [fromCurrency, setFromCurrency] = useState("");
@@ -51,9 +53,16 @@ const Exchange = () => {
     setAmount(e.target.value);
   };
 
+  const getCurrencyAddress = (currency: Currency) => {
+    if(currency === "USD") return externalContracts.USDT.address
+    else{
+      return externalContracts.TestEURT.address
+    }
+  }
+
   async function exchange() {
     await writeAsync({
-      args: [address],
+      args: [getCurrencyAddress(fromCurrency as Currency), getCurrencyAddress(toCurrency as Currency), ],
     });
   }
 
