@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { Box, Container, Flex, Stack, Text, Image, Heading, Divider } from '@chakra-ui/react';
 import { useAccount, useBalance } from 'wagmi';
-import { useEffect } from 'react';
+import externalContracts from '~~/contracts/externalContracts';
 
 interface Props {
   tokenName: string;
@@ -76,14 +76,19 @@ export const TransactionCard = ({ from, to, amount, date }: TxnProps) => {
 
 const CustomerHome: NextPage = () => {
   const { address } = useAccount();
-  const { data, isError } = useBalance({
+  const { data: ethBalanceData } = useBalance({
     address: address
   })
 
-  useEffect(() => {
-    console.log({data});
-    
-  }, [data])
+  const { data: usdtBalance } = useBalance({
+    address: address,
+    token: externalContracts.USDT.address
+  })
+
+  const { data: eurtBalance } = useBalance({
+    address: address,
+    token: externalContracts.TestEURT.address
+  })
 
   return (
     <Container maxW="container.xl" py={10}>
@@ -115,8 +120,9 @@ const CustomerHome: NextPage = () => {
           </Heading>
 
           <Stack gap={5} mt="5" fontSize="md">
-            <TokenCard tokenName="USDT" balance={1000} />
-            {data && <TokenCard tokenName={data.symbol} balance={data.formatted} />}
+            {ethBalanceData && <TokenCard tokenName={ethBalanceData.symbol} balance={ethBalanceData.formatted} />}
+            {usdtBalance && <TokenCard tokenName={usdtBalance.symbol} balance={usdtBalance.formatted} />}
+            {eurtBalance && <TokenCard tokenName={"EURT"} balance={eurtBalance.formatted} />}
           </Stack>
         </Box>
         <Box>
