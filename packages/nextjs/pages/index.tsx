@@ -25,9 +25,9 @@ const Home: NextPage = () => {
         <Link href="/signup">
           <Button
             variant="outline"
-            borderColor="blue"
-            size="sm"
-            textColor="teal"
+            borderColor="#4274C4"
+            size="lg"
+            textColor="#B0FF93"
           >
             Sign Up
           </Button>
@@ -39,9 +39,9 @@ const Home: NextPage = () => {
         <Link href="/login">
           <Button
             variant="outline"
-            borderColor="blue"
-            size="sm"
-            textColor="teal"
+            borderColor="#4274C4"
+            size="lg"
+            textColor="#B0FF93"
           >
             Log In
           </Button>
