@@ -1,16 +1,17 @@
 node_modules
 .env
-.env.local
-.deps
 coverage
 coverage.json
 typechain
 typechain-types
-.DS_Store
+temp
 
 #Hardhat files
 cache
 artifacts
 
+#zkSync files
+artifacts-zk
+cache-zk
 
-.next
+deployments
