@@ -28,9 +28,7 @@ const Footer = () => {
           <Box gridColumn={['1 span', '2 span']}>
             <Logo fontSize="30px" />
             <Text mt={5}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores deleniti, minus
-              quaerat voluptas quo tempore facilis commodi, officia accusantium odio optio velit,
-              architecto totam ad nobis tempora! Impedit, sed eos.
+            IPPS is the frictionless, zero intermediary, and no bullshit all-in-one payment solution that you and your business need.
             </Text>
           </Box>
           <Box>
@@ -52,7 +50,7 @@ const Footer = () => {
           <Box>
             <VStack align="flex-start" gap="20px">
               <Heading size="md">Contact</Heading>
-              <a href="#!">+1 339-707-5370</a>
+              <a href="#!">+880 13 09 0009 47</a>
               <a href="mailto:contact@leveor.xyz">contact@leveor.xyz</a>
             </VStack>
           </Box>
