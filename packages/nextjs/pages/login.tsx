@@ -62,7 +62,7 @@ const Login: NextPage = () => {
             New here{' '}
             <Link href="/signup">
             <Button variant="link" textTransform="uppercase" fontSize="sm" color="white">
-              Create a customer account
+              Create a account
             </Button>
             </Link>
           </Text>
