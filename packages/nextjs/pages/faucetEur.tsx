@@ -1,29 +1,48 @@
-import type { NextPage } from 'next';
-import { Box, Button, Container, Flex, FormControl, FormLabel, Heading, Input, Select, Stack, Text } from '@chakra-ui/react';
-import externalContracts from '~~/contracts/externalContracts';
-import { useAccount, useBalance } from 'wagmi';
+import type { NextPage } from "next";
+import { Box, Button, Container, Flex, Heading, Stack, Text, Link } from "@chakra-ui/react";
+import externalContracts from "~~/contracts/externalContracts";
+import { useAccount, useBalance, useContractWrite, useWaitForTransaction } from "wagmi";
+import { utils } from "ethers";
 
 const FaucetEUR: NextPage = () => {
   const { address } = useAccount();
 
-  const { data: eurtBalance } = useBalance({
-        address: address,
-        token: externalContracts.TestEURT.address
-      })
+  const { data: eurtBalance, refetch } = useBalance({
+    address: address,
+    token: externalContracts.TestEURT.address,
+  });
+
+  const { data, writeAsync } = useContractWrite({
+    address: externalContracts.TestEURT.address,
+    abi: externalContracts.TestEURT.abi,
+    functionName: "mint",
+    args: [address, utils.parseEther("10")],
+  });
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+    onSuccess() {
+      refetch();
+    },
+  });
+
+  async function mintEURT() {
+    await writeAsync();
+  }
+
   return (
     <Container maxW="container.xl" py={10}>
       <Flex fontSize="lg" direction={{ base: "column", md: "row" }} gap={10} justifyContent="center" w="full">
         <Stack gap={5} minW="400px">
           <Heading>Faucet for Test EURO token</Heading>
-          <FormControl>
-            <FormLabel>Amount</FormLabel>
-            <Input type="number" placeholder="Enter amount" />
-          </FormControl>
           <Box>
-          {eurtBalance &&  <Text>Current EURT Balance: {eurtBalance.formatted}</Text>}
+            {isLoading && <div>Transaction processing...</div>}
+
+            {isSuccess && <div className="text-green-700">Transaction successful</div>}
           </Box>
+          <Box>{eurtBalance && <Text>Current EURT Balance: {eurtBalance.formatted}</Text>}</Box>
           <Box mx={"auto"}>
-            <Button variant="outline" px="20">
+            <Button variant="outline" px="20" onClick={mintEURT}>
               Mint 10 EURT
             </Button>
           </Box>
