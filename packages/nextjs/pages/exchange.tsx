@@ -55,27 +55,20 @@ const Exchange = () => {
         <Box m={"auto"}>
           <FormControl>
             <FormLabel>Amount</FormLabel>
-          
+
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <MdOutlineMoney color="gray.300" />
               </InputLeftElement>
-             
-              <Input type="number" placeholder="Enter amount" width={"47em"} required />
-              
-            </InputGroup>
-   
 
+              <Input type="number" placeholder="Enter amount" width={"47em"} required />
+            </InputGroup>
           </FormControl>
-          </Box>
+        </Box>
       </Flex>
 
       <Flex justifyContent="center" mt={9}>
-
-        <Button>
-            Exchange
-        </Button>
-
+        <Button>Exchange</Button>
       </Flex>
     </Container>
   );
