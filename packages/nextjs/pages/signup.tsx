@@ -40,34 +40,43 @@ const SignUp: NextPage = () => {
 
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
-  })
+  });
+
+  const sleep = (ms: number | undefined) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
 
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
     setValue(e.target.value);
   };
 
   useEffect(() => {
-    if(isSuccess){
-    toast({
-      render: () => (
-        <Box color="white" p={3} bg="blue.500">
-          <Link className="underline" target="_blank" href={"https://sepolia.etherscan.io/tx/" + data?.hash}>
-            Tx Link
-          </Link>
-        </Box>
-      ),
-      status: "success",
-      duration: 10000,
-      isClosable: true,
-    });
-  }
+    if (isSuccess) {
+      toast({
+        render: () => (
+          <Box color="white" p={3} bg="blue.500">
+            <Link className="underline" target="_blank" href={"https://sepolia.etherscan.io/tx/" + data?.hash}>
+              Tx Link
+            </Link>
+          </Box>
+        ),
+        status: "success",
+        duration: 10000,
+        isClosable: true,
+      });
+      const redirect = async () => {
+        await sleep(7000);
+        router.push("/login");
+      };
+
+      redirect().catch(console.error);
+    }
   }, [isSuccess]);
 
   async function signUp() {
     await writeAsync({
       args: [address, userType(value)],
     });
-    // router.push("/login")
   }
 
   return (
@@ -96,14 +105,9 @@ const SignUp: NextPage = () => {
           <Button disabled={!writeAsync} variant="outline" px="20" onClick={signUp}>
             Verify wallet and sign up
           </Button>
-          {isLoading && <div>Check Wallet</div>}
+          {isLoading && <div>Transaction processing...</div>}
 
-          {isSuccess && (
-            <div className="text-green-700">
-              Transaction Submission successful
-             
-            </div>
-          )}
+          {isSuccess && <div className="text-green-700">Transaction Submission successful</div>}
 
           <Text textTransform="uppercase" textAlign="center" mt="10">
             Already have an account?{" "}
