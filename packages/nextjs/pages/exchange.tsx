@@ -23,6 +23,7 @@ const Exchange = () => {
   const { address } = useAccount();
   const [fromCurrency, setFromCurrency] = useState("");
   const [toCurrency, setToCurrency] = useState("");
+  const [amount, setAmount] = useState("");
 
   const {
     data,
@@ -44,6 +45,10 @@ const Exchange = () => {
 
   const handleToCurrencyChange = (e: { target: { value: SetStateAction<string> } }) => {
     setToCurrency(e.target.value);
+  };
+
+  const handleAmountChange = (e: { target: { value: SetStateAction<string> } }) => {
+    setAmount(e.target.value);
   };
 
   async function exchange() {
@@ -93,7 +98,7 @@ const Exchange = () => {
                 <MdOutlineMoney color="gray.300" />
               </InputLeftElement>
 
-              <Input type="number" placeholder="Enter amount" width={"47em"} required />
+              <Input onChange={handleAmountChange} type="number" placeholder="Enter amount" width={"47em"} required />
             </InputGroup>
           </FormControl>
         </Box>
