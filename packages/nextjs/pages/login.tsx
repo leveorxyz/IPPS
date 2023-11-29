@@ -43,10 +43,11 @@ const Login: NextPage = () => {
     abi: externalContracts.UserRegistry.abi,
     functionName: 'getUserStatus',
     args: [address]
-
   })
 
-  
+  const sleep = (ms: number | undefined) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
 
   async function login() {
     if(data !== userType(value)){
@@ -72,10 +73,12 @@ const Login: NextPage = () => {
         duration: 10000,
         isClosable: true,
       });
+      await sleep(5000);
+      updateUserType(value as User)
+      router.push(`/${value}-home`)
     }
     
-    // updateUserType(value as User)
-    // router.push(`/${value}-home`)
+    
   }
 
   return (
