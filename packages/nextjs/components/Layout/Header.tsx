@@ -9,6 +9,7 @@ import MenuLink from '../MenuLink/MenuLink';
 import { useGlobalState } from '~~/services/store/store';
 
 const Header = () => {
+  
   const [drawerOpen, setDrawerOpen] = useBoolean(false);
   const userType = useGlobalState(state => state.userType);
   
