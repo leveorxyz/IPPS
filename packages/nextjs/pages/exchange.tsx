@@ -13,7 +13,7 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 
 import { MdOutlineMoney } from "react-icons/md";
 import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
@@ -24,8 +24,11 @@ const Exchange = () => {
   const [fromCurrency, setFromCurrency] = useState("");
   const [toCurrency, setToCurrency] = useState("");
 
- 
-  const { data, writeAsync, isLoading: checkWallet } = useContractWrite({
+  const {
+    data,
+    writeAsync,
+    isLoading: checkWallet,
+  } = useContractWrite({
     address: externalContracts.ExchangeProtocol.address,
     abi: externalContracts.ExchangeProtocol.abi,
     functionName: "transferToken",
@@ -34,6 +37,14 @@ const Exchange = () => {
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
   });
+
+  const handleFromCurrencyChange = (e: { target: { value: SetStateAction<string> } }) => {
+    setFromCurrency(e.target.value);
+  };
+
+  const handleToCurrencyChange = (e: { target: { value: SetStateAction<string> } }) => {
+    setToCurrency(e.target.value);
+  };
 
   async function exchange() {
     await writeAsync({
@@ -49,7 +60,7 @@ const Exchange = () => {
       <Flex gap={4}>
         <FormControl>
           <FormLabel>From Currency</FormLabel>
-          <Select placeholder="Choose Currency">
+          <Select onChange={handleFromCurrencyChange} placeholder="Choose Currency" >
             <option value="USD">USD</option>
             <option value="EURO">EURO</option>
           </Select>
@@ -57,7 +68,7 @@ const Exchange = () => {
         <Image src="./rightArrow.png" alt="" />
         <FormControl>
           <FormLabel>To Currency</FormLabel>
-          <Select placeholder="Choose Currency">
+          <Select onChange={handleFromCurrencyChange} placeholder="Choose Currency" >
             <option value="USD">USD</option>
             <option value="EURO">EURO</option>
           </Select>
