@@ -12,12 +12,20 @@ import {
   Select,
   Link,
 } from '@chakra-ui/react';
+import { useRouter } from "next/router";
+
 
 const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/WalletConnectInfo'), {
   ssr: false, 
 });
 
 const SignUp: NextPage = () => {
+  const router = useRouter();
+
+  function signUp() {
+    router.push("/login")
+  }
+
   return (
     <Container maxW="container.xl" py={10}>
       <Flex
@@ -52,7 +60,7 @@ const SignUp: NextPage = () => {
           </FormControl>
           <WalletConnectInfo/>
           
-          <Button variant="outline" px="20">
+          <Button variant="outline" px="20" onClick={signUp}>
             Verify wallet and sign up
           </Button>
 
