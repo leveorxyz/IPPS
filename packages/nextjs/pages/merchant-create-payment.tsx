@@ -11,6 +11,7 @@ import {
   Input,
   Box,
 } from '@chakra-ui/react';
+import Link from "next/link";
 
 const MerchantCreatePayment: NextPage = () => {
   return (
@@ -26,8 +27,8 @@ const MerchantCreatePayment: NextPage = () => {
           <FormControl>
             <FormLabel>Pay currency</FormLabel>
             <Select>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
+              <option value="option1">USDT</option>
+              <option value="option2">USD</option>
             </Select>
           </FormControl>
           <FormControl>
@@ -39,9 +40,11 @@ const MerchantCreatePayment: NextPage = () => {
             <Text>Current Balance: 10 USD</Text>
             <Text>Third party fee amount: 0.01 USD</Text>
           </Box>
+          <Link href="/merchant-payment-qr">
           <Button variant="outline" px="20">
             Create payment link
           </Button>
+          </Link>
         </Stack>
       </Flex>
     </Container>

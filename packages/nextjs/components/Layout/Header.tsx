@@ -43,7 +43,7 @@ const Header = () => {
             {userType === "merchant" && (
               <>
               <MenuLink link="/merchant-home" text="home" />
-              <MenuLink link="/enlist" text="Payment" />
+              <MenuLink link="/merchant-create-payment" text="Payment" />
               <MenuLink link="/merchant-txn-history" text="History" />
               <Logout/>
               </>
