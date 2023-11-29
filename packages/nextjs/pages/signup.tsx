@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 
 import externalContracts from "~~/contracts/externalContracts";
 import { SetStateAction, useEffect, useState } from "react";
-import { useAccount, useContractWrite } from "wagmi";
+import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { userType } from "~~/types/usertype";
 
 const WalletConnectInfo = dynamic(() => import("../components/WalletConnectInfo/WalletConnectInfo"), {
@@ -32,11 +32,15 @@ const SignUp: NextPage = () => {
 
   const [value, setValue] = useState("customer");
 
-  const { data, isLoading, isSuccess, writeAsync } = useContractWrite({
+  const { data, writeAsync } = useContractWrite({
     address: externalContracts.UserRegistry.address,
     abi: externalContracts.UserRegistry.abi,
     functionName: "setUserStatus",
   });
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  })
 
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
     setValue(e.target.value);
