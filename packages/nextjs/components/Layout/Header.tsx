@@ -4,13 +4,13 @@ import { IoMenu } from 'react-icons/io5';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import MobileDrawer from './MobileDrawer';
 import Logo from '../Logo/Logo';
+import Logout from '../Logout/Logout';
 import MenuLink from '../MenuLink/MenuLink';
 import { useGlobalState } from '~~/services/store/store';
 
 const Header = () => {
   const [drawerOpen, setDrawerOpen] = useBoolean(false);
   const userType = useGlobalState(state => state.userType);
-  console.log({userType});
   
   return (
     <Box py={4}>
@@ -27,6 +27,7 @@ const Header = () => {
               <MenuLink link="/bank-home" text="home" />
               <MenuLink link="/enlist" text="apply for enlistment" />
               <MenuLink link="/staker" text="staker info" />
+              <Logout/>
               </>
               )
             }
@@ -35,6 +36,7 @@ const Header = () => {
               <MenuLink link="/staker-home" text="home" />
               <MenuLink link="/bank" text="bank" />
               <MenuLink link="/earnings" text="My earnings" />
+              <Logout/>
               </>
               )
             }
@@ -43,6 +45,7 @@ const Header = () => {
               <MenuLink link="/merchant-home" text="home" />
               <MenuLink link="/enlist" text="Payment" />
               <MenuLink link="/merchant-txn-history" text="History" />
+              <Logout/>
               </>
               )
             }
@@ -52,9 +55,11 @@ const Header = () => {
               <MenuLink link="/bank" text="Exchange" />
               <MenuLink link="/bank" text="Send Money" />
               <MenuLink link="/bank" text="Merchant Payment" />
+              <Logout/>
               </>
               )
             }
+           
 
               <ConnectButton label="Connect Wallet" />
             </HStack>
