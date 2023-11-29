@@ -68,7 +68,7 @@ const Exchange = () => {
         <Image src="./rightArrow.png" alt="" />
         <FormControl>
           <FormLabel>To Currency</FormLabel>
-          <Select onChange={handleFromCurrencyChange} placeholder="Choose Currency" >
+          <Select onChange={handleToCurrencyChange} placeholder="Choose Currency" >
             <option value="USD">USD</option>
             <option value="EURO">EURO</option>
           </Select>
