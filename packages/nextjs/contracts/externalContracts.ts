@@ -17,21 +17,21 @@ const externalContracts = {
     USDT: {
         address: "0x6175a8471C2122f778445e7E07A164250a19E661",
         abi: erc20ABI,
-      },
+    },
     UserRegistry: {
-        address: "0xB451A4018dd808763185931F506360a0c4484AA3",
+        address: "0x06CE017135c759524Ec460115a38c28C9352D5dA",
         abi: userRegistry.abi
     },
-    testEURT: {
-        address: "0xDacC06341536A6E205e81b8d652633a20216CcbC",
+    TestEURT: {
+        address: "0xf31272C86F0e55C5746a570DbF27B8B4DBa6075f",
         abi: erc20ABI
     },
-    stakingLimit: {
-        address: "0x3ee73C3c9306B6F885759e89985f70db5d7fE8D5",
+    StakingLimit: {
+        address: "0x5c690dE7F98F16628aa431c829fe5Ecb26b0aaf9",
         abi: stakingLimit.abi
     },
-    exchangeProtocol: {
-        address: "0x4A911d27bf71511D2077E66928c04E39badbd473",
+    ExchangeProtocol: {
+        address: "0x56D867D6A734d06273e8bcf5Fe0d053d400976b1",
         abi: exchangeProtocol.abi
     }
 

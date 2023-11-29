@@ -14,15 +14,37 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from "next/router";
 
+import externalContracts from '~~/contracts/externalContracts';
+import { SetStateAction, useState } from 'react';
+import { useAccount, useContractWrite } from 'wagmi';
+import { userType } from '~~/types/usertype';
+
 const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/WalletConnectInfo'), {
   ssr: false, 
 });
 
 const SignUp: NextPage = () => {
   const router = useRouter();
+  const { address } = useAccount();
 
-  function signUp() {
-    router.push("/login")
+  const [value, setValue] = useState("customer")
+
+  const { data, isLoading, isSuccess, write } = useContractWrite({
+    address: externalContracts.UserRegistry.address,
+    abi: externalContracts.UserRegistry.abi,
+    functionName: 'setUserStatus'
+  })
+
+  const handleChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setValue(e.target.value);
+  }
+
+  async function signUp() {
+    console.log("Signing up...")
+    await write({
+      args: [address, userType(value)]
+    })
+    // router.push("/login")
   }
 
   return (
@@ -50,7 +72,10 @@ const SignUp: NextPage = () => {
           </FormControl>
           <FormControl>
             <FormLabel>User Type</FormLabel>
-            <Select>
+            <Select
+            onChange={handleChange} 
+            value={value}
+            >
               <option value="customer">Customer</option>
               <option value="merchant">Merchant</option>
               <option value="staker">Staker</option>
@@ -59,9 +84,11 @@ const SignUp: NextPage = () => {
           </FormControl>
           <WalletConnectInfo/>
           
-          <Button variant="outline" px="20" onClick={signUp}>
+          <Button disabled={!write} variant="outline" px="20" onClick={signUp}>
             Verify wallet and sign up
           </Button>
+          {isLoading && <div>Check Wallet</div>}
+          {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
 
           <Text textTransform="uppercase" textAlign="center" mt="10">
             Already have an account?{' '}
@@ -78,3 +105,5 @@ const SignUp: NextPage = () => {
 };
 
 export default SignUp;
+
+
