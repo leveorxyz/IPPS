@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from "next/router";
 
-
 const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/WalletConnectInfo'), {
   ssr: false, 
 });

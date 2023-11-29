@@ -13,12 +13,25 @@ import {
   Select,
   Link,
 } from '@chakra-ui/react';
+import { useRouter } from "next/router";
+import { SetStateAction, useState } from 'react';
 
 const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/WalletConnectInfo'), {
   ssr: false, 
 });
 
 const Login: NextPage = () => {
+  const router = useRouter();
+
+  const [value, setValue] = useState("customer")
+
+  const handleChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setValue(e.target.value);
+  }
+
+  function login() {
+    router.push(`/${value}-home`)
+  }
 
   return (
     <Container maxW="container.xl" py={10}>
@@ -45,14 +58,17 @@ const Login: NextPage = () => {
           </FormControl>
           <FormControl>
             <FormLabel>User Type</FormLabel>
-            <Select>
+            <Select
+            onChange={handleChange} 
+            value={value}
+            >
               <option value="customer">Customer</option>
               <option value="merchant">Merchant</option>
               <option value="staker">Staker</option>
               <option value="bank">Bank</option>
             </Select>
           </FormControl>
-          <Button variant="outline" px="20">
+          <Button variant="outline" px="20" onClick={login}>
             Login
           </Button>
 
