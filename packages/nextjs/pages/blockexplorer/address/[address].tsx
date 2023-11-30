@@ -17,9 +17,7 @@ import deployedContracts from "~~/contracts/deployedContracts";
 import { useFetchBlocks } from "~~/hooks/scaffold-eth";
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
-export const config = {
-	runtime: 'edge',
-};
+
 
 type AddressCodeTabProps = {
   bytecode: string;
