@@ -11,8 +11,58 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { SetStateAction, useEffect, useState } from "react";
+import { useAccount, useBalance } from "wagmi";
+import externalContracts from "~~/contracts/externalContracts";
 
 const SendMoney = () => {
+  const { address } = useAccount();
+
+  const [fromCurrency, setFromCurrency] = useState("");
+  const [toCurrency, setToCurrency] = useState("");
+  const [amount, setAmount] = useState(0.0);
+  const [convertedAmount, setConvertedAmount] = useState(0.0);
+
+  useEffect(() => {
+    if(fromCurrency === "USD"){
+      if(toCurrency === "USD"){
+        setConvertedAmount(amount);
+      }
+      else{
+        setConvertedAmount(parseFloat((amount*0.91).toFixed(3)));
+      }
+    }
+    else{
+      if(toCurrency === "USD"){
+        setConvertedAmount(amount);
+      }
+      else{
+        setConvertedAmount(parseFloat((amount*1.1).toFixed(3)));
+      }
+    }
+  }, [fromCurrency, toCurrency, amount])
+
+  const handleFromCurrencyChange = (e: { target: { value: SetStateAction<string> } }) => {
+    setFromCurrency(e.target.value);
+  };
+
+  const handleToCurrencyChange = (e: { target: { value: SetStateAction<string> } }) => {
+    setToCurrency(e.target.value);
+  };
+
+  const handleAmountChange = (e: { target: { value: any; }; }) => {
+    setAmount(parseFloat(e.target.value));
+  };
+  
+  const { data: usdtBalance } = useBalance({
+    address: address,
+    token: externalContracts.USDT.address
+  })
+
+  const { data: eurtBalance } = useBalance({
+    address: address,
+    token: externalContracts.TestEURT.address
+  })
   return (
     <Container maxW="container.xl" py={10}>
       <Flex fontSize="lg" direction={{ base: "column", md: "row" }} gap={10} justifyContent="center" w="full">
@@ -20,16 +70,16 @@ const SendMoney = () => {
           <Heading>Send Money</Heading>
           <FormControl>
             <FormLabel>From currency</FormLabel>
-            <Select>
-              <option value="option1">USD</option>
-              <option value="option2">Euro</option>
+            <Select onChange={handleFromCurrencyChange}>
+              <option value="USD">USD</option>
+              <option value="Euro">Euro</option>
             </Select>
           </FormControl>
           <FormControl>
             <FormLabel>To currency</FormLabel>
-            <Select>
-              <option value="option1">USD</option>
-              <option value="option2">Euro</option>
+            <Select onChange={handleToCurrencyChange}>
+              <option value="USD">USD</option>
+              <option value="Euro">Euro</option>
             </Select>
           </FormControl>
           <FormControl>
@@ -38,11 +88,12 @@ const SendMoney = () => {
           </FormControl>
           <FormControl>
             <FormLabel>Amount</FormLabel>
-            <Input type="number" placeholder="Enter amount" />
+            <Input onChange={handleAmountChange} type="number" placeholder="Enter amount" />
           </FormControl>
           <Box>
-            <Text>Converted amount: 10 USD</Text>
-            <Text>Current Balance: 10 USD</Text>
+            <Text>Converted amount: {convertedAmount} {toCurrency}</Text>
+            {usdtBalance &&  <Text>{usdtBalance.formatted} USDT</Text>}
+            {eurtBalance && <Text> {eurtBalance.formatted} EURT</Text>}
             <Text>Third party fee amount: 0.01 USD</Text>
           </Box>
           <Box mx={"auto"}>

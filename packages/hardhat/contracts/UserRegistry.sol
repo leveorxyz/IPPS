@@ -34,7 +34,7 @@ contract UserRegistry is Ownable(msg.sender) {
 
     function setUserStatus(address user, IUserData.UserType status)
         public
-        onlyProtocol
+        // onlyProtocol
     {
         userCategory[user] = status;
     }

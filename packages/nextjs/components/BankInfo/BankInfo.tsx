@@ -44,9 +44,7 @@ const BankInfo = () => {
           Description
         </Text>
         <Text>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab quibusdam harum accusantium
-          non eius! Aliquid sed obcaecati quisquam perspiciatis vitae sint consequuntur esse porro!
-          Eum quidem aspernatur deleniti enim quo.
+        IPPS is the frictionless, zero intermediary, and no bullshit all-in-one payment solution that you and your business need.
         </Text>
       </Box>
 

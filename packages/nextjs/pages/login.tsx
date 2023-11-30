@@ -11,11 +11,16 @@ import {
   FormLabel,
   Input,
   Select,
+  useToast,
   Link,
+  Box,
 } from '@chakra-ui/react';
 import { useRouter } from "next/router";
 import { SetStateAction, useState } from 'react';
 import { useGlobalState, User } from "~~/services/store/store";
+import { useAccount, useContractRead } from 'wagmi';
+import externalContracts from "~~/contracts/externalContracts";
+import { userType } from '~~/types/usertype';
 
 const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/WalletConnectInfo'), {
   ssr: false, 
@@ -23,6 +28,9 @@ const WalletConnectInfo = dynamic(() => import('../components/WalletConnectInfo/
 
 const Login: NextPage = () => {
   const router = useRouter();
+  const toast = useToast();
+  const {address} = useAccount();
+
   const updateUserType = useGlobalState((state) => state.setUserType)
   const [value, setValue] = useState("customer")
 
@@ -30,9 +38,47 @@ const Login: NextPage = () => {
     setValue(e.target.value);
   }
 
-  function login() {
-    updateUserType(value as User)
-    router.push(`/${value}-home`)
+  const { data, isError, isFetched } = useContractRead({
+    address: externalContracts.UserRegistry.address,
+    abi: externalContracts.UserRegistry.abi,
+    functionName: 'getUserStatus',
+    args: [address]
+  })
+
+  const sleep = (ms: number | undefined) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
+
+  async function login() {
+    if(data !== userType(value)){
+      toast({
+        render: () => (
+          <Box color="white" p={3} bg="red.500">
+              Not a registered {value}
+          </Box>
+        ),
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+    else{
+      toast({
+        render: () => (
+          <Box color="white" p={3} bg="green.500">
+              Is registered {value}
+          </Box>
+        ),
+        status: "success",
+        duration: 10000,
+        isClosable: true,
+      });
+      await sleep(5000);
+      updateUserType(value as User)
+      router.push(`/${value}-home`)
+    }
+    
+    
   }
 
   return (
@@ -70,7 +116,7 @@ const Login: NextPage = () => {
               <option value="bank">Bank</option>
             </Select>
           </FormControl>
-          <Button variant="outline" px="20" onClick={login}>
+          <Button disabled={!isFetched} variant="outline" px="20" onClick={login}>
             Login
           </Button>
 
