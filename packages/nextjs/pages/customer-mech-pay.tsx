@@ -30,6 +30,7 @@ const CustomerMerchPay = () => {
           </FormControl>
         </Box>
         <Box mx={"auto"}>
+            <Text>Balances:</Text>
             {usdtBalance &&  <Text>{usdtBalance.formatted} USDT</Text>}
             {eurtBalance && <Text> {eurtBalance.formatted} EURT</Text>}
             <Text>Third party fee amount: 0.01 USD</Text>
