@@ -40,6 +40,7 @@ const Exchange = () => {
 
   const {
     writeAsync: tokenWriteUSDT,
+    data: dataUSDT
   } = useContractWrite({
     address: externalContracts.USDT.address,
     abi: externalContracts.USDT.abi,
@@ -48,16 +49,26 @@ const Exchange = () => {
 
   const {
     writeAsync: tokenWriteEURT,
+    data: dataEURT
   } = useContractWrite({
     address: externalContracts.TestEURT.address,
     abi: externalContracts.TestEURT.abi,
     functionName: "approve",
   });
 
+  const { isLoading: loading2nd, isSuccess: success2nd } = useWaitForTransaction({
+    hash: data?.hash
+  })
   
 
   const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
+    hash: dataUSDT?.hash || dataEURT?.hash  , 
+    onSuccess: async () => {
+      console.log("Exchanging token...");
+      await writeAsync({
+        args: [getCurrencyAddress(fromCurrency as Currency), getCurrencyAddress(toCurrency as Currency), address, utils.parseEther(amount).toString()],
+      });
+    }
   });
 
   const handleFromCurrencyChange = (e: { target: { value: SetStateAction<string> } }) => {
@@ -144,6 +155,19 @@ const Exchange = () => {
               <Input onChange={handleAmountChange} type="number" placeholder="Enter amount" width={"47em"} required />
             </InputGroup>
           </FormControl>
+        </Box>
+      </Flex>
+      <Flex>
+        <Box>
+          {checkWallet && <div>Check wallet</div>}
+          
+          {isLoading && <div>Approval processing...</div>}
+
+          {isSuccess && <div className="text-green-700">Approval Submission successful</div>}
+
+          {loading2nd && <div>Transaction processing...</div>}
+
+          {success2nd && <div className="text-green-700">Transaction Submission successful</div>}
         </Box>
       </Flex>
 
