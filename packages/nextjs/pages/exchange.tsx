@@ -31,7 +31,6 @@ const Exchange = () => {
   const {
     data,
     writeAsync,
-    isLoading: checkWallet,
   } = useContractWrite({
     address: externalContracts.ExchangeProtocol.address,
     abi: externalContracts.ExchangeProtocol.abi,
@@ -158,9 +157,7 @@ const Exchange = () => {
         </Box>
       </Flex>
       <Flex>
-        <Box>
-          {checkWallet && <div>Check wallet</div>}
-          
+        <Box m={"auto"}>
           {isLoading && <div>Approval processing...</div>}
 
           {isSuccess && <div className="text-green-700">Approval Submission successful</div>}
