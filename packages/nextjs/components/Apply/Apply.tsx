@@ -14,13 +14,16 @@ import {
   Button,
   Icon,
   useBoolean,
-  // useToast,
+  useToast,
 } from '@chakra-ui/react';
 import { MdArticle, MdDialpad, MdFilePresent, MdAddAPhoto } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
 import { Web3Storage } from 'web3.storage';
+import { useContractWrite, useWaitForTransaction } from 'wagmi';
+import externalContracts from '~~/contracts/externalContracts';
+
 // import { useStakingLimitContract } from '../../hooks';
-// import { utils } from 'ethers';
+import { utils } from 'ethers';
 
 interface RegisterData {
   currency: string;
@@ -41,14 +44,40 @@ const Apply = () => {
   } = useForm<RegisterData>();
   const [isLoading, setIsLoading] = useBoolean();
   // const stakingLimitContract = useStakingLimitContract();
-  // const toast = useToast();
+  const toast = useToast();
 
-  const handleFormSubmit = async (data: RegisterData) => {
-    setIsLoading.on();
-    console.log(data);
+  const {
+    data: dataHash,
+    write,
+    isLoading: checkWallet
+  } = useContractWrite({
+    address: externalContracts.StakingLimit.address,
+    abi: externalContracts.StakingLimit.abi,
+    functionName: "register",
     
+  });
+
+  const { isLoading: loading2nd, isSuccess } = useWaitForTransaction({
+    hash: dataHash?.hash
+  })
+
+  const handleFormSubmit = (data: RegisterData) => {
+    setIsLoading.on();
     // const client = new Web3Storage({ token: process.env.NEXT_PUBLIC_WEB3_STORAGE_KEY as string });
     // const cid = await client.put([data.attachment[0]]); 
+    const cid = "QmYAWBYnwR9Lo55JXfhR4F5XggUnrE12zvJHCkgv1gQxuP"
+    write({
+      args: [
+        utils.formatBytes32String(data.bankName),
+        utils.formatBytes32String(data.routingNumber),
+        utils.toUtf8Bytes(data.bankAddress),
+        cid
+    ]
+    });
+    setIsLoading.off();
+    toast({ status: 'success', description: 'Applied successfully!' });
+    
+    
 
     // https://bafybeighcjsg5meaxkrtfzhzjvf2rw4bzfrrky6clbuz6ufbmpfrc67y5q.ipfs.w3s.link/
     // stakingLimitContract?.functions
@@ -162,6 +191,13 @@ const Apply = () => {
           <Button variant="outline" type="submit" isLoading={isLoading}>
             Submit
           </Button>
+
+          {checkWallet && <div>Check wallet</div>}
+          
+          {loading2nd && <div>Transaction processing...</div>}
+
+          {isSuccess && <div className="text-green-700">Transaction Submission successful</div>}
+
         </Stack>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Box
