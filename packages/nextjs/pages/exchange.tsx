@@ -68,7 +68,7 @@ const Exchange = () => {
     setToCurrency(e.target.value);
   };
 
-  const handleAmountChange = (e: { target: { value: SetStateAction<string> } }) => {
+  const handleAmountChange = (e: { target: { value: any; }; }) => {
     setAmount(e.target.value);
   };
 
@@ -80,16 +80,20 @@ const Exchange = () => {
   }
 
   async function exchange() {
+    const sourceAmount = amount;
     if(fromCurrency === "USD"){
+      setAmount((parseFloat(amount)*0.91).toString())
       await tokenWriteUSDT({
-        args: [externalContracts.ExchangeProtocol.address, BigInt(utils.parseEther(amount).toString())]
+        args: [externalContracts.ExchangeProtocol.address, BigInt(utils.parseEther(sourceAmount).toString())]
       })
     }
     else{
+      setAmount((parseFloat(amount)*1.10).toString())
       await tokenWriteEURT({
-        args: [externalContracts.ExchangeProtocol.address, utils.parseEther(amount).toString()]
+        args: [externalContracts.ExchangeProtocol.address, utils.parseEther(sourceAmount).toString()]
       })
     }
+    console.log({amount});
    
     await writeAsync({
       args: [getCurrencyAddress(fromCurrency as Currency), getCurrencyAddress(toCurrency as Currency), address, utils.parseEther(amount).toString()],
