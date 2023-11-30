@@ -7,7 +7,7 @@ interface IProps {
 
 const StakerCard = ({ id }: IProps) => {
   return (
-    <Link href={`/staker/${id}`}>
+    <Link href={`/bank/${id}`}>
       <Box
         padding="4"
         background="brand.100"
