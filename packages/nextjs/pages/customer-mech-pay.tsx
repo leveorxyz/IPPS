@@ -1,7 +1,20 @@
 import { Box, Container, FormControl, FormLabel, Heading, Select, Stack, Text } from "@chakra-ui/react";
+import { useAccount, useBalance } from "wagmi";
 import Scanner from "~~/components/Mobile/Scanner";
+import externalContracts from "~~/contracts/externalContracts";
 
 const CustomerMerchPay = () => {
+  const { address } = useAccount();
+  const { data: usdtBalance } = useBalance({
+    address: address,
+    token: externalContracts.USDT.address
+  })
+
+  const { data: eurtBalance } = useBalance({
+    address: address,
+    token: externalContracts.TestEURT.address
+  })
+
   return (
     <Container maxW="container.xl" py={10}>
       <Stack>
@@ -17,8 +30,8 @@ const CustomerMerchPay = () => {
           </FormControl>
         </Box>
         <Box mx={"auto"}>
-            <Text>Amount to pay: 10 USD</Text>
-            <Text>Current Balance: 10 USD</Text>
+            {usdtBalance &&  <Text>{usdtBalance.formatted} USDT</Text>}
+            {eurtBalance && <Text> {eurtBalance.formatted} EURT</Text>}
             <Text>Third party fee amount: 0.01 USD</Text>
           </Box>
       </Stack>
