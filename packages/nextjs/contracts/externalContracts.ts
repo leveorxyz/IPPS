@@ -32,7 +32,7 @@ const externalContracts = {
         abi: stakingLimit.abi
     },
     ExchangeProtocol: {
-        address: "0x56D867D6A734d06273e8bcf5Fe0d053d400976b1",
+        address: "0x1a798525011A5a8FdD482C54a1D364Cf4D0E0413",
         abi: exchangeProtocol.abi
     }
 

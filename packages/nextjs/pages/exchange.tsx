@@ -13,6 +13,7 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
+import { utils } from "ethers";
 import { SetStateAction, useState } from "react";
 
 import { MdOutlineMoney } from "react-icons/md";
@@ -36,6 +37,24 @@ const Exchange = () => {
     abi: externalContracts.ExchangeProtocol.abi,
     functionName: "transferToken",
   });
+
+  const {
+    writeAsync: tokenWriteUSDT,
+  } = useContractWrite({
+    address: externalContracts.USDT.address,
+    abi: externalContracts.USDT.abi,
+    functionName: "approve",
+  });
+
+  const {
+    writeAsync: tokenWriteEURT,
+  } = useContractWrite({
+    address: externalContracts.TestEURT.address,
+    abi: externalContracts.TestEURT.abi,
+    functionName: "approve",
+  });
+
+  
 
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
@@ -61,8 +80,19 @@ const Exchange = () => {
   }
 
   async function exchange() {
+    if(fromCurrency === "USD"){
+      await tokenWriteUSDT({
+        args: [externalContracts.ExchangeProtocol.address, BigInt(utils.parseEther(amount).toString())]
+      })
+    }
+    else{
+      await tokenWriteEURT({
+        args: [externalContracts.ExchangeProtocol.address, utils.parseEther(amount).toString()]
+      })
+    }
+   
     await writeAsync({
-      args: [getCurrencyAddress(fromCurrency as Currency), getCurrencyAddress(toCurrency as Currency), ],
+      args: [getCurrencyAddress(fromCurrency as Currency), getCurrencyAddress(toCurrency as Currency), address, utils.parseEther(amount).toString()],
     });
   }
 
@@ -113,7 +143,7 @@ const Exchange = () => {
         </Box>
       </Flex>
 
-      <Flex justifyContent="center" mt={9}>
+      <Flex justifyContent="center" mt={9} onClick={exchange}>
         <Button variant="outline">Exchange</Button>
       </Flex>
     </Container>
