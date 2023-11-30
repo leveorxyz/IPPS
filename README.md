@@ -75,6 +75,22 @@ A Bank can stake in favor of itself too - As onboarding stakers is not our goal.
 
 </details> 
 
+## Feature Checklist
+- [x] Smart Contract Logic
+- [x] Smart Contract deployment
+- [~] Smart Contract testing
+- [x] Wallet connect & Disconnect
+- [x] On Chain sign Up
+- [x] On Chain login
+- [x] Customer UI flow
+- [x] Merchant UI flow
+- [x] Staker UI flow
+- [x] Bank UI flow
+- [x] Show on chain balance
+- [x] Exchange from USDT to EURT and vise versa
+- [x] Faucet for EURT token
+
+
 
 ## Technical Architecture
 
@@ -143,3 +159,5 @@ Smart Contract
 - Unit Tests: `npx hardhat test`
 
 - To run the full flow in Remix, connect to localhost `remixd -s <path-to-the-shared-folder> -u <remix-ide-instance-URL>`
+
+
